@@ -1,0 +1,23 @@
+# GitHub 只收錄程式、操作說明及手工測試資料。
+/*
+!/.gitignore
+!/README.md
+!/requirements.txt
+!/q[0-9][0-9].py
+!/run_all.py
+!/support.py
+!/search_tools.py
+!/tests/
+!/docs/
+
+# 即使位於允許的資料夾，也不提交執行環境、快取與秘密設定。
+**/__pycache__/
+*.py[cod]
+.DS_Store
+.env
+.env.*
+*.pem
+*.key
+credentials.json
+cookies.json
+storage_state.json
