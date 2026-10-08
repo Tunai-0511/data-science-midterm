@@ -1,10 +1,12 @@
 """測試輸出不可假成功、不可覆寫，以及敏感查詢參數遮蔽。"""
 import csv
 import importlib.util
+import io
 import json
 import sys
 import tempfile
 import unittest
+from contextlib import redirect_stderr
 from pathlib import Path
 from types import SimpleNamespace
 from unittest.mock import patch
@@ -42,7 +44,7 @@ class SupportTests(unittest.TestCase):
         self.job.save_text('result.txt', 'first')
         with self.assertRaises(FileExistsError):
             self.job.save_text('result.txt', 'second')
-        self.assertEqual((self.job.path / 'result.txt').read_text(), 'first')
+        self.assertEqual((self.job.path / 'result.txt').read_text(encoding='utf-8'), 'first')
 
     def test_output_cannot_escape_question_directory(self):
         with self.assertRaises(ValueError):
@@ -89,12 +91,25 @@ class SupportTests(unittest.TestCase):
             self.s.make_browser(SimpleNamespace(interactive=False, headless=False, keep_open=True))
         self.assertTrue(factory.call_args.kwargs['options'].experimental_options.get('detach'))
 
+    def test_invalid_stay_arguments_are_rejected_before_any_output(self):
+        # Mutation caught: a past or reversed date reached q16 and was reported only as an opaque ValueError.
+        parser = self.s.cli_parser(16)
+        self.s.check_args(parser, parser.parse_args([]))
+        for argv in (['--check-in', '2020-01-01', '--check-out', '2020-01-02'],
+                     ['--check-in', '2099-01-02', '--check-out', '2099-01-01'],
+                     ['--check-in', '2099/01/01'],
+                     ['--adults', '0'],
+                     ['--max-pages', '0']):
+            with self.subTest(argv=argv), redirect_stderr(io.StringIO()) as stderr, self.assertRaises(SystemExit):
+                self.s.check_args(parser, parser.parse_args(argv))
+            self.assertTrue(stderr.getvalue().strip())
+
     def test_needs_user_has_machine_readable_status_not_success(self):
         def run(job, args):
             raise self.s.NeedsUser('需由本人完成年齡確認')
         record = self.s.execute(self.job, run, SimpleNamespace())
         self.assertEqual(record['status'], 'needs_user')
-        self.assertEqual(json.loads((self.job.path / 'status.json').read_text())['status'], 'needs_user')
+        self.assertEqual(json.loads((self.job.path / 'status.json').read_text(encoding='utf-8'))['status'], 'needs_user')
 
     def test_success_requires_saved_output(self):
         record = self.s.execute(self.job, lambda job, args: {'status': 'passed'}, SimpleNamespace())

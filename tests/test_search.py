@@ -103,6 +103,21 @@ class PageSafetyTests(unittest.TestCase):
         html = "<html><title>Sorry...</title><p>Our systems have detected unusual traffic</p></html>"
         self.assertTrue(is_verification_page("Sorry...", html, "https://www.google.com/sorry/index"))
 
+    def test_protection_page_without_sorry_url_is_still_verification(self):
+        # Break caught: relying only on the /sorry/ redirect and missing an interstitial served in place.
+        html = "<html><body><form id='captcha-form'><p>Our systems have detected unusual traffic from your computer network.</p></form></body></html>"
+        self.assertTrue(is_verification_page("Google", html, "https://www.google.com/search?q=xpath"))
+
+    def test_results_that_mention_block_words_are_not_verification(self):
+        # Break caught: a headline about "異常流量" or a snippet about CAPTCHA reported a real page as blocked.
+        news = "<html><body><main><article><a href='./read/x'><h3>銀行網站遭異常流量攻擊</h3></a></article></main></body></html>"
+        serp = "<html><body><div id='search'><a href='https://example.com/a'><h3>XPath and CAPTCHA in Selenium</h3></a></div></body></html>"
+        self.assertFalse(is_verification_page("Google 新聞", news, "https://news.google.com/"))
+        self.assertFalse(is_verification_page("xpath - Google 搜尋", serp, "https://www.google.com/search?q=xpath"))
+        # The results region can sit beyond the first 500,000 characters of a large page.
+        long_page = "<html><body><p>captcha</p><div>" + "x" * 600_000 + "</div>" + serp[12:]
+        self.assertFalse(is_verification_page("xpath - Google 搜尋", long_page, "https://www.google.com/search?q=xpath"))
+
     def test_inactive_captcha_script_does_not_block_an_ordinary_page(self):
         # Break caught: classifying any page that merely loads CAPTCHA code as blocked.
         html = "<html><head><script src='/recaptcha/api.js'></script></head><body><main>一般搜尋結果</main></body></html>"

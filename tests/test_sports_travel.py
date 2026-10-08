@@ -1,5 +1,6 @@
 """PDF 原題第 6、14、16 題的解析與查詢條件契約。"""
 import importlib
+import sys
 import tempfile
 import unittest
 from datetime import date
@@ -9,6 +10,7 @@ from unittest.mock import patch
 from selenium.common.exceptions import ElementClickInterceptedException
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
 FIXTURES = Path(__file__).with_name('fixtures')
 
 
@@ -212,6 +214,18 @@ class AgodaTests(unittest.TestCase):
         })
         self.assertEqual(rows[1]['價格範圍'], '每晚')
         self.assertEqual(rows[1]['稅費'], '含稅及其他費用')
+
+    def test_saved_result_page_still_parses_after_stay_dates_pass(self):
+        # Mutation caught: checking "today" inside the parser made every fixed-date parser test fail once the date passed.
+        q16 = importlib.import_module('q16')
+        rows = q16.parse_results(
+            fixture('sports_agoda_results.html'),
+            check_in='2020-01-01', check_out='2020-01-03', adults=2,
+            captured_at='2019-12-01T12:00:00+08:00', source_url='https://www.agoda.com/zh-tw/search?city=12080',
+        )
+        self.assertEqual([row['晚數'] for row in rows], ['2', '2'])
+        with self.assertRaises(ValueError):
+            q16.validate_stay('2020-01-01', '2020-01-03', 2)
 
     def test_agoda_parser_rejects_cards_without_prices(self):
         # Mutation caught: unavailable prices cannot be reported as a completed price scrape.

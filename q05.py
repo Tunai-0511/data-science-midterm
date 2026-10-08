@@ -58,7 +58,20 @@ def parse_rankings(html):
     return rows
 
 
+def summarize(ranked, period, unit):
+    """依題目保存前 20 名；來源不足 20 名時如實標示部分完成。"""
+    rows = sorted(ranked, key=lambda row: int(row["排名"]))[:20]
+    context = f"統計期間 {period}，金額單位 {unit}"
+    if len(rows) == 20:
+        extra = f"來源列出 {len(ranked)} 名，依題目保存前 20 名；" if len(ranked) > 20 else ""
+        note = f"已依序點入票房排行榜與台北 more，取得完整 20 名；{extra}{context}。"
+        return rows, {"status": "passed", "note": note, "rows": 20}
+    note = f"網站當下只提供 {len(rows)} 名；{context}；未補造到 20 名。"
+    return rows, {"status": "partial", "note": note, "rows": len(rows)}
+
+
 def find_after_one_refresh(driver, selector, timeout=15):
+    """等待指定元素；逾時只重新整理一次，仍失敗再區分連線錯誤頁與版面改變。"""
     for attempt in range(2):
         try:
             return WebDriverWait(driver, timeout).until(
@@ -67,7 +80,8 @@ def find_after_one_refresh(driver, selector, timeout=15):
         except TimeoutException:
             if attempt == 0:
                 driver.refresh()
-    raise SourceBlocked("開眼票房頁正常載入及重新整理各一次仍逾時")
+    ensure_source_page(driver.page_source)
+    raise SourceChanged("開眼票房頁正常載入及重新整理一次後，仍找不到台北 more 連結")
 
 
 def run(job, args):
@@ -85,15 +99,10 @@ def run(job, args):
         print("Q05：已點入票房排行榜", flush=True)
         job.save_text("boxoffice_overview_source.html", driver.page_source)
         job.capture(driver, "boxoffice_overview.png")
-        ensure_source_page(driver.page_source)
+        # Chrome 連線錯誤頁也會使 readyState 完成；先等連結並重新整理一次，再判定阻擋或改版。
+        more = find_after_one_refresh(driver, "a.viewMore[href*='/boxoffice/twweekend/']")[0]
         overview_links = driver.find_elements(By.CSS_SELECTOR, "a[href*='/boxoffice/twweekend/']")
         print(f"Q05：台北票房候選連結 {len(overview_links)} 個", flush=True)
-        more = wait.until(
-            lambda d: d.find_elements(
-                By.CSS_SELECTOR,
-                "a.viewMore[href*='/boxoffice/twweekend/']",
-            )
-        )[0]
         driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", more)
         more.click()
         wait.until(lambda d: "/boxoffice/twweekend/" in d.current_url)
@@ -102,14 +111,11 @@ def run(job, args):
         print("Q05：已點入台北 more 並載入排行", flush=True)
         job.save_text("Taipei_boxoffice_source.html", driver.page_source)
         job.capture(driver, "Taipei_boxoffice.png")
-        rows = parse_rankings(driver.page_source)
-        period, unit = parse_context(driver.page_source)
+        rows, result = summarize(parse_rankings(driver.page_source), *parse_context(driver.page_source))
         job.save_csv("Taipei_movies.csv", FIELDS, rows)
     finally:
         close_browser(driver, args)
-    if len(rows) == 20:
-        return {"status": "passed", "note": f"已依序點入票房排行榜與台北 more，取得完整 20 名；統計期間 {period}，金額單位 {unit}。", "rows": 20}
-    return {"status": "partial", "note": f"網站當下只提供 {len(rows)} 名；統計期間 {period}，金額單位 {unit}；未補造到 20 名。", "rows": len(rows)}
+    return result
 
 
 if __name__ == "__main__":

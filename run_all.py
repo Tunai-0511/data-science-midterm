@@ -2,7 +2,7 @@
 import importlib
 import json
 from datetime import datetime
-from support import Job, cli_parser, execute
+from support import Job, check_args, cli_parser, execute
 
 
 def validate_questions(numbers):
@@ -31,8 +31,7 @@ def main():
     parser = cli_parser()
     parser.add_argument('--questions', nargs='+', type=int, default=list(range(1, 18)), help='只跑指定題號，例如 --questions 1 5 11')
     args = parser.parse_args()
-    if args.max_pages < 1 or args.adults < 1:
-        parser.error('max-pages 與 adults 必須是正整數')
+    check_args(parser, args)
     try:
         numbers = validate_questions(args.questions)
     except ValueError as error:

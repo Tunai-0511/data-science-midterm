@@ -1,8 +1,15 @@
 import json
+import sys
 from pathlib import Path
 from types import SimpleNamespace
 import tempfile
 import unittest
+from unittest.mock import patch
+
+from selenium.common.exceptions import TimeoutException
+
+# 讓單獨執行此檔或從其他目錄執行時，也能匯入根目錄的題目程式。
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 import q01
 import q02
@@ -88,6 +95,48 @@ class StaticParserTests(unittest.TestCase):
         with self.assertRaisesRegex(SourceBlocked, 'ERR_TIMED_OUT'):
             q05.ensure_source_page('<div class="error-code">ERR_TIMED_OUT</div>')
         q05.ensure_source_page(fixture_text('static_q05.html'))
+
+    def test_q05_keeps_exactly_twenty_ranks_and_reports_short_lists_as_partial(self):
+        # Would fail if a longer list is called "only N ranks" or a short list is padded to 20.
+        def ranks(count):
+            return [{"排名": str(n), "片名": f"片{n}", "本週票房": "$1", "累計票房": "$2"} for n in range(count, 0, -1)]
+        rows, result = q05.summarize(ranks(23), "2026-09-04～2026-09-06", "萬新台幣")
+        self.assertEqual([row["排名"] for row in rows], [str(n) for n in range(1, 21)])
+        self.assertEqual(result["status"], "passed")
+        self.assertIn("來源列出 23 名", result["note"])
+        rows, result = q05.summarize(ranks(19), "期間", "單位")
+        self.assertEqual((len(rows), result["status"]), (19, "partial"))
+
+    def test_q05_refreshes_once_then_separates_network_error_from_layout_change(self):
+        # Would fail if a transient error page is never retried, or a missing link is blamed on the network.
+        class OneShotWait:
+            def __init__(self, driver, _timeout):
+                self.driver = driver
+
+            def until(self, method):
+                value = method(self.driver)
+                if not value:
+                    raise TimeoutException()
+                return value
+
+        class Browser:
+            def __init__(self, after_refresh, page_source):
+                self.after_refresh, self.page_source, self.refreshes = after_refresh, page_source, 0
+
+            def refresh(self):
+                self.refreshes += 1
+
+            def find_elements(self, *_args):
+                return self.after_refresh if self.refreshes else []
+
+        with patch.object(q05, "WebDriverWait", OneShotWait):
+            recovered = Browser(["more"], "")
+            self.assertEqual(q05.find_after_one_refresh(recovered, "a.viewMore"), ["more"])
+            self.assertEqual(recovered.refreshes, 1)
+            with self.assertRaisesRegex(SourceBlocked, "ERR_TIMED_OUT"):
+                q05.find_after_one_refresh(Browser([], '<div class="error-code">ERR_TIMED_OUT</div>'), "a.viewMore")
+            with self.assertRaises(SourceChanged):
+                q05.find_after_one_refresh(Browser([], "<html><body>改版後的頁面</body></html>"), "a.viewMore")
 
     def test_q07_maps_a_realistic_google_books_page_without_inventing_missing_values(self):
         # Would fail if absent optional publication dates crash or gain fake values.

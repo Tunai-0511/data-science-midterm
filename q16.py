@@ -1,6 +1,6 @@
 """第 16 題：以 Selenium 實際輸入台中後取得 Agoda 第一個結果頁。"""
 import re
-from datetime import date, datetime
+from datetime import datetime
 from urllib.parse import urlencode, urljoin
 
 from bs4 import BeautifulSoup
@@ -8,7 +8,7 @@ from selenium.common.exceptions import TimeoutException, WebDriverException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 
-from support import SourceChanged, close_browser, make_browser, run_cli, safe_url
+from support import SourceChanged, close_browser, make_browser, run_cli, safe_url, stay_nights, validate_stay
 
 URL = "https://www.agoda.com/zh-tw/"
 FIELDS = [
@@ -18,21 +18,6 @@ FIELDS = [
 CARD_SELECTORS = '[data-selenium="hotel-item"], [data-selenium="property-card"], [data-element-name="property-card"]'
 NAME_SELECTORS = '[data-selenium="hotel-name"], [data-selenium="property-name"], [data-element-name="property-card-title"]'
 PRICE_SELECTORS = '[data-selenium="display-price"], [data-selenium="price-number"], [data-element-name="final-price"], [data-element-name="property-card-price"]'
-
-
-def validate_stay(check_in, check_out, adults, today=None):
-    try:
-        start, end = date.fromisoformat(check_in), date.fromisoformat(check_out)
-    except (TypeError, ValueError):
-        raise ValueError("入住日與退房日必須為 YYYY-MM-DD") from None
-    today = today or date.today()
-    if start < today:
-        raise ValueError("入住日不可早於今天")
-    if end <= start:
-        raise ValueError("退房日必須晚於入住日")
-    if adults < 1:
-        raise ValueError("成人數必須至少為 1")
-    return (end - start).days
 
 
 def _clean_text(node):
@@ -58,7 +43,8 @@ def _price_scope(card, price_node):
 
 
 def parse_results(html, *, check_in, check_out, adults, captured_at, source_url):
-    nights = validate_stay(check_in, check_out, adults)
+    # 解析已保存的頁面不檢查「今天」，否則入住日過後就無法重新核對當次結果。
+    nights = stay_nights(check_in, check_out, adults)
     soup = BeautifulSoup(html, "html.parser")
     rows, seen = [], set()
     for card in soup.select(CARD_SELECTORS):

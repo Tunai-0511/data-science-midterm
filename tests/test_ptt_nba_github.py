@@ -6,6 +6,7 @@ import tempfile
 import unittest
 from pathlib import Path
 from types import SimpleNamespace
+from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
@@ -44,6 +45,76 @@ class OriginalQuestionsTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             q.validate_all([{'商品編號': '1'}], 2)
         q.validate_all([{'商品編號': '1'}, {'商品編號': '2'}], 2)
+
+    def test_nba_pagination_survives_table_redraw_and_saves_each_page(self):
+        q = self.module('q11')
+        from selenium.common.exceptions import StaleElementReferenceException
+        from support import Job
+
+        class Cell:
+            def __init__(self, browser):
+                self.browser = browser
+
+            @property
+            def text(self):
+                if self.browser.redrawing:
+                    # 第一次讀到的是換頁時剛被替換的舊儲存格。
+                    self.browser.redrawing = False
+                    raise StaleElementReferenceException('table redrawn')
+                return self.browser.pages[self.browser.page][0][0]
+
+        class NextButton:
+            def __init__(self, browser):
+                self.browser = browser
+
+            def click(self):
+                self.browser.page += 1
+                self.browser.redrawing = True
+
+        class Browser:
+            current_url = q.URL
+
+            def __init__(self):
+                self.pages = [[('1', '球衣', '1,190'), ('2', '球帽', '590')], [('3', '球鞋', '2,990')]]
+                self.page, self.redrawing = 0, False
+
+            @property
+            def page_source(self):
+                cells = ''.join(f'<tr><td>{a}</td><td>{b}</td><td>{c}</td></tr>' for a, b, c in self.pages[self.page])
+                return f'<table><tbody id="table-body">{cells}</tbody></table>'
+
+            def get(self, _url):
+                return None
+
+            def find_elements(self, _by, selector):
+                if selector == '#table-body tr':
+                    return [object()]
+                if selector == 'button.nextbtn':
+                    return [NextButton(self)] if self.page + 1 < len(self.pages) else []
+                raise AssertionError(selector)
+
+            def find_element(self, _by, selector):
+                if selector != '#table-body tr td':
+                    raise AssertionError(selector)
+                return Cell(self)
+
+            def execute_script(self, script):
+                return sum(len(page) for page in self.pages) if 'tableData.length' in script else None
+
+            def save_screenshot(self, path):
+                Path(path).write_bytes(b'fixture screenshot')
+                return True
+
+            def quit(self):
+                return None
+
+        with tempfile.TemporaryDirectory() as folder:
+            job = Job(11, Path(folder) / 'q11')
+            with patch.object(q, 'make_browser', return_value=Browser()):
+                result = q.run(job, SimpleNamespace(keep_open=False, headless=True, interactive=False))
+            self.assertEqual(result['status'], 'passed')
+            self.assertEqual(job.csv_rows, {'NBA_Products1.csv': 2, 'NBA_Products2.csv': 1})
+            self.assertIn('pagination.json', job.files)
 
     def test_github_default_never_starts_authentication(self):
         q = self.module('q17')

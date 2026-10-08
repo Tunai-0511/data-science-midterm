@@ -38,7 +38,7 @@ class RunnerTests(unittest.TestCase):
                 summary, directory = runner.run_questions([1, 2], args)
             self.assertEqual([r['status'] for r in summary], ['blocked', 'passed'])
             self.assertTrue((directory / 'q02' / 'works.csv').exists())
-            self.assertEqual(json.loads((directory / 'summary.json').read_text())[0]['status'], 'blocked')
+            self.assertEqual(json.loads((directory / 'summary.json').read_text(encoding='utf-8'))[0]['status'], 'blocked')
 
 
 if __name__ == '__main__':

@@ -1,6 +1,7 @@
 """第 11 題：實際點擊 NBA 商品動態分頁，每頁各存一個 CSV。"""
 import json
 from bs4 import BeautifulSoup
+from selenium.common.exceptions import StaleElementReferenceException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from support import SourceChanged, close_browser, make_browser, run_cli
@@ -57,7 +58,9 @@ def run(job, args):
                 raise SourceChanged('達到 100 頁保護上限，已保存部分資料')
             previous = rows[0]['商品編號']
             next_buttons[0].click()
-            wait.until(lambda d: d.find_element(By.CSS_SELECTOR, '#table-body tr td').text != previous)
+            # 重繪表格時舊的儲存格可能剛好失效；忽略後重新查找，不把換頁中的瞬間當成錯誤。
+            WebDriverWait(driver, 25, ignored_exceptions=(StaleElementReferenceException,)).until(
+                lambda d: d.find_element(By.CSS_SELECTOR, '#table-body tr td').text != previous)
             page += 1
         job.capture(driver, 'last_page.png')
         # 擷取透過可見 DOM；來源陣列只用於總數交叉驗證。

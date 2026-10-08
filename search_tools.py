@@ -78,16 +78,26 @@ def _clean(value: str) -> str:
 
 
 def is_verification_page(title: str, html: str, url: str) -> bool:
-    """Return True only for recognizable verification/protection pages."""
+    """Return True only for recognizable verification/protection pages.
 
+    A real results page may mention a marker in a headline or snippet (for
+    example a news story about "異常流量", or an xpath result about CAPTCHA).
+    Protection pages have no results/main region, so text markers only count
+    when that region is absent.
+    """
+
+    if "/sorry/" in url.casefold():
+        return True
     soup = BeautifulSoup(html[:500_000], "html.parser")
     for hidden in soup(["script", "style", "template", "noscript"]):
         hidden.decompose()
     visible_text = soup.get_text(" ", strip=True)
     haystack = f"{title}\n{url}\n{visible_text}".casefold()
-    return "/sorry/" in url.casefold() or any(
-        marker.casefold() in haystack for marker in _GOOGLE_BLOCK_MARKERS
-    )
+    if not any(marker.casefold() in haystack for marker in _GOOGLE_BLOCK_MARKERS):
+        return False
+    # Rare path: parse the whole page, since a large page can push #search past the cut.
+    full = soup if len(html) <= 500_000 else BeautifulSoup(html, "html.parser")
+    return full.select_one("#search, main, [role='main']") is None
 
 
 def _unwrap_google_url(href: str) -> str:

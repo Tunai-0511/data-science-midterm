@@ -192,10 +192,41 @@ def cli_parser(number=None):
     return parser
 
 
-def run_cli(number, handler):
-    args = cli_parser(number).parse_args()
+def stay_nights(check_in, check_out, adults):
+    """住宿條件的格式與先後；不依執行當天判斷，已保存的結果頁日後仍可重新解析。"""
+    try:
+        start, end = date.fromisoformat(check_in), date.fromisoformat(check_out)
+    except (TypeError, ValueError):
+        raise ValueError('入住日與退房日必須為 YYYY-MM-DD') from None
+    if end <= start:
+        raise ValueError('退房日必須晚於入住日')
+    if adults < 1:
+        raise ValueError('成人數必須至少為 1')
+    return (end - start).days
+
+
+def validate_stay(check_in, check_out, adults, today=None):
+    """實際送出搜尋前的條件檢查；入住日不可早於今天。"""
+    nights = stay_nights(check_in, check_out, adults)
+    if date.fromisoformat(check_in) < (today or date.today()):
+        raise ValueError('入住日不可早於今天')
+    return nights
+
+
+def check_args(parser, args):
+    """在建立結果目錄與連線前拒絕無效參數，並顯示可讀的原因。"""
     if args.max_pages < 1 or args.adults < 1:
-        raise SystemExit('max-pages 與 adults 必須是正整數')
+        parser.error('max-pages 與 adults 必須是正整數')
+    try:
+        validate_stay(args.check_in, args.check_out, args.adults)
+    except ValueError as error:
+        parser.error(str(error))
+
+
+def run_cli(number, handler):
+    parser = cli_parser(number)
+    args = parser.parse_args()
+    check_args(parser, args)
     stamp = datetime.now().strftime('%Y%m%d_%H%M%S_%f')
     job = Job(number, args.output / stamp / f'q{number:02d}')
     record = execute(job, handler, args)
