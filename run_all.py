@@ -1,48 +1,44 @@
-"""依 PDF 題號執行；單題遇到阻擋仍保存狀態並接著執行其他題。"""
-import importlib
-import json
-from datetime import datetime
-from support import Job, cli_parser, execute
+"""
+一次執行多題，最後列出每一題成功或失敗
+================================================
+用法
+    python run_all.py           依序執行第 1～16 題
+    python run_all.py 2 5 11    只執行指定的題號（第 17 題要登入 GitHub，請用這個方式單獨執行）
+
+每一題都是獨立的程式（各資料夾的 main.py），這裡只是依序呼叫它們；
+某一題失敗不會中斷，會接著跑下一題。
+"""
+
+import subprocess
+import sys
+import time
+from pathlib import Path
+
+ROOT = Path(__file__).parent
 
 
-def validate_questions(numbers):
-    if not numbers or any(number < 1 or number > 17 for number in numbers):
-        raise ValueError('題號必須是 1 至 17')
-    return list(dict.fromkeys(numbers))
-
-
-def run_questions(numbers, args):
-    numbers = validate_questions(numbers)
-    directory = args.output / datetime.now().strftime('%Y%m%d_%H%M%S_%f')
-    directory.mkdir(parents=True, exist_ok=False)
-    summary = []
-    for number in numbers:
-        job = Job(number, directory / f'q{number:02d}')
-        def handler(current_job, current_args):
-            return importlib.import_module(f'q{number:02d}').run(current_job, current_args)
-        record = execute(job, handler, args)
-        summary.append(record)
-        # 每一題之後即更新本次摘要，中途停止也保留已完成的狀態。
-        (directory / 'summary.json').write_text(json.dumps(summary, ensure_ascii=False, indent=2), encoding='utf-8')
-    return summary, directory
+def find_script(number):
+    """依題號找到資料夾，例如 5 → 第05題_台北票房排行榜/main.py"""
+    folder = next(ROOT.glob(f"第{number:02d}題_*"))
+    return folder / "main.py"
 
 
 def main():
-    parser = cli_parser()
-    parser.add_argument('--questions', nargs='+', type=int, default=list(range(1, 18)), help='只跑指定題號，例如 --questions 1 5 11')
-    args = parser.parse_args()
-    if args.max_pages < 1 or args.adults < 1:
-        parser.error('max-pages 與 adults 必須是正整數')
-    try:
-        numbers = validate_questions(args.questions)
-    except ValueError as error:
-        parser.error(str(error))
-    summary, directory = run_questions(numbers, args)
-    counts = {name: sum(r['status'] == name for r in summary)
-              for name in ('passed', 'partial', 'blocked', 'needs_user', 'error')}
-    print(json.dumps(counts, ensure_ascii=False), '\n本次摘要：', directory / 'summary.json')
-    return 0 if all(r['status'] == 'passed' for r in summary) else 2
+    numbers = [int(arg) for arg in sys.argv[1:]] or list(range(1, 17))
+    summary = []
+
+    for number in numbers:
+        script = find_script(number)
+        print(f"\n{'=' * 60}\n第 {number} 題：{script.parent.name}\n{'=' * 60}", flush=True)
+        start = time.time()
+        # sys.executable：用跟 run_all.py 同一個 Python（同一個虛擬環境）執行
+        result = subprocess.run([sys.executable, str(script)])
+        summary.append((number, script.parent.name, result.returncode == 0, time.time() - start))
+
+    print(f"\n{'=' * 60}\n執行結果\n{'=' * 60}")
+    for number, name, ok, seconds in summary:
+        print(f"第 {number:>2} 題  {'成功' if ok else '失敗'}  {seconds:5.1f} 秒  {name}")
 
 
-if __name__ == '__main__':
-    raise SystemExit(main())
+if __name__ == "__main__":
+    main()

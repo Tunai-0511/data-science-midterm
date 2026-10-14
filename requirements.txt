@@ -1,3 +1,6 @@
-requests==2.34.2
-beautifulsoup4==4.15.0
-selenium==4.49.0
+# 安裝方式（只要一次）：pip install -r requirements.txt
+# 需要 Python 3.10 以上，以及電腦上已安裝 Google Chrome
+requests>=2.31        # 下載網頁、呼叫 API
+beautifulsoup4>=4.12  # 解析 HTML
+selenium>=4.15        # 操作 Chrome；會自動下載與 Chrome 版本相符的 ChromeDriver
+truststore>=0.9       # 第 3 題：用作業系統的憑證庫驗證 HTTPS
