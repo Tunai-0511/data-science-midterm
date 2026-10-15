@@ -59,7 +59,7 @@ python run_all.py 17
 | 4 | 博客來「演算法」搜尋結果 | Selenium 載入 + BeautifulSoup + JSON | `booklist.csv`（另存 `booklist.json`） | 偶爾需勾選真人驗證 |
 | 5 | 開眼台北週末票房排行榜（20 筆） | Selenium（ActionChains 模擬滑鼠） | `Taipei_movies.csv` | — |
 | 6 | Basketball Reference：CLE、HOU、GSW 球員 | requests + BeautifulSoup | `players.csv` | — |
-| 7 | Google Books API 搜尋 Python（兩頁） | requests（API 回傳 JSON） | `pythonbook.csv` | 需要 API 金鑰 |
+| 7 | Google Books API 搜尋 Python（兩頁） | requests（API 回傳 JSON） | `pythonbook.csv` | 執行時輸入 API 金鑰 |
 | 8 | 開眼近期上映強片 | requests + BeautifulSoup | `movies.csv` | — |
 | 9 | Google 新聞各分類標題 | Selenium | `google_news.csv`（另印出） | — |
 | 10 | PTT 八卦板文章列表 | Selenium（點選年齡確認） | `ptt_gossiping.csv`（另印出） | — |
@@ -128,15 +128,11 @@ python run_all.py 17
 ### 第 7 題：Google Books API
 - **題目**：用題目給的 `url_params = {'q': 'Python', 'maxResults': 10, 'projection': 'lite'}` 呼叫 API，本頁存入 `pythonbook.csv`，再進入下一頁存入同一個檔案（共兩頁）。
 - **做法**：第 1 頁以「覆蓋」模式寫入（含標題列）；下一頁＝加上 `startIndex=10`，以「附加」模式寫入同一個檔案。從 JSON 的 `items[].volumeInfo` 取書名、作者、出版社、出版日期、網址。
-- **需要 API 金鑰**：Google 目前常拒絕「不帶金鑰」的呼叫（回傳 429，配額為 0）。請到 [Google Cloud Console](https://console.cloud.google.com/apis/library/books.googleapis.com) 啟用 Books API 並建立 API 金鑰，再設定環境變數後執行：
-  ```bash
-  set GOOGLE_BOOKS_API_KEY=你的金鑰            # Windows（cmd）
-  $env:GOOGLE_BOOKS_API_KEY="你的金鑰"         # Windows（PowerShell）
-  export GOOGLE_BOOKS_API_KEY=你的金鑰         # macOS / Linux
-  python 第07題_GoogleBooks_API/main.py
-  ```
+- **需要 API 金鑰**：Google 目前常拒絕「不帶金鑰」的呼叫（回傳 429，配額為 0）。請到 [Google Cloud Console](https://console.cloud.google.com/apis/library/books.googleapis.com) 啟用 Books API，再到「憑證」建立 API 金鑰（建議限制只能用 Books API）。
+  執行時程式會請你在終端機輸入金鑰（輸入時不會顯示在畫面上，也不會存檔）；直接按 Enter 則照題目原本的寫法、不帶金鑰呼叫。也可以事先設定環境變數 `GOOGLE_BOOKS_API_KEY`，就不會再詢問。
   金鑰不要寫進程式或上傳到 GitHub。
 - **輸出**：`pythonbook.csv`（頁數、書名、作者、出版社、出版日期、網址；20 筆）
+- **執行**：`python 第07題_GoogleBooks_API/main.py`
 
 ### 第 8 題：開眼近期上映強片
 - **題目**：列出「所有」近期上映強片的名稱、上映時間、連結網址，存入 `movies.csv`。課堂補充：沒有這個區塊可改找其他適合的標籤。
@@ -215,7 +211,7 @@ python run_all.py 17
 | 3 | 平臺用資料集全名搜尋時，目標資料集不在第一頁 | 改用「腸病毒」搜尋 |
 | 4 | 博客來有 Cloudflare 防護（requests 403），換頁會要求真人驗證 | 用 Selenium 載入題目網址（第 1 頁） |
 | 5 | 點連結會跳出 Google 全版廣告；票房網站偶爾逾時 | 自動按「關閉」；逾時自動重新整理 |
-| 7 | Google Books API 不帶金鑰常回傳 429 | 支援環境變數 `GOOGLE_BOOKS_API_KEY` |
+| 7 | Google Books API 不帶金鑰常回傳 429 | 執行時請使用者輸入 API 金鑰（或用環境變數 `GOOGLE_BOOKS_API_KEY`） |
 | 8 | 「近期上映強片」移到電影首頁 `/movie/` | 改抓電影首頁同名區塊 |
 | 14 | 薪資表改為分頁 | 逐頁讀完全部資料 |
 | 15 | 「更多結果」按鈕改為「下一頁」 | 先找「更多結果」，沒有就按「下一頁」 |

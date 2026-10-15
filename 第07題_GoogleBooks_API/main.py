@@ -16,8 +16,10 @@
     3. 從 JSON 的 items[].volumeInfo 取出書名、作者、出版社、出版日期、網址。
 
     關於 API 金鑰：Google 目前常常拒絕「不帶金鑰」的呼叫（回傳 429 配額用完），
-    這時請到 Google Cloud Console 建立免費的 API 金鑰並啟用 Books API，
-    再設定環境變數 GOOGLE_BOOKS_API_KEY，程式會自動把金鑰加進參數 key。
+    所以程式一開始會請你在終端機輸入自己的 Google Books API 金鑰（輸入時不會顯示），
+    再把金鑰加進參數 key；直接按 Enter 則照題目原本的寫法、不帶金鑰呼叫。
+    也可以事先設定環境變數 GOOGLE_BOOKS_API_KEY，就不會再詢問。
+    金鑰的申請方式：Google Cloud Console 啟用「Books API」→「憑證」→「建立憑證」→「API 金鑰」。
     （金鑰不要寫進程式或上傳到 GitHub。）
 
 輸出
@@ -25,10 +27,10 @@
 
 執行
     python 第07題_GoogleBooks_API/main.py
-    （Windows 設金鑰：set GOOGLE_BOOKS_API_KEY=你的金鑰；macOS：export GOOGLE_BOOKS_API_KEY=你的金鑰）
 """
 
 import csv
+import getpass
 import os
 from pathlib import Path
 
@@ -41,20 +43,27 @@ OUTPUT = Path(__file__).parent / "pythonbook.csv"
 FIELDS = ["頁數", "書名", "作者", "出版社", "出版日期", "網址"]
 
 
-def get_page(page):
+def ask_api_key():
+    """取得 API 金鑰：先看環境變數 GOOGLE_BOOKS_API_KEY，沒有的話請使用者在終端機輸入。"""
+    api_key = os.environ.get("GOOGLE_BOOKS_API_KEY")
+    if api_key:
+        return api_key
+    print("Google 目前常拒絕不帶金鑰的呼叫，請輸入你的 Google Books API 金鑰。")
+    return getpass.getpass("API 金鑰（輸入時不會顯示；直接按 Enter 則不帶金鑰）：").strip()
+
+
+def get_page(page, api_key):
     """呼叫 Google Books API 取得第 page 頁（每頁 10 本），回傳 JSON（dict）。"""
     params = dict(url_params)
     params["startIndex"] = (page - 1) * url_params["maxResults"]  # 第 1 頁從 0、第 2 頁從 10 開始
-    api_key = os.environ.get("GOOGLE_BOOKS_API_KEY")
     if api_key:
         params["key"] = api_key
 
     r = requests.get(url, params=params, timeout=30)
     if r.status_code == 429:
-        raise SystemExit(
-            "Google 回傳 429（配額用完）：不帶金鑰的呼叫被拒絕了。\n"
-            "請建立 Google Books API 金鑰，設定環境變數 GOOGLE_BOOKS_API_KEY 後再執行。"
-        )
+        raise SystemExit("Google 回傳 429（配額用完）：不帶金鑰的呼叫被拒絕了，請重新執行並輸入 API 金鑰。")
+    if r.status_code in (400, 403):
+        raise SystemExit(f"Google 回傳 {r.status_code}：API 金鑰無效，或這把金鑰的專案還沒有啟用 Books API。")
     r.raise_for_status()
     return r.json()
 
@@ -85,13 +94,15 @@ def save_page(rows, mode):
 
 
 def main():
+    api_key = ask_api_key()
+
     # 要求 2：本頁（第 1 頁）存入 pythonbook.csv
-    first = to_rows(get_page(1), page=1)
+    first = to_rows(get_page(1, api_key), page=1)
     save_page(first, mode="w")
     print(f"第 1 頁：{len(first)} 本，已存入 {OUTPUT.name}")
 
     # 要求 3：進入下一頁（第 2 頁），再存入同一個 pythonbook.csv
-    second = to_rows(get_page(2), page=2)
+    second = to_rows(get_page(2, api_key), page=2)
     save_page(second, mode="a")
     print(f"第 2 頁：{len(second)} 本，已附加到 {OUTPUT.name}\n")
 
