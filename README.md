@@ -34,10 +34,11 @@ pip install -r requirements.txt
 在本資料夾（`requirements.txt` 所在位置）開終端機：
 
 ```bash
-python 第01題_本週新片/main.py
+python run.py 5
 ```
 
-一次執行一題：把資料夾名稱換成要跑的題目即可（例如 `python 第05題_台北票房排行榜/main.py`），各題的指令也寫在下方「各題說明」和每支程式開頭。
+一次執行一題：`run.py` 後面接題號，上面就是執行第 5 題，等同 `python 第05題_台北票房排行榜/main.py`。
+只打 `python run.py` 會先列出所有題目，再輸入題號。
 
 用到 Selenium 的題目會自動打開 Chrome 視窗操作，完成後自動關閉，可以直接看到程式操作的過程。
 
@@ -228,6 +229,7 @@ python 第01題_本週新片/main.py
 data-science-midterm/
 ├── README.md            本說明
 ├── requirements.txt     需要安裝的套件
+├── run.py               用題號執行某一題（python run.py 5）
 ├── 第01題_本週新片/
 │   ├── main.py          程式
 │   └── new_movies.csv   輸出（重新執行會覆蓋）
