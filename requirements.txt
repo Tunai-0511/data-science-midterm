@@ -4,3 +4,4 @@ requests>=2.31        # 下載網頁、呼叫 API
 beautifulsoup4>=4.12  # 解析 HTML
 selenium>=4.15        # 操作 Chrome；會自動下載與 Chrome 版本相符的 ChromeDriver
 truststore>=0.9       # 第 3 題：用作業系統的憑證庫驗證 HTTPS
+pandas>=2.0           # 第 16 題：資料處理與統計
