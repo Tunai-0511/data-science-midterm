@@ -34,16 +34,10 @@ pip install -r requirements.txt
 在本資料夾（`requirements.txt` 所在位置）開終端機：
 
 ```bash
-# 執行單一題
 python 第01題_本週新片/main.py
-
-# 一次執行第 1～16 題，最後列出每題成功／失敗
-python run_all.py
-
-# 只執行指定題號（第 17 題要登入 GitHub，請用這種方式單獨執行）
-python run_all.py 2 5 11
-python run_all.py 17
 ```
+
+一次執行一題：把資料夾名稱換成要跑的題目即可（例如 `python 第05題_台北票房排行榜/main.py`），各題的指令也寫在下方「各題說明」和每支程式開頭。
 
 用到 Selenium 的題目會自動打開 Chrome 視窗操作，完成後自動關閉，可以直接看到程式操作的過程。
 
@@ -234,7 +228,6 @@ python run_all.py 17
 data-science-midterm/
 ├── README.md            本說明
 ├── requirements.txt     需要安裝的套件
-├── run_all.py           一次執行多題
 ├── 第01題_本週新片/
 │   ├── main.py          程式
 │   └── new_movies.csv   輸出（重新執行會覆蓋）
