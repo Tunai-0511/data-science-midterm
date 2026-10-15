@@ -17,6 +17,7 @@
     3. 存成 NBA_Products{頁碼}.csv，存完立刻印出「儲存頁面: 頁碼」。
     4. 按「下一頁 >」按鈕，等表格內容換掉後，回到第 2 步；
        到了最後一頁就沒有「下一頁」按鈕，迴圈結束，並核對是否真的到了第 1 步讀到的最後一頁。
+       結束前把分頁列捲到畫面中間、停 5 秒，讓看程式執行的人在瀏覽器上看清楚已經到最後一頁。
     5. CSV 用 utf-8-sig 編碼（加上 BOM），Excel 開啟中文不會亂碼。
     6. 開始前先刪掉舊的 NBA_Products*.csv，重新執行就是全新覆蓋。
 
@@ -25,6 +26,7 @@
 """
 
 import csv
+import time
 from pathlib import Path
 
 from selenium import webdriver
@@ -35,6 +37,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 URL = "https://fchart.github.io/ML/nba_items.html"
 FOLDER = Path(__file__).parent
 FIELDS = ["商品編號", "商品名稱", "價格"]
+PAUSE_SECONDS = 5  # 到最後一頁時，瀏覽器停留幾秒再關閉
 
 
 def read_table(driver):
@@ -81,6 +84,11 @@ def main():
 
             next_buttons = driver.find_elements(By.CSS_SELECTOR, "button.nextbtn")  # 「下一頁 >」
             if not next_buttons:  # 最後一頁沒有下一頁按鈕
+                # 把分頁列捲到畫面中間並停一下，讓人在瀏覽器上看清楚已經到最後一頁
+                pager = driver.find_element(By.ID, "pagination-wrapper")
+                driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", pager)
+                print(f"\n已到最後一頁（第 {page} 頁），瀏覽器停留 {PAUSE_SECONDS} 秒…")
+                time.sleep(PAUSE_SECONDS)
                 break
             first_row = driver.find_element(By.CSS_SELECTOR, "#table-body tr")
             next_buttons[0].click()
