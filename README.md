@@ -154,7 +154,7 @@ python run_all.py 17
 
 ### 第 11 題：NBA 商品資料
 - **題目**：列出所有商品；每存完一個 CSV 就印出「儲存頁面: 編號」；分頁存成 `NBA_Products{1~n}.csv`；CSV 不能亂碼。課堂補充：要點到最後一頁，第 1～n 頁各存一個檔案（像 Excel 底下的頁籤）。
-- **做法**：表格由 JavaScript 產生、一次 10 筆，Selenium 讀完一頁就存檔並印出「儲存頁面: n」，再按「下一頁 >」，直到最後一頁沒有下一頁按鈕。CSV 用 `utf-8-sig`（含 BOM），Excel 開啟中文不亂碼。重新執行前會先刪除舊的 `NBA_Products*.csv`。
+- **做法**：表格由 JavaScript 產生、一次 10 筆。Selenium 先從「最後一頁 »」按鈕讀出總頁數（目前 17 頁），接著讀完一頁就存檔並印出「儲存頁面: n」，再按「下一頁 >」，直到最後一頁沒有下一頁按鈕；結束時核對確實到了最後一頁，印出「已到最後一頁」。CSV 用 `utf-8-sig`（含 BOM），Excel 開啟中文不亂碼。重新執行前會先刪除舊的 `NBA_Products*.csv`。
 - **輸出**：`NBA_Products1.csv`～`NBA_Products17.csv`（共 165 筆）
 - **執行**：`python 第11題_NBA商品資料/main.py`
 

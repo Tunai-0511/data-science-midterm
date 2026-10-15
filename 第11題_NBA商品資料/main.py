@@ -12,12 +12,13 @@
 做法（Selenium）
     這個網頁的表格是 JavaScript 動態產生的，一次只顯示 10 筆，要按分頁按鈕才會換資料，
     所以用 Selenium 操作瀏覽器：
-    1. 開啟網頁，讀出目前這一頁表格的每一列（商品編號、商品名稱、價格）。
-    2. 存成 NBA_Products{頁碼}.csv，存完立刻印出「儲存頁面: 頁碼」。
-    3. 按「下一頁 >」按鈕，等表格內容換掉後，回到第 1 步；
-       到了最後一頁就沒有「下一頁」按鈕，迴圈結束。
-    4. CSV 用 utf-8-sig 編碼（加上 BOM），Excel 開啟中文不會亂碼。
-    5. 開始前先刪掉舊的 NBA_Products*.csv，重新執行就是全新覆蓋。
+    1. 開啟網頁，先從分頁列的「最後一頁 »」按鈕讀出總頁數（按鈕的 value 就是最後一頁的頁碼）。
+    2. 讀出目前這一頁表格的每一列（商品編號、商品名稱、價格）。
+    3. 存成 NBA_Products{頁碼}.csv，存完立刻印出「儲存頁面: 頁碼」。
+    4. 按「下一頁 >」按鈕，等表格內容換掉後，回到第 2 步；
+       到了最後一頁就沒有「下一頁」按鈕，迴圈結束，並核對是否真的到了第 1 步讀到的最後一頁。
+    5. CSV 用 utf-8-sig 編碼（加上 BOM），Excel 開啟中文不會亂碼。
+    6. 開始前先刪掉舊的 NBA_Products*.csv，重新執行就是全新覆蓋。
 
 執行
     python 第11題_NBA商品資料/main.py
@@ -64,6 +65,10 @@ def main():
     try:
         driver.get(URL)
         wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "#table-body tr")))
+        # 分頁列的「最後一頁 »」按鈕，value 就是最後一頁的頁碼
+        last_button = driver.find_element(By.XPATH, "//button[contains(., '最後一頁')]")
+        last_page = int(last_button.get_attribute("value"))
+        print(f"商品資料共 {last_page} 頁，從第 1 頁一路按「下一頁」到最後一頁\n")
 
         page = 1
         while True:
@@ -84,7 +89,8 @@ def main():
     finally:
         driver.quit()
 
-    print(f"\n全部 {page} 頁、{total} 筆商品，已存成 NBA_Products1.csv ~ NBA_Products{page}.csv")
+    status = "已到最後一頁" if page == last_page else f"注意：只到第 {page} 頁，沒有到最後一頁（第 {last_page} 頁）"
+    print(f"\n{status}。全部 {page} 頁、{total} 筆商品，已存成 NBA_Products1.csv ~ NBA_Products{page}.csv")
 
 
 if __name__ == "__main__":
