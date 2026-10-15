@@ -64,10 +64,10 @@ python run_all.py 17
 | 9 | Google 新聞各分類標題 | Selenium | `google_news.csv`（另印出） | — |
 | 10 | PTT 八卦板文章列表 | Selenium（點選年齡確認） | `ptt_gossiping.csv`（另印出） | — |
 | 11 | NBA 商品資料，每頁一個 CSV | Selenium（操作分頁） | `NBA_Products1.csv`～`NBA_Products17.csv` | — |
-| 12 | Google 搜尋「Steam 遊戲推薦」 | Selenium | `steam_games.csv` | 可能要完成 Google 機器人驗證 |
+| 12 | Google 搜尋「Steam 遊戲推薦」 | Selenium | `steam_games.csv` | Google 可能擋下程式控制的瀏覽器（見說明） |
 | 13 | momo 自動搜尋 nba | Selenium | `NBA_test.html` | — |
 | 14 | HoopsHype 球員薪水 | Selenium + BeautifulSoup | `highest.csv`、`all_play.csv` | — |
-| 15 | Google 搜尋「xpath」，捲動並取得更多結果 | Selenium（模擬滑鼠滾輪） | `xpath.csv` | 可能要完成 Google 機器人驗證 |
+| 15 | Google 搜尋「xpath」，捲動並取得更多結果 | Selenium（模擬滑鼠滾輪） | `xpath.csv` | Google 可能擋下程式控制的瀏覽器（見說明） |
 | 16 | Agoda 搜尋台中飯店與價格（含加分項） | Selenium + BeautifulSoup | `agoda_result.csv` | — |
 | 17 | GitHub 自動登入，抓首頁兩個視窗 | Selenium | `github_dashboard.csv`、`github_dashboard.png` | 執行時輸入帳密 |
 
@@ -154,14 +154,15 @@ python run_all.py 17
 
 ### 第 11 題：NBA 商品資料
 - **題目**：列出所有商品；每存完一個 CSV 就印出「儲存頁面: 編號」；分頁存成 `NBA_Products{1~n}.csv`；CSV 不能亂碼。課堂補充：要點到最後一頁，第 1～n 頁各存一個檔案（像 Excel 底下的頁籤）。
-- **做法**：表格由 JavaScript 產生、一次 10 筆。Selenium 先從「最後一頁 »」按鈕讀出總頁數（目前 17 頁），接著讀完一頁就存檔並印出「儲存頁面: n」，再按「下一頁 >」，直到最後一頁沒有下一頁按鈕。到最後一頁時把分頁列捲到畫面中間、瀏覽器停留 5 秒，讓人看清楚已經到最後一頁，並核對頁數、印出「已到最後一頁」。CSV 用 `utf-8-sig`（含 BOM），Excel 開啟中文不亂碼。重新執行前會先刪除舊的 `NBA_Products*.csv`。
+- **做法**：表格由 JavaScript 產生、一次 10 筆。Selenium 先從「最後一頁 »」按鈕讀出總頁數（目前 17 頁），接著讀完一頁就存檔並印出「儲存頁面: n」，再按「下一頁 >」，直到最後一頁沒有下一頁按鈕。到最後一頁時把分頁列捲到畫面中間、瀏覽器停留一下（秒數在程式開頭的 `PAUSE_SECONDS` 設定），讓人看清楚已經到最後一頁，並核對頁數、印出「已到最後一頁」。CSV 用 `utf-8-sig`（含 BOM），Excel 開啟中文不亂碼。重新執行前會先刪除舊的 `NBA_Products*.csv`。
 - **輸出**：`NBA_Products1.csv`～`NBA_Products17.csv`（共 165 筆）
 - **執行**：`python 第11題_NBA商品資料/main.py`
 
 ### 第 12 題：Google 搜尋「Steam 遊戲推薦」
 - **題目**：用 Selenium 和 WebDriver，列出搜尋結果及其超連結，存入 CSV。
 - **做法**：Google 首頁搜尋框自動輸入關鍵字並按 Enter → 讀出 `#search` 裡每筆結果的標題（`h3`）與連結（外層 `a` 的 href）。
-- **Google 機器人驗證**：Google 常把自動化瀏覽器判定為機器人，跳出「我不是機器人」驗證。程式不會自動破解驗證，會在終端機提示，請在 Chrome 視窗中手動完成，程式最多等 5 分鐘後繼續。
+- **Google 機器人驗證**：Google 常把自動化瀏覽器判定為機器人，跳出「我不是機器人」驗證。程式不會自動破解、也不偽裝成一般瀏覽器，會在終端機提示，請在 Chrome 視窗中手動完成，程式最多等 5 分鐘後繼續；過不了可按 Ctrl+C 結束。
+  2026-10 實測：在我們的網路環境，Google 會擋下程式控制的瀏覽器，連真人在裡面也一直過不了驗證；在 Google 沒有擋的環境（換個時間或換一台電腦），同一支程式就能完成。搜尋結果的抓取方式（`#search` 裡的 `h3` 與外層連結）已在一般瀏覽器的 Google 結果頁確認過。
 - **輸出**：`steam_games.csv`（標題、網址）
 - **執行**：`python 第12題_Google搜尋Steam遊戲推薦/main.py`
 
@@ -181,7 +182,7 @@ python run_all.py 17
 - **題目**：用 WebDriver 在搜尋列輸入 xpath，滾動滑鼠抓取全部資料並列印本頁資訊，再按「更多結果」取得更多資訊，存入 `xpath.csv`。課堂補充：要由程式模擬滑鼠滾動。
 - **做法**：自動輸入 xpath 並搜尋 → 用 `ActionChains.scroll_by_amount` 模擬滑鼠滾輪一路捲到底 → 印出本頁結果 → 按「更多結果」後再捲動、讀取，合併存檔。
   Google 已取消無限捲動的「更多結果」按鈕，改回分頁「下一頁」，所以程式會先找「更多結果」，沒有就按「下一頁」，一樣是取得更多結果。
-- **Google 機器人驗證**：同第 12 題，遇到時請在 Chrome 視窗中手動完成。
+- **Google 機器人驗證**：同第 12 題，遇到時請在 Chrome 視窗中手動完成；在我們的網路環境同樣會被擋。
 - **輸出**：`xpath.csv`（標題、網址）
 - **執行**：`python 第15題_Google搜尋xpath/main.py`
 

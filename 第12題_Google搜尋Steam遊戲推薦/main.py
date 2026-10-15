@@ -44,10 +44,11 @@ def wait_for_results(driver):
     )
     if "/sorry/" in driver.current_url:
         print("Google 跳出「我不是機器人」驗證：請在 Chrome 視窗中手動完成，程式最多等 5 分鐘…")
+        print("（如果一直出現新的圖片、怎麼選都過不了，代表 Google 擋下了程式控制的瀏覽器，可按 Ctrl+C 結束）")
         try:
             WebDriverWait(driver, 300).until(lambda d: d.find_elements(By.CSS_SELECTOR, RESULT_TITLE))
         except TimeoutException:
-            raise SystemExit("等了 5 分鐘仍未完成 Google 的機器人驗證，程式結束。請重新執行並在 Chrome 視窗中完成驗證。")
+            raise SystemExit("等了 5 分鐘仍未通過 Google 的機器人驗證，程式結束。可以換個時間或換一台電腦再執行。")
 
 
 def get_results(driver):
@@ -86,4 +87,7 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except KeyboardInterrupt:  # 使用者按 Ctrl+C 中止
+        print("\n已取消執行。")
