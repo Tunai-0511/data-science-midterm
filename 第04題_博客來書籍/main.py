@@ -21,11 +21,11 @@
        JSON 格式（一本書一個物件），存成 booklist.json。
     5. 讀回 booklist.json，用迴圈逐筆跑過裡面的每本書，寫入 booklist.csv（重新執行會直接覆蓋）。
 
-    關於真人驗證：換頁時博客來（Cloudflare）可能跳出「Verify you are human」。
-    這個驗證會偵測「被程式控制的瀏覽器」，就算真人去勾也通不過；要繞過它只能
-    偽裝成一般瀏覽器或每頁重開瀏覽器，那等於規避網站的機器人防護，所以程式不這樣做：
-    一遇到驗證頁就停止翻頁，把已經抓到的頁面存檔，並印出「抓到幾本／網站共幾筆」。
-    （2026-10 實測：第 1 頁正常，換到第 2 頁就會被擋；如果網路環境沒被擋，就會一路抓到最後一頁。）
+    關於真人驗證：換頁時博客來（Cloudflare）會跳出「Verify you are human」。
+    程式不會偽裝成一般瀏覽器、也不會繞過驗證；遇到時會暫停，請你在 Chrome 視窗中
+    親手勾選，通過後自動繼續抓下一頁（每次最多等 5 分鐘）。
+    如果勾了一直重來，或想提早結束，按 Ctrl+C 即可，已抓到的頁面會先存檔。
+    程式最後會印出「抓到幾本／網站共幾筆」，方便確認有沒有抓齊。
 
 執行
     python 第04題_博客來書籍/main.py
@@ -40,7 +40,7 @@ from urllib.parse import quote
 
 from bs4 import BeautifulSoup
 from selenium import webdriver
-from selenium.common.exceptions import TimeoutException
+from selenium.common.exceptions import TimeoutException, WebDriverException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
@@ -54,14 +54,22 @@ BOOK_SELECTOR = "div.table-td[id^='prod-itemlist-']"  # 每一本書的區塊
 
 
 def wait_for_books(driver):
-    """等這一頁的書出現。回傳 True＝書已出現；False＝被 Cloudflare 真人驗證頁擋下。"""
+    """等這一頁的書出現；被 Cloudflare 真人驗證擋下時，請使用者親手勾選。回傳 True＝書已出現。"""
+    WebDriverWait(driver, 30).until(
+        lambda d: d.find_elements(By.CSS_SELECTOR, BOOK_SELECTOR) or "Just a moment" in d.title
+    )
+    if driver.find_elements(By.CSS_SELECTOR, BOOK_SELECTOR):
+        return True
+
+    print("\n========== 需要你幫忙 ==========")
+    print("博客來跳出「Verify you are human」真人驗證：請到 Chrome 視窗勾選方框。")
+    print("通過後程式會自動繼續；最多等 5 分鐘，或按 Ctrl+C 結束（已抓到的會先存檔）。")
     try:
-        WebDriverWait(driver, 30).until(
-            lambda d: d.find_elements(By.CSS_SELECTOR, BOOK_SELECTOR) or "Just a moment" in d.title
-        )
+        WebDriverWait(driver, 300).until(EC.presence_of_element_located((By.CSS_SELECTOR, BOOK_SELECTOR)))
     except TimeoutException:
         return False
-    return bool(driver.find_elements(By.CSS_SELECTOR, BOOK_SELECTOR))
+    print("驗證通過，繼續抓取。\n")
+    return True
 
 
 def search_summary(html):
@@ -94,35 +102,38 @@ def parse_books(html):
 
 def collect_all_books(driver, url):
     """從題目網址（第 1 頁）開始，一頁一頁按「下一頁」到最後一頁，回傳（全部的書, 網站顯示的總筆數）。"""
-    driver.get(url)
     books = {}  # 網址 → 書（同一本書若重複出現，用網址去除重複）
-    total_books = 0
+    total_books = total_pages = 0
     page = 1
-    while True:
-        if not wait_for_books(driver):
-            print(f"第 {page} 頁被博客來的 Cloudflare 真人驗證擋下，停止翻頁，先把已抓到的 {len(books)} 本存檔。")
-            break
-        if page == 1:
-            total_books, total_pages = search_summary(driver.page_source)
-            print(f"網站顯示：搜尋結果共 {total_books} 筆，{total_pages} 頁\n")
+    driver.get(url)
+    try:
+        while True:
+            if not wait_for_books(driver):
+                print(f"第 {page} 頁一直沒有通過真人驗證，停止翻頁，先把已抓到的 {len(books)} 本存檔。")
+                break
+            if page == 1:
+                total_books, total_pages = search_summary(driver.page_source)
+                print(f"網站顯示：搜尋結果共 {total_books} 筆，{total_pages} 頁\n")
 
-        page_books = parse_books(driver.page_source)
-        for book in page_books:
-            books.setdefault(book["網址"], book)
-        print(f"第 {page}/{total_pages} 頁：{len(page_books)} 本，累計 {len(books)} 本")
+            page_books = parse_books(driver.page_source)
+            for book in page_books:
+                books.setdefault(book["網址"], book)
+            print(f"第 {page}/{total_pages} 頁：{len(page_books)} 本，累計 {len(books)} 本")
 
-        # 找「下一頁」；到了最後一頁，下一頁的連結是 javascript:void(0)，就結束
-        next_links = [
-            link for link in driver.find_elements(By.CSS_SELECTOR, "ul.page a.next")
-            if "javascript" not in (link.get_attribute("href") or "")
-        ]
-        if not next_links:
-            break
-        time.sleep(2)  # 每頁之間稍等，不要連續快速翻頁
-        first_book = driver.find_element(By.CSS_SELECTOR, BOOK_SELECTOR)
-        next_links[0].click()
-        WebDriverWait(driver, 30).until(EC.staleness_of(first_book))  # 舊頁面的書消失＝已經在換頁
-        page += 1
+            # 找「下一頁」；到了最後一頁，下一頁的連結是 javascript:void(0)，就結束
+            next_links = [
+                link for link in driver.find_elements(By.CSS_SELECTOR, "ul.page a.next")
+                if "javascript" not in (link.get_attribute("href") or "")
+            ]
+            if not next_links:
+                break
+            time.sleep(2)  # 每頁之間稍等，不要連續快速翻頁
+            first_book = driver.find_element(By.CSS_SELECTOR, BOOK_SELECTOR)
+            next_links[0].click()
+            WebDriverWait(driver, 30).until(EC.staleness_of(first_book))  # 舊頁面的書消失＝已經在換頁
+            page += 1
+    except (KeyboardInterrupt, WebDriverException):  # 按了 Ctrl+C，或 Chrome 視窗被關掉
+        print(f"\n中途停止，先把已抓到的 {len(books)} 本存檔。")
     return list(books.values()), total_books
 
 
@@ -165,7 +176,7 @@ def main():
     count = json_to_csv(JSON_OUTPUT, OUTPUT)
     print(f"\n「{KEYWORD}」共抓到 {count} 本書（網站顯示 {total_books} 筆），已存成 {OUTPUT.name}")
     if count < total_books:
-        print("注意：換頁時被博客來的真人驗證擋下，這次沒有抓齊全部頁面。")
+        print("注意：這次沒有抓齊全部頁面（真人驗證沒有通過或中途停止），可以再執行一次。")
 
 
 if __name__ == "__main__":
