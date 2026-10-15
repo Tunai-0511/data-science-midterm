@@ -11,13 +11,15 @@
     1. 開啟 Google 首頁，在搜尋框（name="q"）自動輸入 xpath 並按 Enter。
     2. 用 ActionChains.scroll_by_amount 模擬「滑鼠滾輪」一段一段往下捲，直到捲到頁面最底，
        讀出本頁每筆結果（#search 裡 <a> 內的 <h3> 是標題，<a> 的 href 是網址）並印出。
-    3. 按「更多結果」載入更多資料，捲動後再讀一次。
+    3. 按「更多結果」載入更多資料，捲動後再讀一次（要按幾次由 MORE_TIMES 設定，預設 1 次）。
        Google 已經把無限捲動的「更多結果」按鈕改回分頁的「下一頁」（id="pnnext"），
        所以程式會先找「更多結果」，沒有的話就按「下一頁」，效果一樣是取得更多搜尋結果。
-    4. 兩次的結果合併（以網址去除重複）存成 xpath.csv（重新執行會直接覆蓋）。
+       「xpath」的結果有 30 頁以上，不建議一路按到底：每多一頁就是多一次自動搜尋，更容易被 Google 擋下。
+    4. 所有讀到的結果合併（以網址去除重複）存成 xpath.csv（重新執行會直接覆蓋）。
 
     關於 Google 的機器人驗證：遇到「我不是機器人」驗證頁時，程式不會自動破解，
-    會提示並等待你在 Chrome 視窗中手動完成（最多 5 分鐘）後繼續。
+    會提示並等待你在 Chrome 視窗中手動完成（最多 5 分鐘）後繼續；
+    沒有下一頁、驗證沒通過或按 Ctrl+C 時會停止翻頁，已抓到的結果照樣存檔。
 
 執行
     python 第15題_Google搜尋xpath/main.py
@@ -36,23 +38,28 @@ from selenium.webdriver.support.ui import WebDriverWait
 
 URL = "https://www.google.com/?hl=zh-TW"
 KEYWORD = "xpath"
-MORE_TIMES = 1  # 按幾次「更多結果／下一頁」
+# 按幾次「更多結果／下一頁」。Google 的「xpath」結果有 30 頁以上，按越多次越容易被 Google 擋下；
+# 沒有下一頁、被擋下或按 Ctrl+C 時都會提早停止，已抓到的結果照樣存檔。
+MORE_TIMES = 1
 OUTPUT = Path(__file__).parent / "xpath.csv"
 RESULT_TITLE = "#search a h3"  # 搜尋結果的標題
 
 
 def wait_for_results(driver):
-    """等搜尋結果出現；若跳出機器人驗證頁（網址含 /sorry/），請使用者手動完成。"""
+    """等搜尋結果出現；若跳出機器人驗證頁（網址含 /sorry/），請使用者手動完成。回傳 True＝結果已出現。"""
     WebDriverWait(driver, 30).until(
         lambda d: "/sorry/" in d.current_url or d.find_elements(By.CSS_SELECTOR, RESULT_TITLE)
     )
-    if "/sorry/" in driver.current_url:
-        print("Google 跳出「我不是機器人」驗證：請在 Chrome 視窗中手動完成，程式最多等 5 分鐘…")
-        print("（如果一直出現新的圖片、怎麼選都過不了，代表 Google 擋下了程式控制的瀏覽器，可按 Ctrl+C 結束）")
-        try:
-            WebDriverWait(driver, 300).until(lambda d: d.find_elements(By.CSS_SELECTOR, RESULT_TITLE))
-        except TimeoutException:
-            raise SystemExit("等了 5 分鐘仍未通過 Google 的機器人驗證，程式結束。可以換個時間或換一台電腦再執行。")
+    if "/sorry/" not in driver.current_url:
+        return True
+    print("Google 跳出「我不是機器人」驗證：請在 Chrome 視窗中手動完成，程式最多等 5 分鐘…")
+    print("（如果一直出現新的圖片、怎麼選都過不了，代表 Google 擋下了程式控制的瀏覽器，可按 Ctrl+C 結束）")
+    try:
+        WebDriverWait(driver, 300).until(lambda d: d.find_elements(By.CSS_SELECTOR, RESULT_TITLE))
+        return True
+    except TimeoutException:
+        print("等了 5 分鐘仍未通過 Google 的機器人驗證。")
+        return False
 
 
 def scroll_with_mouse_wheel(driver):
@@ -78,9 +85,13 @@ def get_results(driver):
 
 
 def click_more(driver):
-    """按「更多結果」；新版 Google 沒有這個按鈕，就改按「下一頁」。"""
+    """按「更多結果」；新版 Google 沒有這個按鈕，就改按「下一頁」。回傳 True＝已載入更多結果。"""
     more = driver.find_elements(By.XPATH, "//a[.//span[text()='更多結果']]")
-    button = more[0] if more else driver.find_element(By.ID, "pnnext")  # pnnext＝下一頁
+    buttons = more or driver.find_elements(By.ID, "pnnext")  # pnnext＝下一頁
+    if not buttons:
+        print("\n已經沒有「更多結果／下一頁」了。")
+        return False
+    button = buttons[0]
     print(f"\n>>> 按下「{'更多結果' if more else '下一頁'}」取得更多結果\n")
 
     old_url = driver.current_url
@@ -92,7 +103,7 @@ def click_more(driver):
         lambda d: d.current_url != old_url
         or len(d.find_elements(By.CSS_SELECTOR, RESULT_TITLE)) > old_count
     )
-    wait_for_results(driver)
+    return wait_for_results(driver)
 
 
 def print_results(results):
@@ -109,17 +120,21 @@ def main():
         search_box = WebDriverWait(driver, 20).until(lambda d: d.find_element(By.NAME, "q"))
         search_box.send_keys(KEYWORD)
         search_box.send_keys(Keys.ENTER)
-        wait_for_results(driver)
+        if not wait_for_results(driver):
+            raise SystemExit("第 1 頁就被 Google 擋下，沒有抓到資料。可以換個時間或換一台電腦再執行。")
 
-        for round_number in range(MORE_TIMES + 1):
-            if round_number > 0:
-                click_more(driver)
-            scroll_with_mouse_wheel(driver)  # 滾動滑鼠，讓本頁內容全部出現
-            results = get_results(driver)
-            print(f"===== 本頁資訊（第 {round_number + 1} 次載入，{len(results)} 筆）=====")
-            print_results(results)
-            for row in results:
-                all_results.setdefault(row["網址"], row["標題"])
+        try:
+            for round_number in range(MORE_TIMES + 1):
+                if round_number > 0 and not click_more(driver):  # 沒有下一頁或被擋下就停止
+                    break
+                scroll_with_mouse_wheel(driver)  # 滾動滑鼠，讓本頁內容全部出現
+                results = get_results(driver)
+                print(f"===== 本頁資訊（第 {round_number + 1} 次載入，{len(results)} 筆）=====")
+                print_results(results)
+                for row in results:
+                    all_results.setdefault(row["網址"], row["標題"])
+        except KeyboardInterrupt:  # 按 Ctrl+C：停止翻頁，已抓到的照樣存檔
+            print("\n中途停止，先把已抓到的結果存檔。")
     finally:
         driver.quit()
 
