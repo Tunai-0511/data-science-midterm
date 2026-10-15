@@ -4,17 +4,20 @@
 題目要求
     1. 從政府資料開放平臺 https://data.gov.tw/ 抓取「健保門診及住院就診人次統計-腸病毒」
     2. 將資料存到本地 NHI_EnteroviralInfection.csv
-    （課堂補充：不能只用滑鼠點網頁下載，要由程式抓到資料）
+    （課堂補充：不能自己用滑鼠點網頁找到資料就說抓到了，要用程式模擬這些操作）
 
-做法（requests）
-    1. 用 requests 呼叫政府資料開放平臺的 API，查詢這個資料集（編號 14590）的詳細資料。
-       平臺回傳 JSON，其中 distribution 列出各種格式的下載網址。
-    2. 從 JSON 中找出 CSV 格式的「資料下載網址」（resourceDownloadUrl）。
-    3. 再用 requests 下載這個 CSV，存成 NHI_EnteroviralInfection.csv。
+做法（Selenium 模擬操作 + requests 下載）
+    照題目附圖的步驟，由 Selenium 模擬人在網站上的操作：
+    1. 開啟 https://data.gov.tw/，在首頁搜尋框輸入「腸病毒」，按搜尋按鈕。
+       （用完整名稱搜尋時，平臺會把「腹瀉、水痘…」等同系列資料集排在前面，
+         用「腸病毒」搜尋，目標資料集就會出現在第一頁。）
+    2. 在搜尋結果中找到「健保門診及住院就診人次統計-腸病毒」並點進去（會開在新分頁，切換過去）。
+    3. 在資料集頁面的「資料資源下載網址」找到 CSV 按鈕，讀出它的連結（資料下載網址）。
+    4. 用 requests 下載這個 CSV，存成 NHI_EnteroviralInfection.csv（重新執行會直接覆蓋）。
 
-    注意：資料下載網址在疾管署網站（od.cdc.gov.tw），它的 HTTPS 憑證鏈
-    不完整，Python 內建的憑證清單會驗證失敗。程式用 truststore 套件改用
-    作業系統（Windows／macOS）的憑證庫驗證，這樣不必關掉安全檢查也能下載。
+    注意：資料下載網址在疾管署網站（od.cdc.gov.tw），它的 HTTPS 憑證鏈不完整，
+    Python 內建的憑證清單會驗證失敗。程式用 truststore 套件改用作業系統（Windows／macOS）
+    的憑證庫驗證；如果還是驗證失敗，最後才改用不驗證憑證的方式下載，並印出提示。
 
 輸出
     NHI_EnteroviralInfection.csv（約 8 MB，與本程式同一個資料夾，重新執行會直接覆蓋）
@@ -27,41 +30,71 @@ import csv
 import io
 from pathlib import Path
 
-import truststore
-
-truststore.inject_into_ssl()  # 改用作業系統憑證庫驗證 HTTPS（必須在 import requests 之前）
+try:
+    import truststore
+    truststore.inject_into_ssl()  # 改用作業系統憑證庫驗證 HTTPS（必須在 import requests 之前）
+except ImportError:
+    pass
 
 import requests  # noqa: E402  （故意放在 truststore 設定之後）
+from selenium import webdriver  # noqa: E402
+from selenium.webdriver.common.by import By  # noqa: E402
+from selenium.webdriver.support import expected_conditions as EC  # noqa: E402
+from selenium.webdriver.support.ui import WebDriverWait  # noqa: E402
 
-DATASET_ID = 14590  # 「健保門診及住院就診人次統計-腸病毒」在平臺上的資料集編號
-API_URL = f"https://data.gov.tw/api/v2/rest/dataset/{DATASET_ID}"
+HOME_URL = "https://data.gov.tw/"
+KEYWORD = "腸病毒"
+DATASET_NAME = "健保門診及住院就診人次統計-腸病毒"
 OUTPUT = Path(__file__).parent / "NHI_EnteroviralInfection.csv"
 
 
 def find_csv_url():
-    """呼叫政府資料開放平臺 API，回傳（資料集名稱, CSV 下載網址）。"""
-    response = requests.get(API_URL, timeout=30)
-    response.raise_for_status()
-    dataset = response.json()["result"]  # 平臺回傳的是 JSON
+    """用 Selenium 模擬：搜尋 → 點進資料集 → 讀出 CSV 的資料下載網址。"""
+    driver = webdriver.Chrome()
+    driver.set_window_size(1366, 900)  # 視窗太小時，上方固定的搜尋列會擋住搜尋結果
+    wait = WebDriverWait(driver, 30)
+    try:
+        # 1. 首頁搜尋框輸入關鍵字，按搜尋按鈕
+        driver.get(HOME_URL)
+        search_box = wait.until(EC.element_to_be_clickable((By.ID, "searchbar-input")))
+        search_box.send_keys(KEYWORD)
+        driver.find_element(By.CSS_SELECTOR, "button.searchbar-submit-btn").click()
 
-    # distribution 是這個資料集提供的各種檔案（CSV、JSON…），挑出 CSV 那一個
-    for resource in dataset["distribution"]:
-        if resource["resourceFormat"].upper() == "CSV":
-            return dataset["title"], resource["resourceDownloadUrl"]
-    raise RuntimeError("這個資料集沒有提供 CSV 檔")
+        # 2. 等搜尋結果載入完成（轉圈圈的遮罩消失），點資料集名稱；
+        #    連結會開新分頁，所以要切換到新分頁
+        dataset_link = wait.until(
+            EC.element_to_be_clickable((By.XPATH, f"//a[normalize-space()='{DATASET_NAME}']"))
+        )
+        wait.until(EC.invisibility_of_element_located((By.CSS_SELECTOR, ".el-loading-mask")))
+        driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", dataset_link)
+        dataset_link.click()
+        wait.until(lambda d: len(d.window_handles) > 1)
+        driver.switch_to.window(driver.window_handles[-1])
+        print(f"已進入資料集頁面：{driver.title}（{driver.current_url}）")
+
+        # 3. 「資料資源下載網址」裡的 CSV 按鈕（title="CSV下載檔案"），它的 href 就是資料下載網址
+        csv_button = wait.until(
+            EC.presence_of_element_located((By.CSS_SELECTOR, "a[title='CSV下載檔案']"))
+        )
+        return csv_button.get_attribute("href")
+    finally:
+        driver.quit()
 
 
 def download_csv(url):
-    """下載 CSV，回傳文字內容。"""
-    response = requests.get(url, timeout=120)
+    """用 requests 下載 CSV，回傳文字內容。"""
+    try:
+        response = requests.get(url, timeout=120)
+    except requests.exceptions.SSLError:
+        print("（HTTPS 憑證驗證失敗，改用不驗證憑證的方式下載）")
+        response = requests.get(url, timeout=120, verify=False)
     response.raise_for_status()
     return response.content.decode("utf-8-sig")  # 官方檔案是 UTF-8
 
 
 def main():
-    title, csv_url = find_csv_url()
-    print(f"資料集：{title}")
-    print(f"CSV 下載網址：{csv_url}")
+    csv_url = find_csv_url()
+    print(f"CSV 資料下載網址：{csv_url}")
 
     text = download_csv(csv_url)
 

@@ -55,8 +55,8 @@ python run_all.py 17
 |:-:|---|---|---|---|
 | 1 | 開眼電影網本週新片 | requests + BeautifulSoup | `new_movies.csv` | — |
 | 2 | 臺灣銀行牌告匯率 | Selenium 載入 + BeautifulSoup | `bank.csv` | — |
-| 3 | 政府資料開放平臺：健保門診及住院就診人次統計－腸病毒 | requests（API 回傳 JSON → 下載 CSV） | `NHI_EnteroviralInfection.csv` | — |
-| 4 | 博客來「演算法」搜尋結果 | Selenium 載入 + BeautifulSoup | `booklist.csv` | 偶爾需勾選真人驗證 |
+| 3 | 政府資料開放平臺：健保門診及住院就診人次統計－腸病毒 | Selenium 模擬搜尋與點選 + requests 下載 | `NHI_EnteroviralInfection.csv` | — |
+| 4 | 博客來「演算法」搜尋結果 | Selenium 載入 + BeautifulSoup + JSON | `booklist.csv`（另存 `booklist.json`） | 偶爾需勾選真人驗證 |
 | 5 | 開眼台北週末票房排行榜（20 筆） | Selenium（ActionChains 模擬滑鼠） | `Taipei_movies.csv` | — |
 | 6 | Basketball Reference：CLE、HOU、GSW 球員 | requests + BeautifulSoup | `players.csv` | — |
 | 7 | Google Books API 搜尋 Python（兩頁） | requests（API 回傳 JSON） | `pythonbook.csv` | 需要 API 金鑰 |
@@ -75,9 +75,9 @@ python run_all.py 17
 
 | 要求 | 本 repo 可對應的題目 |
 |---|---|
-| 要求 1：使用 requests 抓取資料 | 第 3 題（呼叫開放資料 API、下載 CSV）、第 7 題（Google Books API）；第 1、6、8 題也用 requests 下載網頁 |
+| 要求 1：使用 requests 抓取資料 | 第 7 題（Google Books API）、第 1、6、8 題（requests 下載網頁）；第 3 題也用 requests 下載 CSV |
 | 要求 2：使用 BeautifulSoup 抓取資料 | 第 1、6、8 題；第 2、4、13、14、16 題也用 BeautifulSoup 解析 |
-| 要求 3：使用 Selenium 抓取動態網站 | 第 5、9、10、11、12、13、14、15、16、17 題；第 2、4 題用 Selenium 載入網頁 |
+| 要求 3：使用 Selenium 抓取動態網站 | 第 3、5、9、10、11、12、13、14、15、16、17 題；第 2、4 題用 Selenium 載入網頁 |
 
 ---
 
@@ -96,17 +96,19 @@ python run_all.py 17
 - **執行**：`python 第02題_台銀牌價/main.py`
 
 ### 第 3 題：健保門診及住院就診人次統計－腸病毒
-- **題目**：從政府資料開放平臺抓取這份資料，存成 `NHI_EnteroviralInfection.csv`。課堂補充：不能只用滑鼠點網頁下載。
-- **做法**：requests 呼叫平臺 API `https://data.gov.tw/api/v2/rest/dataset/14590`（回傳 JSON）→ 從 `distribution` 找出 CSV 的下載網址 → 再用 requests 下載並存檔。
-  下載網址在疾管署網站，憑證鏈不完整、Python 預設會驗證失敗，所以用 `truststore` 改用作業系統的憑證庫驗證（沒有關掉 HTTPS 安全檢查）。
+- **題目**：從政府資料開放平臺抓取這份資料，存成 `NHI_EnteroviralInfection.csv`。課堂補充：不能自己用滑鼠點網頁找到資料就說抓到了，要用程式模擬。
+- **做法**：照題目附圖的步驟，由 Selenium 模擬操作：開啟 data.gov.tw → 首頁搜尋框輸入「腸病毒」並按搜尋 → 在結果中點「健保門診及住院就診人次統計-腸病毒」（開在新分頁，程式會切換過去）→ 讀出資料集頁面「CSV」按鈕的下載網址 → 用 requests 下載並存檔。
+  （用完整名稱搜尋時，平臺會把同系列的其他疾病排在前面，所以用「腸病毒」搜尋，目標資料集就在第一頁。）
+  下載網址在疾管署網站，憑證鏈不完整、Python 預設會驗證失敗，所以先用 `truststore` 改用作業系統的憑證庫驗證；還是失敗時才改用不驗證憑證的方式下載，並印出提示。
 - **輸出**：`NHI_EnteroviralInfection.csv`（約 19 萬筆、8 MB）
 - **執行**：`python 第03題_腸病毒資料/main.py`
 
 ### 第 4 題：博客來「演算法」書籍
-- **題目**：`https://search.books.com.tw/search/query/key/{0}/cat/all`，`{0}` = 演算法；存入 `booklist.csv`，欄位 書名、網址、作者、書價。
+- **題目**：`https://search.books.com.tw/search/query/key/{0}/cat/all`，`{0}` = 演算法；存入 `booklist.csv`，欄位 書名、網址、作者、書價。課堂補充：要把 URL 抓到的資料整理成 JSON 格式，再跑過裡面的內容。
 - **做法**：博客來有 Cloudflare 防護，requests 會被擋（403），改用 Selenium 開 Chrome 載入題目網址，再用 BeautifulSoup 解析每本書：書名、作者、書價（優惠後售價，元）、網址（換成正式商品頁 `https://www.books.com.tw/products/商品編號`）。
+  博客來的搜尋網址回傳的是 HTML（網站沒有 JSON 介面），所以把解析結果整理成 JSON 格式（一本書一個物件）存成 `booklist.json`，再讀回 JSON、用迴圈逐筆跑過裡面的每本書，寫入 `booklist.csv`。
 - **範圍**：題目網址就是搜尋結果第 1 頁（60 本）。換到第 2 頁時博客來會跳出「Verify you are human」真人驗證，程式不繞過驗證，所以只抓題目指定的網址。
-- **輸出**：`booklist.csv`
+- **輸出**：`booklist.json`（JSON 格式）、`booklist.csv`
 - **執行**：`python 第04題_博客來書籍/main.py`
 
 ### 第 5 題：開眼台北週末票房排行榜
@@ -117,10 +119,10 @@ python run_all.py 17
 - **執行**：`python 第05題_台北票房排行榜/main.py`
 
 ### 第 6 題：NBA 球隊球員（Basketball Reference）
-- **題目**：`https://www.basketball-reference.com/teams/{0}/2024.html`，抓 CLE、HOU、GSW 三隊，欄位 球隊、背號、姓名、位置、體重、生日、經驗、大學，存入 `players.csv`。
-- **做法**：requests 下載三隊頁面 → BeautifulSoup 找 `table#roster`（Roster 名單），依每格的 `data-stat` 屬性取值。三隊之間間隔 3 秒，避免請求太快被封鎖。
+- **題目**：`https://www.basketball-reference.com/teams/{0}/2024.html`，抓 CLE、HOU、GSW 三隊，欄位 球隊、背號、姓名、位置、體重、生日、經驗、大學，存入 `players.csv`。課堂補充：要找到指定隊伍 Roster & Stats 頁面的球員資料。
+- **做法**：題目網址就是各隊的「Roster & Stats」頁。requests 下載三隊頁面 → BeautifulSoup 找 `table#roster`（Roster 名單），依每格的 `data-stat` 屬性取值。三隊之間間隔 3 秒，避免請求太快被封鎖。
 - **資料說明**：體重單位為磅；經驗 `R` 代表新秀；沒讀大學的球員「大學」為空白。
-- **輸出**：`players.csv`（三隊共 53 位）
+- **輸出**：`players.csv`（三隊共 53 位；檔名依 PDF 題目，課堂筆記寫的是 player.csv）
 - **執行**：`python 第06題_NBA球隊球員/main.py`
 
 ### 第 7 題：Google Books API
@@ -155,7 +157,7 @@ python run_all.py 17
 - **執行**：`python 第10題_PTT八卦板/main.py`
 
 ### 第 11 題：NBA 商品資料
-- **題目**：列出所有商品；每存完一個 CSV 就印出「儲存頁面: 編號」；分頁存成 `NBA_Products{1~n}.csv`；CSV 不能亂碼。
+- **題目**：列出所有商品；每存完一個 CSV 就印出「儲存頁面: 編號」；分頁存成 `NBA_Products{1~n}.csv`；CSV 不能亂碼。課堂補充：要點到最後一頁，第 1～n 頁各存一個檔案（像 Excel 底下的頁籤）。
 - **做法**：表格由 JavaScript 產生、一次 10 筆，Selenium 讀完一頁就存檔並印出「儲存頁面: n」，再按「下一頁 >」，直到最後一頁沒有下一頁按鈕。CSV 用 `utf-8-sig`（含 BOM），Excel 開啟中文不亂碼。重新執行前會先刪除舊的 `NBA_Products*.csv`。
 - **輸出**：`NBA_Products1.csv`～`NBA_Products17.csv`（共 165 筆）
 - **執行**：`python 第11題_NBA商品資料/main.py`
@@ -197,7 +199,7 @@ python run_all.py 17
 - **題目**：用 Selenium 及 WebDriver 自動登入帳號，抓取附圖 1 號視窗與 2 號視窗的頁面資料。課堂補充：難點在登入表單裡隱藏的 key 值。
 - **做法**：
   1. 執行時在終端機輸入 GitHub 帳號、密碼（密碼不會顯示、不會存檔）；也可事先設定環境變數 `GITHUB_USERNAME`、`GITHUB_PASSWORD`。
-  2. Selenium 開啟登入頁，自動填入帳密並按 Sign in。登入表單裡有 `authenticity_token` 等隱藏欄位（就是「隱藏的 key 值」，每次開頁都不同）：用 requests 登入要自己先抓出來一起送出；用 Selenium 是在瀏覽器裡按登入，瀏覽器會自動送出。程式會印出這些隱藏欄位的名稱。
+  2. Selenium 開啟登入頁，自動填入帳密並按 Sign in。登入表單裡有 `authenticity_token` 等隱藏欄位（就是「隱藏的 key 值」，每次開頁都不同）：用 requests 登入要自己先從網頁抓出來、跟帳密一起送出；用 Selenium 是在瀏覽器裡按登入，瀏覽器會自動送出。程式會找出這些隱藏欄位，印出欄位名稱和 `authenticity_token` 的開頭幾個字元。
   3. 若有二階段驗證，請在 Chrome 視窗中完成，程式最多等 5 分鐘。
   4. 登入後抓首頁：**1 號視窗＝左欄**（新帳號顯示「Create your first project」，已有專案的帳號顯示「Top repositories」）；**2 號視窗＝中間主欄**（附圖當時是「Updates to your homepage feed」提示卡，改版後是首頁動態面板）。依區塊位置抓取，新舊版首頁都適用。
 - **輸出**：印出兩個視窗的內容，另存 `github_dashboard.csv`（視窗、內容）與登入後截圖 `github_dashboard.png`。這兩個檔案含個人帳號資料，已列入 `.gitignore`，不會上傳。
@@ -210,6 +212,7 @@ python run_all.py 17
 | 題 | 改版情形 | 本程式的處理 |
 |:-:|---|---|
 | 2 | 臺銀加了瀏覽器驗證，requests 拿不到匯率表 | 用 Selenium 載入，再用 BeautifulSoup 解析 |
+| 3 | 平臺用資料集全名搜尋時，目標資料集不在第一頁 | 改用「腸病毒」搜尋 |
 | 4 | 博客來有 Cloudflare 防護（requests 403），換頁會要求真人驗證 | 用 Selenium 載入題目網址（第 1 頁） |
 | 5 | 點連結會跳出 Google 全版廣告；票房網站偶爾逾時 | 自動按「關閉」；逾時自動重新整理 |
 | 7 | Google Books API 不帶金鑰常回傳 429 | 支援環境變數 `GOOGLE_BOOKS_API_KEY` |

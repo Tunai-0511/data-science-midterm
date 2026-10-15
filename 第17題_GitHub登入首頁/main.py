@@ -12,10 +12,10 @@
        也可以事先設定環境變數 GITHUB_USERNAME、GITHUB_PASSWORD，就不用每次輸入。
     2. 開啟 https://github.com/login，由 Selenium 自動把帳密填進
        #login_field、#password，再按「Sign in」。
-       「隱藏的 key 值」：登入表單裡有 authenticity_token（防偽造請求的金鑰）等隱藏欄位，
-       每次開頁面都不一樣。用 requests 登入必須自己先抓出這些值一起送出；
+       「隱藏的 key 值」：登入表單裡有 authenticity_token（防止偽造請求的金鑰）等隱藏欄位，
+       每次開頁面都不一樣。用 requests 登入必須自己先從網頁抓出這個值、跟帳密一起送出；
        用 Selenium 是在真的瀏覽器裡按登入，瀏覽器會自動把隱藏欄位一起送出。
-       程式會把這些隱藏欄位的名稱印出來，讓你看到它們確實存在。
+       程式會找出這些隱藏欄位，並印出 authenticity_token 的開頭，讓你看到它確實存在。
     3. 如果帳號有二階段驗證（2FA）或裝置驗證，請在跳出的 Chrome 視窗裡手動完成，
        程式最多等 5 分鐘，直到登入成功。
     4. 登入後回到 https://github.com/ 首頁：
@@ -68,11 +68,13 @@ def login(driver, username, password):
     wait = WebDriverWait(driver, 30)
     username_box = wait.until(EC.presence_of_element_located((By.ID, "login_field")))
 
-    # 印出登入表單裡的隱藏欄位名稱（值是每次都會變的金鑰，不需要也不印出來）
+    # 找出登入表單裡的隱藏欄位（<input type="hidden">），其中 authenticity_token 就是「隱藏的 key 值」：
+    # 每次打開登入頁都不一樣，登入時必須跟帳密一起送出，GitHub 才會接受這次登入。
     hidden = driver.find_elements(By.CSS_SELECTOR, "form[action='/session'] input[type='hidden']")
-    names = [field.get_attribute("name") for field in hidden]
-    print(f"登入表單的隱藏欄位：{', '.join(names)}")
-    print("→ 其中 authenticity_token 就是隱藏的 key 值，瀏覽器按登入時會自動一起送出。\n")
+    print(f"登入表單的隱藏欄位：{', '.join(field.get_attribute('name') for field in hidden)}")
+    token = driver.find_element(By.NAME, "authenticity_token").get_attribute("value")
+    print(f"隱藏的 key 值 authenticity_token：{token[:12]}…（共 {len(token)} 個字元，只顯示開頭）")
+    print("→ 用 Selenium 在瀏覽器裡按登入，瀏覽器會自動把這個 key 值跟帳密一起送出。\n")
 
     # 自動填入帳密並按下 Sign in
     username_box.send_keys(username)

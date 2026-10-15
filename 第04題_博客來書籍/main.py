@@ -4,17 +4,19 @@
 題目要求
     1. 網址 https://search.books.com.tw/search/query/key/{0}/cat/all，{0} = "演算法"
     2. 抓取資料存入 booklist.csv，內容包括 ["書名", "網址", "作者", "書價"]
+    （課堂補充：要抓 URL 的資料整理成 JSON 格式，再跑過裡面的內容）
 
-做法（Selenium 載入網頁 + BeautifulSoup 解析）
+做法（Selenium 載入網頁 + BeautifulSoup 解析 + JSON）
     博客來搜尋頁前面有 Cloudflare 防護：用 requests 直接抓會得到 403
-    「連線暫時異常」，所以改用 Selenium 開真的 Chrome 載入網頁，再交給
-    BeautifulSoup 解析。（搜尋結果直接寫在 HTML 裡，沒有另外的 JSON 資料。）
+    「連線暫時異常」，所以改用 Selenium 開真的 Chrome 載入網頁，再交給 BeautifulSoup 解析。
 
     1. 把「演算法」放進題目給的網址 {0}，開啟搜尋結果（題目網址就是第 1 頁，共 60 本）。
     2. 每本書在 <div class="table-td" id="prod-itemlist-商品編號"> 裡：
        書名 = h4 連結的 title，作者 = p.author 裡的連結，書價 = ul.price 裡最後一個數字（元）。
        搜尋頁的連結是博客來的轉址網址，改寫成正式商品頁 https://www.books.com.tw/products/商品編號。
-    3. 存成同資料夾的 booklist.csv（重新執行會直接覆蓋）。
+    3. 博客來的搜尋網址回傳的是 HTML（網站沒有提供 JSON），所以把解析出來的每本書
+       整理成 JSON 格式（一本書一個物件），存成 booklist.json。
+    4. 讀回 booklist.json，用迴圈逐筆跑過裡面的每本書，寫入 booklist.csv（重新執行會直接覆蓋）。
 
     為什麼只抓題目網址這一頁：博客來在換到第 2 頁時會跳出 Cloudflare 的
     「Verify you are human」真人驗證，程式不應該繞過驗證，所以只抓題目指定的網址。
@@ -24,6 +26,7 @@
 """
 
 import csv
+import json
 import re
 from pathlib import Path
 from urllib.parse import quote
@@ -38,6 +41,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 KEYWORD = "演算法"
 URL_TEMPLATE = "https://search.books.com.tw/search/query/key/{0}/cat/all"  # 題目給的網址
 OUTPUT = Path(__file__).parent / "booklist.csv"
+JSON_OUTPUT = Path(__file__).parent / "booklist.json"
 FIELDS = ["書名", "網址", "作者", "書價"]
 BOOK_SELECTOR = "div.table-td[id^='prod-itemlist-']"  # 每一本書的區塊
 
@@ -81,12 +85,24 @@ def parse_books(html):
     return books
 
 
-def save_csv(rows, path):
-    """存成 CSV（utf-8-sig：Excel 開啟中文不會亂碼）。"""
-    with open(path, "w", newline="", encoding="utf-8-sig") as file:
+def save_json(books, path):
+    """把書籍清單存成 JSON 格式（ensure_ascii=False 讓中文直接顯示，不會變成 \\u 編碼）。"""
+    with open(path, "w", encoding="utf-8") as file:
+        json.dump(books, file, ensure_ascii=False, indent=2)
+
+
+def json_to_csv(json_path, csv_path):
+    """讀回 JSON，逐筆跑過裡面的每本書，寫入 CSV（utf-8-sig：Excel 開啟中文不會亂碼）。"""
+    with open(json_path, encoding="utf-8") as file:
+        books = json.load(file)  # JSON 陣列 → Python 的 list，裡面每本書是一個 dict
+
+    with open(csv_path, "w", newline="", encoding="utf-8-sig") as file:
         writer = csv.DictWriter(file, fieldnames=FIELDS)
         writer.writeheader()
-        writer.writerows(rows)
+        for number, book in enumerate(books, start=1):  # 跑過 JSON 裡的每一筆
+            print(f"{number}. {book['書名']}｜{book['作者']}｜{book['書價']} 元｜{book['網址']}")
+            writer.writerow(book)
+    return len(books)
 
 
 def main():
@@ -96,11 +112,12 @@ def main():
     html = get_html_with_chrome(url)
     books = parse_books(html)
 
-    for number, book in enumerate(books, start=1):
-        print(f"{number}. {book['書名']}｜{book['作者']}｜{book['書價']} 元｜{book['網址']}")
+    save_json(books, JSON_OUTPUT)
+    print(f"已整理成 JSON 格式，存成 {JSON_OUTPUT.name}；第一筆長這樣：")
+    print(json.dumps(books[0], ensure_ascii=False, indent=2), "\n")
 
-    save_csv(books, OUTPUT)
-    print(f"\n「{KEYWORD}」搜尋結果共 {len(books)} 本書，已存成 {OUTPUT.name}")
+    count = json_to_csv(JSON_OUTPUT, OUTPUT)
+    print(f"\n「{KEYWORD}」搜尋結果共 {count} 本書，已存成 {OUTPUT.name}")
 
 
 if __name__ == "__main__":
