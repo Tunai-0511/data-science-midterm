@@ -22,9 +22,10 @@
     5. 讀回 booklist.json，用迴圈逐筆跑過裡面的每本書，寫入 booklist.csv（重新執行會直接覆蓋）。
 
     關於真人驗證：換頁時博客來（Cloudflare）可能跳出「Verify you are human」。
-    程式不會自動破解驗證；遇到時會在終端機提示，請在 Chrome 視窗中手動勾選，
-    通過後程式會自動繼續抓下一頁（每次最多等 5 分鐘）。
-    如果一直沒有完成驗證，會先把已經抓到的頁面存檔再結束。
+    這個驗證會偵測「被程式控制的瀏覽器」，就算真人去勾也通不過；要繞過它只能
+    偽裝成一般瀏覽器或每頁重開瀏覽器，那等於規避網站的機器人防護，所以程式不這樣做：
+    一遇到驗證頁就停止翻頁，把已經抓到的頁面存檔，並印出「抓到幾本／網站共幾筆」。
+    （2026-10 實測：第 1 頁正常，換到第 2 頁就會被擋；如果網路環境沒被擋，就會一路抓到最後一頁。）
 
 執行
     python 第04題_博客來書籍/main.py
@@ -53,17 +54,14 @@ BOOK_SELECTOR = "div.table-td[id^='prod-itemlist-']"  # 每一本書的區塊
 
 
 def wait_for_books(driver):
-    """等這一頁的書出現；若跳出 Cloudflare 真人驗證，請使用者手動完成。回傳 True＝書已出現。"""
+    """等這一頁的書出現。回傳 True＝書已出現；False＝被 Cloudflare 真人驗證頁擋下。"""
     try:
-        WebDriverWait(driver, 15).until(EC.presence_of_element_located((By.CSS_SELECTOR, BOOK_SELECTOR)))
-        return True
-    except TimeoutException:
-        print("博客來跳出真人驗證：請在 Chrome 視窗中手動勾選「Verify you are human」，程式最多等 5 分鐘…")
-    try:
-        WebDriverWait(driver, 300).until(EC.presence_of_element_located((By.CSS_SELECTOR, BOOK_SELECTOR)))
-        return True
+        WebDriverWait(driver, 30).until(
+            lambda d: d.find_elements(By.CSS_SELECTOR, BOOK_SELECTOR) or "Just a moment" in d.title
+        )
     except TimeoutException:
         return False
+    return bool(driver.find_elements(By.CSS_SELECTOR, BOOK_SELECTOR))
 
 
 def search_summary(html):
@@ -102,7 +100,7 @@ def collect_all_books(driver, url):
     page = 1
     while True:
         if not wait_for_books(driver):
-            print(f"第 {page} 頁沒有完成真人驗證，先把已抓到的 {len(books)} 本存檔。")
+            print(f"第 {page} 頁被博客來的 Cloudflare 真人驗證擋下，停止翻頁，先把已抓到的 {len(books)} 本存檔。")
             break
         if page == 1:
             total_books, total_pages = search_summary(driver.page_source)
@@ -158,7 +156,7 @@ def main():
     finally:
         driver.quit()
     if not books:
-        raise SystemExit("沒有抓到任何書（可能被博客來擋下或沒有完成真人驗證），請稍後再執行。")
+        raise SystemExit("第 1 頁就被博客來擋下，沒有抓到任何書，請稍後再執行。")
 
     save_json(books, JSON_OUTPUT)
     print(f"\n已整理成 JSON 格式，存成 {JSON_OUTPUT.name}；第一筆長這樣：")
@@ -167,7 +165,7 @@ def main():
     count = json_to_csv(JSON_OUTPUT, OUTPUT)
     print(f"\n「{KEYWORD}」共抓到 {count} 本書（網站顯示 {total_books} 筆），已存成 {OUTPUT.name}")
     if count < total_books:
-        print("注意：還沒抓齊全部頁面（通常是真人驗證沒有完成），可以重新執行一次。")
+        print("注意：換頁時被博客來的真人驗證擋下，這次沒有抓齊全部頁面。")
 
 
 if __name__ == "__main__":
