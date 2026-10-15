@@ -56,7 +56,7 @@ python run_all.py 17
 | 1 | 開眼電影網本週新片 | requests + BeautifulSoup | `new_movies.csv` | — |
 | 2 | 臺灣銀行牌告匯率 | Selenium 載入 + BeautifulSoup | `bank.csv` | — |
 | 3 | 政府資料開放平臺：健保門診及住院就診人次統計－腸病毒 | Selenium 模擬搜尋與點選 + requests 下載 | `NHI_EnteroviralInfection.csv` | — |
-| 4 | 博客來「演算法」全部搜尋結果 | Selenium 換頁 + BeautifulSoup + JSON | `booklist.csv`（另存 `booklist.json`） | 換頁時要親手勾選真人驗證 |
+| 4 | 博客來「演算法」搜尋結果 | Selenium 載入 + BeautifulSoup + JSON | `booklist.csv`（另存 `booklist.json`） | 偶爾需勾選真人驗證 |
 | 5 | 開眼台北週末票房排行榜（20 筆） | Selenium（ActionChains 模擬滑鼠） | `Taipei_movies.csv` | — |
 | 6 | Basketball Reference：CLE、HOU、GSW 球員 | requests + BeautifulSoup | `players.csv` | — |
 | 7 | Google Books API 搜尋 Python（兩頁） | requests（API 回傳 JSON） | `pythonbook.csv` | 需要 API 金鑰 |
@@ -105,10 +105,9 @@ python run_all.py 17
 
 ### 第 4 題：博客來「演算法」書籍
 - **題目**：`https://search.books.com.tw/search/query/key/{0}/cat/all`，`{0}` = 演算法；存入 `booklist.csv`，欄位 書名、網址、作者、書價。課堂補充：要把 URL 抓到的資料整理成 JSON 格式，再跑過裡面的內容。
-- **做法**：博客來有 Cloudflare 防護，requests 會被擋（403），改用 Selenium 開 Chrome 從題目網址（第 1 頁）開始，一頁一頁按「下一頁」抓到最後一頁（目前 12 頁、673 筆），每頁用 BeautifulSoup 解析每本書：書名、作者、書價（優惠後售價，元）、網址（換成正式商品頁 `https://www.books.com.tw/products/商品編號`）。
-  博客來的搜尋網址回傳的是 HTML（網站沒有 JSON 介面），所以把全部的書整理成 JSON 格式（一本書一個物件）存成 `booklist.json`，再讀回 JSON、用迴圈逐筆跑過裡面的每本書，寫入 `booklist.csv`。
-- **真人驗證**：換頁時博客來（Cloudflare）會跳出「Verify you are human」。程式不偽裝成一般瀏覽器、也不繞過驗證；遇到時會暫停並在終端機提示，請在 Chrome 視窗中親手勾選，通過後自動繼續下一頁（每次最多等 5 分鐘）。勾了一直重來或想提早結束時按 Ctrl+C，已抓到的頁面會先存檔。程式最後印出「共抓到幾本（網站顯示幾筆）」，方便確認有沒有抓齊。
-  （2026-10 實測：放慢翻頁也一樣會被擋，代表網站擋的是「程式控制的瀏覽器」，不是翻太快。）
+- **做法**：博客來有 Cloudflare 防護，requests 會被擋（403），改用 Selenium 開 Chrome 載入題目網址，再用 BeautifulSoup 解析每本書：書名、作者、書價（優惠後售價，元）、網址（換成正式商品頁 `https://www.books.com.tw/products/商品編號`）。
+  博客來的搜尋網址回傳的是 HTML（網站沒有 JSON 介面），所以把解析結果整理成 JSON 格式（一本書一個物件）存成 `booklist.json`，再讀回 JSON、用迴圈逐筆跑過裡面的每本書，寫入 `booklist.csv`。
+- **範圍**：題目網址就是搜尋結果第 1 頁（60 本；網站顯示共 673 筆、12 頁）。換到第 2 頁時博客來會跳出「Verify you are human」真人驗證；2026-10 實測放慢翻頁、由真人在程式開的瀏覽器裡勾選，都無法通過。程式不繞過驗證，所以只抓題目指定的網址。
 - **輸出**：`booklist.json`（JSON 格式）、`booklist.csv`
 - **執行**：`python 第04題_博客來書籍/main.py`
 
@@ -214,7 +213,7 @@ python run_all.py 17
 |:-:|---|---|
 | 2 | 臺銀加了瀏覽器驗證，requests 拿不到匯率表 | 用 Selenium 載入，再用 BeautifulSoup 解析 |
 | 3 | 平臺用資料集全名搜尋時，目標資料集不在第一頁 | 改用「腸病毒」搜尋 |
-| 4 | 博客來有 Cloudflare 防護（requests 403），換頁會要求真人驗證 | 用 Selenium 逐頁換頁；遇到驗證暫停，由操作者親手勾選後繼續 |
+| 4 | 博客來有 Cloudflare 防護（requests 403），換頁會要求真人驗證 | 用 Selenium 載入題目網址（第 1 頁） |
 | 5 | 點連結會跳出 Google 全版廣告；票房網站偶爾逾時 | 自動按「關閉」；逾時自動重新整理 |
 | 7 | Google Books API 不帶金鑰常回傳 429 | 支援環境變數 `GOOGLE_BOOKS_API_KEY` |
 | 8 | 「近期上映強片」移到電影首頁 `/movie/` | 改抓電影首頁同名區塊 |

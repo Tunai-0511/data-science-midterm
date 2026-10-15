@@ -1,31 +1,26 @@
 """
-第 4 題（中）：抓取博客來「演算法」的全部搜尋結果
+第 4 題（中）：抓取博客來「演算法」的搜尋結果
 ================================================
 題目要求
     1. 網址 https://search.books.com.tw/search/query/key/{0}/cat/all，{0} = "演算法"
     2. 抓取資料存入 booklist.csv，內容包括 ["書名", "網址", "作者", "書價"]
     （課堂補充：要抓 URL 的資料整理成 JSON 格式，再跑過裡面的內容）
 
-做法（Selenium 操作網頁 + BeautifulSoup 解析 + JSON）
-    博客來搜尋頁前面有 Cloudflare 防護：用 requests 直接抓會得到 403「連線暫時異常」，
-    所以用 Selenium 開真的 Chrome 操作網頁，每一頁的網頁原始碼交給 BeautifulSoup 解析。
+做法（Selenium 載入網頁 + BeautifulSoup 解析 + JSON）
+    博客來搜尋頁前面有 Cloudflare 防護：用 requests 直接抓會得到 403
+    「連線暫時異常」，所以改用 Selenium 開真的 Chrome 載入網頁，再交給 BeautifulSoup 解析。
 
-    1. 把「演算法」放進題目給的網址 {0}，開啟搜尋結果第 1 頁（每頁 60 本），
-       並讀出網頁上的「搜尋結果共 N 筆，頁數 1 / 總頁數」。
+    1. 把「演算法」放進題目給的網址 {0}，開啟搜尋結果（題目網址就是第 1 頁，共 60 本）。
     2. 每本書在 <div class="table-td" id="prod-itemlist-商品編號"> 裡：
        書名 = h4 連結的 title，作者 = p.author 裡的連結，書價 = ul.price 裡最後一個數字（元）。
        搜尋頁的連結是博客來的轉址網址，改寫成正式商品頁 https://www.books.com.tw/products/商品編號。
-    3. 按頁面下方的「下一頁」，重複第 2 步，直到最後一頁
-       （最後一頁的「下一頁」連結會變成 javascript:void(0)）。
-    4. 博客來的搜尋網址回傳的是 HTML（網站沒有提供 JSON），所以把全部的書整理成
-       JSON 格式（一本書一個物件），存成 booklist.json。
-    5. 讀回 booklist.json，用迴圈逐筆跑過裡面的每本書，寫入 booklist.csv（重新執行會直接覆蓋）。
+    3. 博客來的搜尋網址回傳的是 HTML（網站沒有提供 JSON），所以把解析出來的每本書
+       整理成 JSON 格式（一本書一個物件），存成 booklist.json。
+    4. 讀回 booklist.json，用迴圈逐筆跑過裡面的每本書，寫入 booklist.csv（重新執行會直接覆蓋）。
 
-    關於真人驗證：換頁時博客來（Cloudflare）會跳出「Verify you are human」。
-    程式不會偽裝成一般瀏覽器、也不會繞過驗證；遇到時會暫停，請你在 Chrome 視窗中
-    親手勾選，通過後自動繼續抓下一頁（每次最多等 5 分鐘）。
-    如果勾了一直重來，或想提早結束，按 Ctrl+C 即可，已抓到的頁面會先存檔。
-    程式最後會印出「抓到幾本／網站共幾筆」，方便確認有沒有抓齊。
+    為什麼只抓題目網址這一頁：博客來（網站顯示共 673 筆、12 頁）在換到第 2 頁時會跳出
+    Cloudflare 的「Verify you are human」真人驗證；2026-10 實測放慢翻頁、由真人在程式開的
+    瀏覽器裡勾選，都無法通過。程式不應該繞過驗證，所以只抓題目指定的網址（第 1 頁）。
 
 執行
     python 第04題_博客來書籍/main.py
@@ -34,13 +29,12 @@
 import csv
 import json
 import re
-import time
 from pathlib import Path
 from urllib.parse import quote
 
 from bs4 import BeautifulSoup
 from selenium import webdriver
-from selenium.common.exceptions import TimeoutException, WebDriverException
+from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
@@ -53,34 +47,26 @@ FIELDS = ["書名", "網址", "作者", "書價"]
 BOOK_SELECTOR = "div.table-td[id^='prod-itemlist-']"  # 每一本書的區塊
 
 
-def wait_for_books(driver):
-    """等這一頁的書出現；被 Cloudflare 真人驗證擋下時，請使用者親手勾選。回傳 True＝書已出現。"""
-    WebDriverWait(driver, 30).until(
-        lambda d: d.find_elements(By.CSS_SELECTOR, BOOK_SELECTOR) or "Just a moment" in d.title
-    )
-    if driver.find_elements(By.CSS_SELECTOR, BOOK_SELECTOR):
-        return True
-
-    print("\n========== 需要你幫忙 ==========")
-    print("博客來跳出「Verify you are human」真人驗證：請到 Chrome 視窗勾選方框。")
-    print("通過後程式會自動繼續；最多等 5 分鐘，或按 Ctrl+C 結束（已抓到的會先存檔）。")
+def get_html_with_chrome(url):
+    """用 Selenium 開 Chrome 載入搜尋頁，等書籍出現後回傳網頁原始碼。"""
+    driver = webdriver.Chrome()
     try:
-        WebDriverWait(driver, 300).until(EC.presence_of_element_located((By.CSS_SELECTOR, BOOK_SELECTOR)))
-    except TimeoutException:
-        return False
-    print("驗證通過，繼續抓取。\n")
-    return True
-
-
-def search_summary(html):
-    """讀出「搜尋結果共 673 筆, 頁數 1 / 12」，回傳 (總筆數, 總頁數)。"""
-    text = BeautifulSoup(html, "html.parser").get_text(" ", strip=True)
-    match = re.search(r"搜尋結果共\s*([\d,]+)\s*筆.*?頁數\s*\d+\s*/\s*(\d+)", text)
-    return int(match.group(1).replace(",", "")), int(match.group(2))
+        driver.get(url)
+        if "Just a moment" in driver.title:  # Cloudflare 驗證頁的標題
+            print("博客來要求真人驗證：請在 Chrome 視窗中手動勾選，程式最多等 2 分鐘。")
+        try:
+            WebDriverWait(driver, 120).until(
+                EC.presence_of_element_located((By.CSS_SELECTOR, BOOK_SELECTOR))
+            )
+        except TimeoutException:
+            raise SystemExit("等了 2 分鐘仍沒有看到搜尋結果（可能被博客來暫時擋下），請稍後再執行。")
+        return driver.page_source
+    finally:
+        driver.quit()
 
 
 def parse_books(html):
-    """解析一頁搜尋結果，回傳這一頁的書籍清單。"""
+    """解析搜尋結果頁，回傳書籍清單。"""
     soup = BeautifulSoup(html, "html.parser")
     books = []
     for item in soup.select(BOOK_SELECTOR):
@@ -98,43 +84,6 @@ def parse_books(html):
             "書價": numbers[-1].replace(",", "") if numbers else "",
         })
     return books
-
-
-def collect_all_books(driver, url):
-    """從題目網址（第 1 頁）開始，一頁一頁按「下一頁」到最後一頁，回傳（全部的書, 網站顯示的總筆數）。"""
-    books = {}  # 網址 → 書（同一本書若重複出現，用網址去除重複）
-    total_books = total_pages = 0
-    page = 1
-    driver.get(url)
-    try:
-        while True:
-            if not wait_for_books(driver):
-                print(f"第 {page} 頁一直沒有通過真人驗證，停止翻頁，先把已抓到的 {len(books)} 本存檔。")
-                break
-            if page == 1:
-                total_books, total_pages = search_summary(driver.page_source)
-                print(f"網站顯示：搜尋結果共 {total_books} 筆，{total_pages} 頁\n")
-
-            page_books = parse_books(driver.page_source)
-            for book in page_books:
-                books.setdefault(book["網址"], book)
-            print(f"第 {page}/{total_pages} 頁：{len(page_books)} 本，累計 {len(books)} 本")
-
-            # 找「下一頁」；到了最後一頁，下一頁的連結是 javascript:void(0)，就結束
-            next_links = [
-                link for link in driver.find_elements(By.CSS_SELECTOR, "ul.page a.next")
-                if "javascript" not in (link.get_attribute("href") or "")
-            ]
-            if not next_links:
-                break
-            time.sleep(2)  # 每頁之間稍等，不要連續快速翻頁
-            first_book = driver.find_element(By.CSS_SELECTOR, BOOK_SELECTOR)
-            next_links[0].click()
-            WebDriverWait(driver, 30).until(EC.staleness_of(first_book))  # 舊頁面的書消失＝已經在換頁
-            page += 1
-    except (KeyboardInterrupt, WebDriverException):  # 按了 Ctrl+C，或 Chrome 視窗被關掉
-        print(f"\n中途停止，先把已抓到的 {len(books)} 本存檔。")
-    return list(books.values()), total_books
 
 
 def save_json(books, path):
@@ -159,24 +108,17 @@ def json_to_csv(json_path, csv_path):
 
 def main():
     url = URL_TEMPLATE.format(quote(KEYWORD))  # 把「演算法」轉成網址編碼後放進 {0}
-    print(f"搜尋網址：{url}")
+    print(f"搜尋網址：{url}\n")
 
-    driver = webdriver.Chrome()
-    try:
-        books, total_books = collect_all_books(driver, url)
-    finally:
-        driver.quit()
-    if not books:
-        raise SystemExit("第 1 頁就被博客來擋下，沒有抓到任何書，請稍後再執行。")
+    html = get_html_with_chrome(url)
+    books = parse_books(html)
 
     save_json(books, JSON_OUTPUT)
-    print(f"\n已整理成 JSON 格式，存成 {JSON_OUTPUT.name}；第一筆長這樣：")
+    print(f"已整理成 JSON 格式，存成 {JSON_OUTPUT.name}；第一筆長這樣：")
     print(json.dumps(books[0], ensure_ascii=False, indent=2), "\n")
 
     count = json_to_csv(JSON_OUTPUT, OUTPUT)
-    print(f"\n「{KEYWORD}」共抓到 {count} 本書（網站顯示 {total_books} 筆），已存成 {OUTPUT.name}")
-    if count < total_books:
-        print("注意：這次沒有抓齊全部頁面（真人驗證沒有通過或中途停止），可以再執行一次。")
+    print(f"\n「{KEYWORD}」搜尋結果共 {count} 本書，已存成 {OUTPUT.name}")
 
 
 if __name__ == "__main__":
