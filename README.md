@@ -198,7 +198,9 @@ python run_all.py 17
 - **做法**：
   1. 執行時在終端機輸入 GitHub 帳號、密碼（密碼不會顯示、不會存檔）；也可事先設定環境變數 `GITHUB_USERNAME`、`GITHUB_PASSWORD`。
   2. Selenium 開啟登入頁，自動填入帳密並按 Sign in。登入表單裡有 `authenticity_token` 等隱藏欄位（就是「隱藏的 key 值」，每次開頁都不同）：用 requests 登入要自己先從網頁抓出來、跟帳密一起送出；用 Selenium 是在瀏覽器裡按登入，瀏覽器會自動送出。程式會找出這些隱藏欄位，印出欄位名稱和 `authenticity_token` 的開頭幾個字元。
-  3. 若有二階段驗證，請在 Chrome 視窗中完成，程式最多等 5 分鐘。
+  3. 送出帳密後 GitHub 可能還要再驗證一次，請在 Chrome 視窗中完成，程式最多等 5 分鐘（程式一開始會先提醒）：
+     - 有開二階段驗證（2FA）：輸入驗證 App／簡訊的 6 位數驗證碼，或用通行金鑰確認；
+     - 沒開 2FA：程式每次開的都是全新的 Chrome，GitHub 會當成新裝置，通常會寄 Email 驗證碼，到信箱查看後輸入即可。
   4. 登入後抓首頁：**1 號視窗＝左欄**（新帳號顯示「Create your first project」，已有專案的帳號顯示「Top repositories」）；**2 號視窗＝中間主欄**（附圖當時是「Updates to your homepage feed」提示卡，改版後是首頁動態面板）。依區塊位置抓取，新舊版首頁都適用。
 - **輸出**：印出兩個視窗的內容，另存 `github_dashboard.csv`（視窗、內容）與登入後截圖 `github_dashboard.png`。這兩個檔案含個人帳號資料，已列入 `.gitignore`，不會上傳。
 - **執行**：`python 第17題_GitHub登入首頁/main.py`
