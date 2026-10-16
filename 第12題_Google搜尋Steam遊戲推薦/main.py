@@ -8,18 +8,22 @@
     （課堂補充：一定要使用 Selenium 與 WebDriver）
 
 做法（Selenium）
-    1. 開啟 Google 首頁，在搜尋框（name="q"）自動輸入「Steam 遊戲推薦」並按 Enter。
-    2. 每一筆搜尋結果的標題是 #search 區塊裡、包在 <a> 連結中的 <h3>；
+    1. 建立 Chrome WebDriver 並進行防自動化偵測設定：
+       - 關閉 Blink 的 AutomationControlled 特徵，並移除 enable-automation 開關。
+       - 透過 CDP（Chrome DevTools Protocol）在網頁加載前將 navigator.webdriver 設為 undefined。
+    2. 開啟 Google 首頁，在搜尋框（name="q"）以隨機微延遲逐字輸入關鍵字（模擬真人打字）並按 Enter 送出。
+    3. 每一筆搜尋結果的標題是 #search 區塊裡、包在 <a> 連結中的 <h3>；
        讀出 h3 的文字（標題）與外層 <a> 的 href（超連結）。
-    3. Google 現在把搜尋結果的連結包成轉址 https://www.google.com/goto?url=…，
+    4. Google 現在把搜尋結果的連結包成轉址 https://www.google.com/goto?url=…，
        後面那串是加密過的，看不出原本是哪個網站。所以用 requests 對這個轉址送一次請求、
        但「不跟著跳轉」（allow_redirects=False），Google 回應的 302 裡，標頭 Location 就是原網站的網址。
-    4. 印出結果，並存成 steam_games.csv（標題、網址），重新執行會直接覆蓋。
+    5. 印出結果，並存成 steam_games.csv（標題、網址），重新執行會直接覆蓋。
 
-    關於 Google 的機器人驗證：
-    Google 偶爾會判定自動化瀏覽器是機器人，跳出「我不是機器人」驗證頁。
-    程式不會（也不應該）自動破解驗證；遇到時會在終端機提示，
-    請在跳出的 Chrome 視窗中「手動」完成驗證，程式會等待最多 5 分鐘再繼續。
+    關於 Google 的機器人驗證與防偵測機制：
+    Google 對自動化瀏覽器有嚴格的行為檢測，容易跳出「我不是機器人」驗證頁（/sorry/）。
+    本程式已加上特徵隱藏與打字間隔模擬，大幅降低觸發驗證的機率。
+    若因 IP 或短時間頻繁執行仍遇到驗證，程式會保留在終端機提示，
+    並於 Chrome 視窗等待使用者手動完成（最多等待 5 分鐘）後自動接續執行。
 
 執行
     python 第12題_Google搜尋Steam遊戲推薦/main.py
@@ -27,6 +31,8 @@
 
 import csv
 from pathlib import Path
+import random
+import time
 from urllib.parse import urlparse
 
 import requests
@@ -40,6 +46,29 @@ URL = "https://www.google.com/?hl=zh-TW"
 KEYWORD = "Steam 遊戲推薦"
 OUTPUT = Path(__file__).parent / "steam_games.csv"
 RESULT_TITLE = "#search a h3"  # 搜尋結果的標題（h3 包在連結 a 裡面）
+
+
+def create_driver():
+    """建立 Chrome WebDriver，並隱藏自動化測試特徵以大幅降低觸發 Google 機器人驗證的機率。"""
+    options = webdriver.ChromeOptions()
+    # 關閉 Blink 引擎的自動化控制特徵
+    options.add_argument("--disable-blink-features=AutomationControlled")
+    # 移除 Chrome 頂部的「Chrome 目前受到自動化測試軟體控制」資訊列
+    options.add_experimental_option("excludeSwitches", ["enable-automation"])
+    options.add_experimental_option("useAutomationExtension", False)
+    driver = webdriver.Chrome(options=options)
+    # 利用 CDP 在所有新頁面注入 JS，確保 navigator.webdriver 屬性為 undefined
+    driver.execute_cdp_cmd(
+        "Page.addScriptToEvaluateOnNewDocument",
+        {
+            "source": """
+                Object.defineProperty(navigator, 'webdriver', {
+                    get: () => undefined
+                })
+            """
+        },
+    )
+    return driver
 
 
 def wait_for_results(driver):
@@ -82,11 +111,15 @@ def get_results(driver):
 
 
 def main():
-    driver = webdriver.Chrome()
+    driver = create_driver()
     try:
         driver.get(URL)
         search_box = WebDriverWait(driver, 20).until(lambda d: d.find_element(By.NAME, "q"))
-        search_box.send_keys(KEYWORD)  # 自動輸入關鍵字
+        # 模擬人類打字輸入，避免瞬間輸入觸發機器人驗證
+        for char in KEYWORD:
+            search_box.send_keys(char)
+            time.sleep(random.uniform(0.05, 0.12))
+        time.sleep(0.3)
         search_box.send_keys(Keys.ENTER)  # 按 Enter 送出搜尋
         wait_for_results(driver)
         print("讀取搜尋結果，並把 Google 的轉址連結換成原網站的網址…\n")

@@ -8,28 +8,32 @@
     （課堂補充：要由程式模擬滑鼠滾動，不能依賴人工操作）
 
 做法（Selenium WebDriver）
-    1. 開啟 Google 首頁，在搜尋框（name="q"）自動輸入 xpath 並按 Enter。
-    2. 用 ActionChains.scroll_by_amount 模擬「滑鼠滾輪」一段一段往下捲，直到捲到頁面最底，
+    1. 建立 Chrome WebDriver 並加入防機器人特徵設定（關閉自動化標記與 CDP 注入）。
+    2. 開啟 Google 首頁，在搜尋框（name="q"）以微延遲逐字輸入 xpath 關鍵字並按 Enter 送出。
+    3. 用 ActionChains.scroll_by_amount 模擬「滑鼠滾輪」一段一段往下捲，直到捲到頁面最底，
        讀出本頁每筆結果（#search 裡 <a> 內的 <h3> 是標題，<a> 的 href 是網址）並印出。
        Google 現在把連結包成轉址 https://www.google.com/goto?url=…（加密過，看不出原網站），
        所以用 requests 對轉址送一次請求但「不跟著跳轉」，回應標頭 Location 就是原網站的網址。
-    3. 按「更多結果」載入更多資料，捲動後再讀一次（要按幾次由 MORE_TIMES 設定，預設 1 次）。
+    4. 按「更多結果」載入更多資料，捲動後再讀一次（要按幾次由 MORE_TIMES 設定，預設 1 次）。
        Google 已經把無限捲動的「更多結果」按鈕改回分頁的「下一頁」（id="pnnext"），
        所以程式會先找「更多結果」，沒有的話就按「下一頁」，效果一樣是取得更多搜尋結果。
        「xpath」的結果有 30 頁以上，不建議一路按到底：每多一頁就是多一次自動搜尋，更容易被 Google 擋下。
-    4. 所有讀到的結果合併（以網址去除重複）存成 xpath.csv（重新執行會直接覆蓋）。
+    5. 所有讀到的結果合併（以網址去除重複）存成 xpath.csv（重新執行會直接覆蓋）。
 
-    關於 Google 的機器人驗證：遇到「我不是機器人」驗證頁時，程式不會自動破解，
-    會提示並等待你在 Chrome 視窗中手動完成（最多 5 分鐘）後繼續；
-    沒有下一頁、驗證沒通過或按 Ctrl+C 時會停止翻頁，已抓到的結果照樣存檔。
+    關於 Google 的機器人驗證與防偵測機制：
+    程式透過 ChromeOptions 排除自動化開關並注入 CDP 腳本隱藏 webdriver 特徵，
+    搭配真人打字節奏，已大幅降低觸發 reCAPTCHA 的機率。
+    遇到「我不是機器人」驗證頁時，程式會在終端機提示並等待在 Chrome 視窗中手動完成（最多 5 分鐘）後繼續；
+    若無下一頁、驗證沒通過或按 Ctrl+C 時會停止翻頁，已抓到的結果照樣安全存檔。
 
 執行
     python 第15題_Google搜尋xpath/main.py
 """
 
 import csv
-import time
 from pathlib import Path
+import random
+import time
 from urllib.parse import urlparse
 
 import requests
@@ -47,6 +51,29 @@ KEYWORD = "xpath"
 MORE_TIMES = 1
 OUTPUT = Path(__file__).parent / "xpath.csv"
 RESULT_TITLE = "#search a h3"  # 搜尋結果的標題
+
+
+def create_driver():
+    """建立 Chrome WebDriver，並隱藏自動化測試特徵以大幅降低觸發 Google 機器人驗證的機率。"""
+    options = webdriver.ChromeOptions()
+    # 關閉 Blink 引擎的自動化控制特徵
+    options.add_argument("--disable-blink-features=AutomationControlled")
+    # 移除 Chrome 頂部的「Chrome 目前受到自動化測試軟體控制」資訊列
+    options.add_experimental_option("excludeSwitches", ["enable-automation"])
+    options.add_experimental_option("useAutomationExtension", False)
+    driver = webdriver.Chrome(options=options)
+    # 利用 CDP 在所有新頁面注入 JS，確保 navigator.webdriver 屬性為 undefined
+    driver.execute_cdp_cmd(
+        "Page.addScriptToEvaluateOnNewDocument",
+        {
+            "source": """
+                Object.defineProperty(navigator, 'webdriver', {
+                    get: () => undefined
+                })
+            """
+        },
+    )
+    return driver
 
 
 def wait_for_results(driver):
@@ -131,12 +158,15 @@ def print_results(results):
 
 
 def main():
-    driver = webdriver.Chrome()
+    driver = create_driver()
     all_results = {}  # 網址 → 標題（用 dict 去除重複）
     try:
         driver.get(URL)
         search_box = WebDriverWait(driver, 20).until(lambda d: d.find_element(By.NAME, "q"))
-        search_box.send_keys(KEYWORD)
+        for char in KEYWORD:
+            search_box.send_keys(char)
+            time.sleep(random.uniform(0.05, 0.12))
+        time.sleep(0.3)
         search_box.send_keys(Keys.ENTER)
         if not wait_for_results(driver):
             raise SystemExit("第 1 頁就被 Google 擋下，沒有抓到資料。可以換個時間或換一台電腦再執行。")

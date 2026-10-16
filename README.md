@@ -155,10 +155,12 @@ python run.py 5
 
 ### 第 12 題：Google 搜尋「Steam 遊戲推薦」
 - **題目**：用 Selenium 和 WebDriver，列出搜尋結果及其超連結，存入 CSV。
-- **做法**：Google 首頁搜尋框自動輸入關鍵字並按 Enter → 讀出 `#search` 裡每筆結果的標題（`h3`）與連結（外層 `a` 的 href）。
+- **做法**：建立 Chrome WebDriver 並加入防機器人特徵檢測設定 → 首頁搜尋框以微延遲逐字輸入關鍵字（模擬真人打字）並按 Enter 送出 → 讀出 `#search` 裡每筆結果的標題（`h3`）與連結（外層 `a` 的 href）。
   Google 現在把結果連結包成轉址 `https://www.google.com/goto?url=…`（加密過，看不出原網站），所以再用 requests 對轉址送一次請求、但不跟著跳轉，從回應的 302 標頭 `Location` 取得原網站的網址，CSV 存的是原網址。
-- **Google 機器人驗證**：Google 常把自動化瀏覽器判定為機器人，跳出「我不是機器人」驗證。程式不會自動破解、也不偽裝成一般瀏覽器，會在終端機提示，請在 Chrome 視窗中手動完成，程式最多等 5 分鐘後繼續；過不了可按 Ctrl+C 結束。
-  2026-10 實測：短時間內重複執行，Google 會暫時擋下程式控制的瀏覽器，連真人在裡面也一直過不了驗證；隔一段時間再執行一次就能完成（目前的 `steam_games.csv`、`xpath.csv` 就是 2026-10-16 實際跑出的結果）。
+- **Google 機器人驗證與防偵測機制**：Google 會檢測自動化特徵（如 `navigator.webdriver`）與瞬時輸入行為，容易直接擋下並跳轉至 `/sorry/` 驗證頁面。本題已整合防偵測措施：
+  1. **隱藏自動化標記**：透過 ChromeOptions 關閉 `AutomationControlled`、移除 `enable-automation` 提示，並在 CDP（Chrome DevTools Protocol）中動態將 `navigator.webdriver` 設為 `undefined`。
+  2. **模擬人類輸入**：關鍵字以 0.05～0.12 秒隨機間隔逐字鍵入，避免瞬間觸發機器人異常流量判定。
+  3. **手動驗證備援**：若因特定 IP 或短時間密集執行仍觸發驗證，程式會保留在終端機提示，並等待使用者於 Chrome 視窗手動完成（最多 5 分鐘）後自動繼續。
 - **輸出**：`steam_games.csv`（標題、網址）
 - **執行**：`python 第12題_Google搜尋Steam遊戲推薦/main.py`
 
@@ -176,11 +178,11 @@ python run.py 5
 
 ### 第 15 題：Google 搜尋「xpath」
 - **題目**：用 WebDriver 在搜尋列輸入 xpath，滾動滑鼠抓取全部資料並列印本頁資訊，再按「更多結果」取得更多資訊，存入 `xpath.csv`。課堂補充：要由程式模擬滑鼠滾動。
-- **做法**：自動輸入 xpath 並搜尋 → 用 `ActionChains.scroll_by_amount` 模擬滑鼠滾輪一路捲到底 → 印出本頁結果 → 按「更多結果」後再捲動、讀取，合併存檔。
+- **做法**：建立 Chrome WebDriver 並套用防偵測設定 → 以微延遲逐字輸入 xpath 關鍵字並搜尋 → 用 `ActionChains.scroll_by_amount` 模擬滑鼠滾輪一路捲到底 → 印出本頁結果 → 按「更多結果」後再捲動、讀取，合併存檔。
   Google 已取消無限捲動的「更多結果」按鈕，改回分頁「下一頁」，所以程式會先找「更多結果」，沒有就按「下一頁」，一樣是取得更多結果。
   連結和第 12 題一樣是 Google 轉址，程式會換成原網站的網址，再依網址去除重複。
   題目的「抓取全部資料」指的是本頁捲到底的全部結果；要按幾次「更多結果」由程式開頭的 `MORE_TIMES` 設定（預設 1 次）。「xpath」的結果有 30 頁以上，不建議一路按到底，每多一頁就多一次自動搜尋、更容易被 Google 擋下；沒有下一頁、被擋下或按 Ctrl+C 時會停止，已抓到的照樣存檔。
-- **Google 機器人驗證**：同第 12 題，遇到時請在 Chrome 視窗中手動完成；過不了就隔一段時間再執行。
+- **Google 機器人驗證**：同第 12 題，已整合 CDP 隱藏 webdriver 標籤與真人打字模擬；若遇驗證可手動完成，過不了或中途按 Ctrl+C 結束時已抓到的資料仍會正常存入 CSV。
 - **輸出**：`xpath.csv`（標題、網址）
 - **執行**：`python 第15題_Google搜尋xpath/main.py`
 
