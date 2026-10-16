@@ -32,7 +32,7 @@
     5. 印出兩個視窗的文字內容，存成 github_dashboard.csv（視窗、內容）；
        內容載入完成後，再分別截下兩個區塊的畫面：github_window1_left.png（左欄）、
        github_window2_center.png（中間主欄）。
-       （這些檔案含個人帳號資料，已列入 .gitignore，不會上傳到 GitHub；重新執行會直接覆蓋。）
+       （抓到的是登入帳號自己的首頁內容；重新執行會直接覆蓋。）
 
 執行
     python 第17題_GitHub登入首頁/main.py

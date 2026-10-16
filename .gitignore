@@ -7,8 +7,3 @@ venv/
 # 作業系統
 .DS_Store
 Thumbs.db
-
-# 第 17 題的輸出含個人 GitHub 帳號資料，不上傳
-第17題_GitHub登入首頁/github_dashboard.csv
-第17題_GitHub登入首頁/github_window1_left.png
-第17題_GitHub登入首頁/github_window2_center.png
