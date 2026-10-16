@@ -124,7 +124,7 @@ python run.py 5
 - **題目**：用題目給的 `url_params = {'q': 'Python', 'maxResults': 10, 'projection': 'lite'}` 呼叫 API，本頁存入 `pythonbook.csv`，再進入下一頁存入同一個檔案（共兩頁）。
 - **做法**：第 1 頁以「覆蓋」模式寫入（含標題列）；下一頁＝加上 `startIndex=10`，以「附加」模式寫入同一個檔案。從 JSON 的 `items[].volumeInfo` 取書名、作者、出版社、出版日期、網址。
 - **需要 API 金鑰**：Google 目前常拒絕「不帶金鑰」的呼叫（回傳 429，配額為 0）。請到 [Google Cloud Console](https://console.cloud.google.com/apis/library/books.googleapis.com) 啟用 Books API，再到「憑證」建立 API 金鑰（建議限制只能用 Books API）。
-  執行時程式會請你在終端機輸入金鑰（輸入時不會顯示在畫面上，也不會存檔）；直接按 Enter 則照題目原本的寫法、不帶金鑰呼叫。也可以事先設定環境變數 `GOOGLE_BOOKS_API_KEY`，就不會再詢問。
+  執行時程式會請你在終端機輸入金鑰（輸入時看得到，方便核對；不會存檔）；直接按 Enter 則照題目原本的寫法、不帶金鑰呼叫。也可以事先設定環境變數 `GOOGLE_BOOKS_API_KEY`，就不會再詢問。
   金鑰不要寫進程式或上傳到 GitHub。
 - **輸出**：`pythonbook.csv`（頁數、書名、作者、出版社、出版日期、網址；20 筆）
 - **執行**：`python 第07題_GoogleBooks_API/main.py`

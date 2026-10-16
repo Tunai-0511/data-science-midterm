@@ -16,7 +16,7 @@
     3. 從 JSON 的 items[].volumeInfo 取出書名、作者、出版社、出版日期、網址。
 
     關於 API 金鑰：Google 目前常常拒絕「不帶金鑰」的呼叫（回傳 429 配額用完），
-    所以程式一開始會請你在終端機輸入自己的 Google Books API 金鑰（輸入時不會顯示），
+    所以程式一開始會請你在終端機輸入自己的 Google Books API 金鑰（輸入時看得到，方便核對；不會存檔），
     再把金鑰加進參數 key；直接按 Enter 則照題目原本的寫法、不帶金鑰呼叫。
     也可以事先設定環境變數 GOOGLE_BOOKS_API_KEY，就不會再詢問。
     金鑰的申請方式：Google Cloud Console 啟用「Books API」→「憑證」→「建立憑證」→「API 金鑰」。
@@ -30,7 +30,6 @@
 """
 
 import csv
-import getpass
 import os
 from pathlib import Path
 
@@ -49,7 +48,7 @@ def ask_api_key():
     if api_key:
         return api_key
     print("Google 目前常拒絕不帶金鑰的呼叫，請輸入你的 Google Books API 金鑰。")
-    return getpass.getpass("API 金鑰（輸入時不會顯示；直接按 Enter 則不帶金鑰）：").strip()
+    return input("API 金鑰（直接按 Enter 則不帶金鑰）：").strip()
 
 
 def get_page(page, api_key):
