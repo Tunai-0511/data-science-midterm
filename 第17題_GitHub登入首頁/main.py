@@ -29,9 +29,9 @@
        依「位置」抓取，不寫死文字，所以新舊版首頁都能抓到這兩個區域的全部文字。
        首頁的區塊是陸續載入的（中間主欄一開始只有轉圈圈），所以每個區塊都等到
        「有文字、而且連續 3 秒沒有再變」才讀取，最多等 30 秒。
-    5. 印出兩個視窗的文字內容，存成 github_dashboard.csv（視窗、內容）；
-       內容載入完成後，再分別截下兩個區塊的畫面：github_window1_left.png（左欄）、
-       github_window2_center.png（中間主欄）。
+    5. 兩個視窗分開存：內容載入完成後，印出文字並存成 CSV，再截下那個區塊的畫面。
+       1 號視窗（左欄）：github_window1_left.csv、github_window1_left.png
+       2 號視窗（中間主欄）：github_window2_center.csv、github_window2_center.png
        （抓到的是登入帳號自己的首頁內容；重新執行會直接覆蓋。）
 
 執行
@@ -54,10 +54,10 @@ LOGIN_URL = "https://github.com/login"
 HOME_URL = "https://github.com/"
 FOLDER = Path(__file__).parent
 
-# 兩個視窗：名稱、在首頁上的位置（CSS 選擇器；後面的是舊版首頁的備用寫法）、截圖檔名
+# 兩個視窗：名稱、在首頁上的位置（CSS 選擇器；後面的是舊版首頁的備用寫法）、輸出檔名（.csv 和 .png）
 WINDOWS = [
-    ("1號視窗（左欄）", ["aside.feed-left-sidebar", ".dashboard-sidebar"], "github_window1_left.png"),
-    ("2號視窗（中間主欄）", ["#dashboard .news", "#dashboard"], "github_window2_center.png"),
+    ("1號視窗（左欄）", ["aside.feed-left-sidebar", ".dashboard-sidebar"], "github_window1_left"),
+    ("2號視窗（中間主欄）", ["#dashboard .news", "#dashboard"], "github_window2_center"),
 ]
 
 
@@ -173,13 +173,12 @@ def main():
     username, password = ask_account()
     driver = webdriver.Chrome()
     driver.set_window_size(1400, 1000)  # 視窗夠寬，首頁才會顯示左欄與中間兩欄
-    rows = []
     try:
         login(driver, username, password)
 
         driver.get(HOME_URL)
         print("等首頁內容載入完成（中間主欄會先轉圈圈，最多等 30 秒）…\n")
-        for window, selectors, image in WINDOWS:
+        for window, selectors, name in WINDOWS:
             lines = wait_and_read(driver, selectors)
             if lines is None:
                 lines = ["（找不到這個區塊，GitHub 首頁版面可能又改了）"]
@@ -188,22 +187,20 @@ def main():
             print(f"【{window}】")
             for line in lines:
                 print(f"  {line}")
-                rows.append({"視窗": window, "內容": line})
+
+            # 這個視窗的文字存成自己的 CSV（一行文字一列）
+            with open(FOLDER / f"{name}.csv", "w", newline="", encoding="utf-8-sig") as file:
+                writer = csv.writer(file)
+                writer.writerow(["內容"])
+                writer.writerows([line] for line in lines)
 
             # 內容載入完成後，只截這個區塊的畫面（不是整個網頁）
             block = find_block(driver, selectors)
             if block is not None:
-                screenshot_block(driver, block, FOLDER / image)
-                print(f"  → 已截圖：{image}")
-            print()
+                screenshot_block(driver, block, FOLDER / f"{name}.png")
+            print(f"  → 已存成 {name}.csv、{name}.png\n")
     finally:
         driver.quit()
-
-    with open(FOLDER / "github_dashboard.csv", "w", newline="", encoding="utf-8-sig") as file:
-        writer = csv.DictWriter(file, fieldnames=["視窗", "內容"])
-        writer.writeheader()
-        writer.writerows(rows)
-    print("已存成 github_dashboard.csv，以及兩張截圖 github_window1_left.png、github_window2_center.png")
 
 
 if __name__ == "__main__":
