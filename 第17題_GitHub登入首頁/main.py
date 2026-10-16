@@ -29,13 +29,16 @@
        依「位置」抓取，不寫死文字，所以新舊版首頁都能抓到這兩個區域的全部文字。
        首頁的區塊是陸續載入的（中間主欄一開始只有轉圈圈），所以每個區塊都等到
        「有文字、而且連續 3 秒沒有再變」才讀取，最多等 30 秒。
-    5. 印出兩個視窗的文字內容，存成 github_dashboard.csv（視窗、內容）。
-       （這個檔案含個人帳號資料，已列入 .gitignore，不會上傳到 GitHub；重新執行會直接覆蓋。）
+    5. 印出兩個視窗的文字內容，存成 github_dashboard.csv（視窗、內容）；
+       內容載入完成後，再分別截下兩個區塊的畫面：github_window1_left.png（左欄）、
+       github_window2_center.png（中間主欄）。
+       （這些檔案含個人帳號資料，已列入 .gitignore，不會上傳到 GitHub；重新執行會直接覆蓋。）
 
 執行
     python 第17題_GitHub登入首頁/main.py
 """
 
+import base64
 import csv
 import os
 import time
@@ -51,11 +54,11 @@ LOGIN_URL = "https://github.com/login"
 HOME_URL = "https://github.com/"
 FOLDER = Path(__file__).parent
 
-# 兩個視窗在首頁上的位置（CSS 選擇器）；後面的是舊版首頁的備用寫法
-WINDOWS = {
-    "1號視窗（左欄）": ["aside.feed-left-sidebar", ".dashboard-sidebar"],
-    "2號視窗（中間主欄）": ["#dashboard .news", "#dashboard"],
-}
+# 兩個視窗：名稱、在首頁上的位置（CSS 選擇器；後面的是舊版首頁的備用寫法）、截圖檔名
+WINDOWS = [
+    ("1號視窗（左欄）", ["aside.feed-left-sidebar", ".dashboard-sidebar"], "github_window1_left.png"),
+    ("2號視窗（中間主欄）", ["#dashboard .news", "#dashboard"], "github_window2_center.png"),
+]
 
 
 def ask_account():
@@ -114,16 +117,40 @@ def login_failed(driver):
     return any(error.is_displayed() for error in driver.find_elements(By.CSS_SELECTOR, ".flash-error"))
 
 
-def read_window(driver, selectors):
-    """依序嘗試選擇器，找到區塊後回傳裡面「畫面上看得到」的每一行文字；找不到區塊回傳 None。"""
+def find_block(driver, selectors):
+    """依序嘗試選擇器，回傳第一個找到的區塊；都找不到回傳 None。"""
     for selector in selectors:
         blocks = driver.find_elements(By.CSS_SELECTOR, selector)
         if blocks:
-            try:
-                return [line.strip() for line in blocks[0].text.splitlines() if line.strip()]
-            except StaleElementReferenceException:  # 區塊剛好在重新載入，當作還沒好
-                return []
+            return blocks[0]
     return None
+
+
+def read_window(driver, selectors):
+    """回傳區塊裡「畫面上看得到」的每一行文字；找不到區塊回傳 None。"""
+    block = find_block(driver, selectors)
+    if block is None:
+        return None
+    try:
+        return [line.strip() for line in block.text.splitlines() if line.strip()]
+    except StaleElementReferenceException:  # 區塊剛好在重新載入，當作還沒好
+        return []
+
+
+def screenshot_block(driver, block, path):
+    """截下整個區塊的畫面。一般的元素截圖只截得到視窗裡看得到的部分，
+    區塊比視窗高時下面會被切掉，所以改用 Chrome 的 captureBeyondViewport（超出視窗也截）。"""
+    rect = driver.execute_script(
+        "const r = arguments[0].getBoundingClientRect();"
+        "return {x: r.left + window.scrollX, y: r.top + window.scrollY, width: r.width, height: r.height};",
+        block,
+    )
+    shot = driver.execute_cdp_cmd("Page.captureScreenshot", {
+        "format": "png",
+        "captureBeyondViewport": True,
+        "clip": {**rect, "scale": 1},  # 只截這個區塊的位置與大小
+    })
+    path.write_bytes(base64.b64decode(shot["data"]))  # Chrome 回傳的是 base64 編碼的 PNG
 
 
 def wait_and_read(driver, selectors, timeout=30):
@@ -152,7 +179,7 @@ def main():
 
         driver.get(HOME_URL)
         print("等首頁內容載入完成（中間主欄會先轉圈圈，最多等 30 秒）…\n")
-        for window, selectors in WINDOWS.items():
+        for window, selectors, image in WINDOWS:
             lines = wait_and_read(driver, selectors)
             if lines is None:
                 lines = ["（找不到這個區塊，GitHub 首頁版面可能又改了）"]
@@ -162,6 +189,12 @@ def main():
             for line in lines:
                 print(f"  {line}")
                 rows.append({"視窗": window, "內容": line})
+
+            # 內容載入完成後，只截這個區塊的畫面（不是整個網頁）
+            block = find_block(driver, selectors)
+            if block is not None:
+                screenshot_block(driver, block, FOLDER / image)
+                print(f"  → 已截圖：{image}")
             print()
     finally:
         driver.quit()
@@ -170,7 +203,7 @@ def main():
         writer = csv.DictWriter(file, fieldnames=["視窗", "內容"])
         writer.writeheader()
         writer.writerows(rows)
-    print("已存成 github_dashboard.csv")
+    print("已存成 github_dashboard.csv，以及兩張截圖 github_window1_left.png、github_window2_center.png")
 
 
 if __name__ == "__main__":
