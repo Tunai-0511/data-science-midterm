@@ -64,7 +64,7 @@ python run.py 5
 | 14 | HoopsHype 球員薪水 | Selenium + BeautifulSoup | `highest.csv`、`all_play.csv` | — |
 | 15 | Google 搜尋「xpath」，捲動並取得更多結果 | Selenium（模擬滑鼠滾輪） | `xpath.csv` | Google 可能擋下程式控制的瀏覽器（見說明） |
 | 16 | Agoda 搜尋台中飯店與價格（含加分項、全部結果頁） | Selenium + BeautifulSoup + pandas 前處理 | `agoda_result.csv`（沒有處理）、`agoda_result_processed.csv`（有處理） | — |
-| 17 | GitHub 自動登入，抓首頁兩個視窗 | Selenium | `github_dashboard.csv`、`github_dashboard.png` | 執行時輸入帳密 |
+| 17 | GitHub 自動登入，抓首頁兩個視窗 | Selenium | `github_dashboard.csv` | 執行時輸入帳密 |
 
 ### 對應期中配分要求
 
@@ -204,7 +204,7 @@ python run.py 5
      - 有開二階段驗證（2FA）：輸入驗證 App／簡訊的 6 位數驗證碼，或用通行金鑰確認；
      - 沒開 2FA：程式每次開的都是全新的 Chrome，GitHub 會當成新裝置，通常會寄 Email 驗證碼，到信箱查看後輸入即可。
   4. 登入後抓首頁：**1 號視窗＝左欄**（新帳號顯示「Create your first project」，已有專案的帳號顯示「Top repositories」）；**2 號視窗＝中間主欄**（附圖當時是「Updates to your homepage feed」提示卡，改版後是首頁動態面板）。依區塊位置抓取，新舊版首頁都適用。
-- **輸出**：印出兩個視窗的內容，另存 `github_dashboard.csv`（視窗、內容）與登入後截圖 `github_dashboard.png`。這兩個檔案含個人帳號資料，已列入 `.gitignore`，不會上傳。
+- **輸出**：印出兩個視窗的文字內容，另存 `github_dashboard.csv`（視窗、內容）。首頁的區塊是陸續載入的（中間主欄一開始只有轉圈圈），程式會等到每個區塊「有文字、而且連續 3 秒沒有再變」才讀取，最多等 30 秒。這個檔案含個人帳號資料，已列入 `.gitignore`，不會上傳。
 - **執行**：`python 第17題_GitHub登入首頁/main.py`
 
 ---

@@ -27,9 +27,10 @@
        2 號視窗＝中間主欄（#dashboard 的 .news 區塊）：題目附圖當時是「Updates to your
                  homepage feed」提示卡；GitHub 改版後是首頁動態／Copilot、Pull requests 等面板。
        依「位置」抓取，不寫死文字，所以新舊版首頁都能抓到這兩個區域的全部文字。
-    5. 印出兩個視窗的內容，存成 github_dashboard.csv（視窗、內容），
-       並存一張登入後的首頁截圖 github_dashboard.png，方便對照兩個區域。
-       （這兩個檔案含個人帳號資料，已列入 .gitignore，不會上傳到 GitHub；重新執行會直接覆蓋。）
+       首頁的區塊是陸續載入的（中間主欄一開始只有轉圈圈），所以每個區塊都等到
+       「有文字、而且連續 3 秒沒有再變」才讀取，最多等 30 秒。
+    5. 印出兩個視窗的文字內容，存成 github_dashboard.csv（視窗、內容）。
+       （這個檔案含個人帳號資料，已列入 .gitignore，不會上傳到 GitHub；重新執行會直接覆蓋。）
 
 執行
     python 第17題_GitHub登入首頁/main.py
@@ -115,12 +116,31 @@ def login_failed(driver):
 
 
 def read_window(driver, selectors):
-    """依序嘗試選擇器，找到區塊後回傳裡面每一行文字。"""
+    """依序嘗試選擇器，找到區塊後回傳裡面「畫面上看得到」的每一行文字；找不到區塊回傳 None。"""
     for selector in selectors:
         blocks = driver.find_elements(By.CSS_SELECTOR, selector)
         if blocks:
-            return [line.strip() for line in blocks[0].text.splitlines() if line.strip()]
-    return ["（找不到這個區塊，GitHub 首頁版面可能又改了）"]
+            try:
+                return [line.strip() for line in blocks[0].text.splitlines() if line.strip()]
+            except StaleElementReferenceException:  # 區塊剛好在重新載入，當作還沒好
+                return []
+    return None
+
+
+def wait_and_read(driver, selectors, timeout=30):
+    """首頁的區塊是陸續載入的（一開始只有轉圈圈）。
+    每 0.5 秒讀一次區塊文字，等到「有文字、而且連續 3 秒都沒再變」才算載入完成；最多等 timeout 秒。"""
+    last = None
+    unchanged_since = time.time()
+    deadline = time.time() + timeout
+    while time.time() < deadline:
+        lines = read_window(driver, selectors)
+        if lines != last:  # 內容還在變，重新計時
+            last, unchanged_since = lines, time.time()
+        elif lines and time.time() - unchanged_since >= 3:
+            return lines
+        time.sleep(0.5)
+    return last
 
 
 def main():
@@ -132,19 +152,13 @@ def main():
         login(driver, username, password)
 
         driver.get(HOME_URL)
-        # 首頁各區塊是陸續載入的：先等左欄的標題（Top repositories／Create your first project）出現，
-        # 再多等 3 秒讓中間主欄也載入完成
-        try:
-            WebDriverWait(driver, 30).until(EC.presence_of_element_located(
-                (By.CSS_SELECTOR, "aside.feed-left-sidebar h2, aside.feed-left-sidebar h3")
-            ))
-        except TimeoutException:
-            pass  # 舊版首頁的標題寫法可能不同，照樣往下抓
-        time.sleep(3)
-        driver.save_screenshot(str(FOLDER / "github_dashboard.png"))
-
+        print("等首頁內容載入完成（中間主欄會先轉圈圈，最多等 30 秒）…\n")
         for window, selectors in WINDOWS.items():
-            lines = read_window(driver, selectors)
+            lines = wait_and_read(driver, selectors)
+            if lines is None:
+                lines = ["（找不到這個區塊，GitHub 首頁版面可能又改了）"]
+            elif not lines:
+                lines = ["（等了 30 秒這個區塊還沒載入出文字）"]
             print(f"【{window}】")
             for line in lines:
                 print(f"  {line}")
@@ -157,7 +171,7 @@ def main():
         writer = csv.DictWriter(file, fieldnames=["視窗", "內容"])
         writer.writeheader()
         writer.writerows(rows)
-    print("已存成 github_dashboard.csv 與截圖 github_dashboard.png")
+    print("已存成 github_dashboard.csv")
 
 
 if __name__ == "__main__":
