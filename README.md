@@ -198,7 +198,7 @@ python run.py 5
 ### 第 17 題：GitHub 自動登入
 - **題目**：用 Selenium 及 WebDriver 自動登入帳號，抓取附圖 1 號視窗與 2 號視窗的頁面資料。課堂補充：難點在登入表單裡隱藏的 key 值。
 - **做法**：
-  1. 執行時在終端機輸入 GitHub 帳號、密碼（密碼不會顯示、不會存檔）；也可事先設定環境變數 `GITHUB_USERNAME`、`GITHUB_PASSWORD`。
+  1. 執行時在終端機輸入 GitHub 帳號、密碼（輸入時看得到，方便核對；不會存檔）；也可事先設定環境變數 `GITHUB_USERNAME`、`GITHUB_PASSWORD`。
   2. Selenium 開啟登入頁，自動填入帳密並按 Sign in。登入表單裡有 `authenticity_token` 等隱藏欄位（就是「隱藏的 key 值」，每次開頁都不同）：用 requests 登入要自己先從網頁抓出來、跟帳密一起送出；用 Selenium 是在瀏覽器裡按登入，瀏覽器會自動送出。程式會找出這些隱藏欄位，印出欄位名稱和 `authenticity_token` 的開頭幾個字元。
   3. 送出帳密後 GitHub 可能還要再驗證一次，請在 Chrome 視窗中完成，程式最多等 5 分鐘（程式一開始會先提醒）：
      - 有開二階段驗證（2FA）：輸入驗證 App／簡訊的 6 位數驗證碼，或用通行金鑰確認；

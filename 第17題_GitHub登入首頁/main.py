@@ -8,7 +8,7 @@
     （課堂補充：難點在於登入表單裡有隱藏的 key 值）
 
 做法（Selenium）
-    1. 執行時在終端機輸入 GitHub 帳號與密碼（密碼不會顯示在畫面上，也不會存檔）。
+    1. 執行時在終端機輸入 GitHub 帳號與密碼（輸入時看得到，方便核對；密碼不會存檔）。
        也可以事先設定環境變數 GITHUB_USERNAME、GITHUB_PASSWORD，就不用每次輸入。
     2. 開啟 https://github.com/login，由 Selenium 自動把帳密填進
        #login_field、#password，再按「Sign in」。
@@ -37,7 +37,6 @@
 """
 
 import csv
-import getpass
 import os
 import time
 from pathlib import Path
@@ -60,13 +59,13 @@ WINDOWS = {
 
 
 def ask_account():
-    """讀取帳密：先看環境變數，沒有的話請使用者在終端機輸入（密碼隱藏）。"""
+    """讀取帳密：先看環境變數，沒有的話請使用者在終端機輸入。"""
     print("提醒：送出帳密後，GitHub 可能要求再驗證一次，請在跳出的 Chrome 視窗中完成：")
     print("  - 有開二階段驗證（2FA）：輸入驗證 App 或簡訊的 6 位數驗證碼，或用通行金鑰確認")
     print("  - 沒開 2FA：GitHub 會把這個新開的瀏覽器當成新裝置，通常會寄 Email 驗證碼，請到信箱查看")
     print("  程式會等你最多 5 分鐘。\n")
     username = os.environ.get("GITHUB_USERNAME") or input("GitHub 帳號（或 Email）：").strip()
-    password = os.environ.get("GITHUB_PASSWORD") or getpass.getpass("GitHub 密碼（輸入時不會顯示）：")
+    password = os.environ.get("GITHUB_PASSWORD") or input("GitHub 密碼：")
     if not username or not password:
         raise SystemExit("帳號和密碼都不能空白。")
     return username, password
