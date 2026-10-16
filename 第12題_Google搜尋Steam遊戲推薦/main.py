@@ -11,7 +11,10 @@
     1. 開啟 Google 首頁，在搜尋框（name="q"）自動輸入「Steam 遊戲推薦」並按 Enter。
     2. 每一筆搜尋結果的標題是 #search 區塊裡、包在 <a> 連結中的 <h3>；
        讀出 h3 的文字（標題）與外層 <a> 的 href（超連結）。
-    3. 印出結果，並存成 steam_games.csv（標題、網址），重新執行會直接覆蓋。
+    3. Google 現在把搜尋結果的連結包成轉址 https://www.google.com/goto?url=…，
+       後面那串是加密過的，看不出原本是哪個網站。所以用 requests 對這個轉址送一次請求、
+       但「不跟著跳轉」（allow_redirects=False），Google 回應的 302 裡，標頭 Location 就是原網站的網址。
+    4. 印出結果，並存成 steam_games.csv（標題、網址），重新執行會直接覆蓋。
 
     關於 Google 的機器人驗證：
     Google 偶爾會判定自動化瀏覽器是機器人，跳出「我不是機器人」驗證頁。
@@ -24,7 +27,9 @@
 
 import csv
 from pathlib import Path
+from urllib.parse import urlparse
 
+import requests
 from selenium import webdriver
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.by import By
@@ -51,6 +56,20 @@ def wait_for_results(driver):
             raise SystemExit("等了 5 分鐘仍未通過 Google 的機器人驗證，程式結束。可以換個時間或換一台電腦再執行。")
 
 
+def real_url(url):
+    """把 Google 的轉址連結（google.com/goto?url=…）換成原網站的網址；本來就是原網址的直接回傳。"""
+    link = urlparse(url)
+    if "google." not in link.netloc or link.path != "/goto":
+        return url
+    try:
+        # 不跟著跳轉：Google 回應「302 跳轉」，標頭 Location 就是要跳去的原網址
+        response = requests.get(url, allow_redirects=False, timeout=15)
+    except requests.RequestException:
+        return url  # 連不上就保留轉址連結
+    location = response.headers.get("Location", "")
+    return location if location.startswith("http") and "/sorry/" not in location else url
+
+
 def get_results(driver):
     """讀出這一頁的每筆搜尋結果（標題與超連結），以網址去除重複。"""
     results = {}
@@ -58,7 +77,7 @@ def get_results(driver):
         link = h3.find_element(By.XPATH, "./ancestor::a[1]")  # h3 外層的 <a>
         url = link.get_attribute("href")
         if h3.text and url:
-            results.setdefault(url, h3.text)
+            results.setdefault(real_url(url), h3.text)  # 存原網站的網址，不存 Google 轉址
     return [{"標題": title, "網址": url} for url, title in results.items()]
 
 
@@ -70,6 +89,7 @@ def main():
         search_box.send_keys(KEYWORD)  # 自動輸入關鍵字
         search_box.send_keys(Keys.ENTER)  # 按 Enter 送出搜尋
         wait_for_results(driver)
+        print("讀取搜尋結果，並把 Google 的轉址連結換成原網站的網址…\n")
         results = get_results(driver)
     finally:
         driver.quit()

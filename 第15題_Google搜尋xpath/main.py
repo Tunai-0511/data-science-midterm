@@ -11,6 +11,8 @@
     1. 開啟 Google 首頁，在搜尋框（name="q"）自動輸入 xpath 並按 Enter。
     2. 用 ActionChains.scroll_by_amount 模擬「滑鼠滾輪」一段一段往下捲，直到捲到頁面最底，
        讀出本頁每筆結果（#search 裡 <a> 內的 <h3> 是標題，<a> 的 href 是網址）並印出。
+       Google 現在把連結包成轉址 https://www.google.com/goto?url=…（加密過，看不出原網站），
+       所以用 requests 對轉址送一次請求但「不跟著跳轉」，回應標頭 Location 就是原網站的網址。
     3. 按「更多結果」載入更多資料，捲動後再讀一次（要按幾次由 MORE_TIMES 設定，預設 1 次）。
        Google 已經把無限捲動的「更多結果」按鈕改回分頁的「下一頁」（id="pnnext"），
        所以程式會先找「更多結果」，沒有的話就按「下一頁」，效果一樣是取得更多搜尋結果。
@@ -28,7 +30,9 @@
 import csv
 import time
 from pathlib import Path
+from urllib.parse import urlparse
 
+import requests
 from selenium import webdriver
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.action_chains import ActionChains
@@ -74,13 +78,27 @@ def scroll_with_mouse_wheel(driver):
             break
 
 
+def real_url(url):
+    """把 Google 的轉址連結（google.com/goto?url=…）換成原網站的網址；本來就是原網址的直接回傳。"""
+    link = urlparse(url)
+    if "google." not in link.netloc or link.path != "/goto":
+        return url
+    try:
+        # 不跟著跳轉：Google 回應「302 跳轉」，標頭 Location 就是要跳去的原網址
+        response = requests.get(url, allow_redirects=False, timeout=15)
+    except requests.RequestException:
+        return url  # 連不上就保留轉址連結
+    location = response.headers.get("Location", "")
+    return location if location.startswith("http") and "/sorry/" not in location else url
+
+
 def get_results(driver):
-    """讀出目前頁面的每筆搜尋結果（標題、網址）。"""
+    """讀出目前頁面的每筆搜尋結果（標題、原網站的網址）。"""
     results = []
     for h3 in driver.find_elements(By.CSS_SELECTOR, RESULT_TITLE):
         link = h3.find_element(By.XPATH, "./ancestor::a[1]")  # h3 外層的 <a>
         if h3.text:
-            results.append({"標題": h3.text, "網址": link.get_attribute("href")})
+            results.append({"標題": h3.text, "網址": real_url(link.get_attribute("href"))})
     return results
 
 
