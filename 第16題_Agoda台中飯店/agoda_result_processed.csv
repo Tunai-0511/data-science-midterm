@@ -1,424 +1,487 @@
 ﻿飯店ID,飯店名,價格(元),原價(元),星級,評分,評價等級,評論數,位置得分,地區,距市中心(公里),免費取消,促銷廣告,網址
-55805457,新通豪大飯店,3084,3611,4.0,8.5,很讚,14611,8.8,北區,1.9,否,是,https://www.agoda.com/zh-tw/accom/property?propertyId=55805457
-81213815,丰森酒店,3041,4711,4.0,8.9,很讚,870,9.1,北區,0.3,否,是,https://www.agoda.com/zh-tw/accom/property?propertyId=81213815
-16424623,台中東旅,3630,6987,3.0,8.9,很讚,12965,9.1,中區,0.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=16424623
-31635581,葉綠宿-茶覺旅,2677,6300,3.0,8.9,很讚,9055,9.4,中區,0.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=31635581
-246351,宿野行旅,3199,3826,3.0,8.5,很讚,5890,8.8,北區,0.3,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=246351
-35441673,春樹商旅,3882,15530,3.5,9.1,超棒,10278,9.0,西區,1.7,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=35441673
-798543,林酒店,5931,13800,5.0,8.8,很讚,22245,9.3,西屯區,4.4,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=798543
-5288,長榮桂冠酒店 - 台中,4069,9000,5.0,8.8,很讚,26132,9.1,西屯區,2.4,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=5288
-55664247,烏日璞旅,4353,7704,4.0,8.9,很讚,7986,8.4,烏日區,9.2,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=55664247
-35444406,暮雲商旅,3483,6512,3.0,9.1,超棒,9483,9.1,西區,1.7,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=35444406
-64629833,塔木德酒店 Classic 台灣大道館,2639,3989,4.0,9.0,超棒,1653,9.2,西區,0.4,否,是,https://www.agoda.com/zh-tw/accom/property?propertyId=64629833
-411750,53行館,2490,5500,4.0,8.8,很讚,21168,9.3,中區,0.0,否,是,https://www.agoda.com/zh-tw/accom/property?propertyId=411750
-61225109,采寓,4925,9800,4.0,9.0,超棒,4571,9.5,西屯區,4.2,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=61225109
-39633306,永豐棧酒店,3345,4003,5.0,8.0,很讚,10103,8.8,西屯區,2.6,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=39633306
-407479,台中日月千禧酒店,7730,15000,5.0,,,,9.1,西屯區,3.6,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=407479
-4973327,台中大毅老爺行旅,3850,7138,4.0,9.0,超棒,13001,9.0,西區,0.9,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=4973327
-37131495,享得道HOTEL,3550,5647,4.0,9.1,超棒,9034,9.4,西屯區,4.1,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=37131495
-4973376,三好行旅,3123,7200,4.0,8.6,很讚,14947,9.2,南屯區,3.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=4973376
-782687,Hotel 7 逢甲,3256,7000,4.0,8.8,很讚,22660,9.1,逢甲,5.1,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=782687
-29149415,台中鳳凰酒店,3125,7260,5.0,8.9,很讚,15958,9.1,中區,0.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=29149415
-6165939,二八樹巷藝術文旅,4186,6400,4.0,9.1,超棒,3884,8.8,西屯區,3.8,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=6165939
-7585,台中福華大飯店,4113,8600,5.0,8.8,很讚,16845,8.8,西屯區,6.4,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=7585
-535693,KUN Hotel逢甲,2789,5720,4.0,8.6,很讚,15282,9.2,逢甲,5.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=535693
-246346,全國大飯店,3055,5600,4.0,8.6,很讚,12948,9.4,西區,1.5,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=246346
-5819,台中金典酒店,3054,8000,5.0,8.8,很讚,13542,9.4,西區,1.8,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=5819
-50139881,We2大飯店,2197,4158,3.0,8.4,很讚,2886,8.9,中區,0.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=50139881
-255728,碧根逢甲酒店,1942,6000,4.0,8.5,很讚,19666,9.5,逢甲,4.8,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=255728
-73196323,橙居台中,2656,6800,4.0,8.7,很讚,1061,9.0,西區,2.1,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=73196323
-6510594,城市漫遊行旅,2023,6600,3.0,8.8,很讚,2656,8.4,北屯區,4.5,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=6510594
-2733310,卡爾登飯店台中館,2885,4805,4.0,8.5,很讚,11552,8.6,西區,2.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=2733310
-4576031,薆悅酒店五權館,3186,5907,4.0,9.0,超棒,9400,9.0,北區,0.4,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=4576031
-1156717,雀客旅館台中黎明,2818,5000,3.5,7.9,很好,2069,8.3,逢甲,5.6,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=1156717
-5862575,赫絲珀HSR高鐵行旅,2424,4558,3.0,8.4,很讚,8303,8.5,烏日區,6.7,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=5862575
-23070137,麗寶樂園- T11/T12賽車主題旅店,3892,5519,3.0,8.3,很讚,2207,8.3,后里區,17.9,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=23070137
-69185,中科大飯店,2449,6148,3.0,8.5,很讚,14222,8.9,北屯區,1.8,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=69185
-5056282,探索私旅,4286,5895,4.0,9.0,超棒,28968,9.2,逢甲,5.1,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=5056282
-262575,台中日光溫泉會館,10919,,5.0,8.5,很讚,4110,8.2,北屯區,8.8,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=262575
-773214,豐邑逢甲商旅,3966,5985,4.0,,,,9.4,逢甲,4.6,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=773214
-527771,麻雀巢行旅,1869,5315,3.0,8.6,很讚,11844,8.7,中區,0.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=527771
-665570,紅點文旅,2960,7600,4.0,8.7,很讚,8474,8.6,中區,0.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=665570
-867602,悅樂旅店台中文心,2436,8800,4.0,9.0,超棒,2032,9.2,北屯區,1.9,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=867602
-1031516,威汀城市酒店,2210,5200,4.0,8.5,很讚,9232,8.1,大雅區,8.6,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=1031516
-91999145,森朵文旅 Santor Hotel,2933,6178,4.0,9.0,超棒,48,8.3,西屯區,6.4,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=91999145
-2279955,KUN Tour Hotel逢甲,2427,5700,4.0,8.7,很讚,13805,9.1,逢甲,5.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=2279955
-76987931,歐酷酒店,5567,,5.0,9.0,超棒,1976,9.0,中區,0.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=76987931
-248403,台中裕元花園酒店,5060,11660,5.0,,,,8.9,西屯區,6.5,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=248403
-1573604,草悟道文旅,2251,,3.0,8.1,很讚,12934,9.0,西區,1.2,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=1573604
-59299567,臺中勤美洲際酒店,24814,30526,5.0,9.1,超棒,1321,9.6,西區,1.4,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=59299567
-8186321,浮雲客棧,3290,6000,3.0,9.0,超棒,12132,9.3,逢甲,4.9,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=8186321
-336387,新驛旅店台中車站店,3262,7000,4.0,8.9,很讚,15191,9.2,東區,0.1,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=336387
-4415812,MINI HOTELS - 台中火車站館,2048,4500,3.5,9.0,超棒,13984,9.4,東區,0.4,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=4415812
-234438,台中商旅,4156,6363,4.0,9.1,超棒,9180,9.3,西屯區,4.8,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=234438
-5795498,GOGO HOTEL 逢甲館,2641,3169,4.0,8.9,很讚,6576,9.4,逢甲,4.7,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=5795498
-1060645,賀緹酒店,2884,6800,3.0,8.9,很讚,7881,8.7,太平區,2.5,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=1060645
-292676,統一渡假村 - 谷關溫泉養生會館,9593,11702,4.0,8.5,很讚,4339,8.6,谷關,31.9,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=292676
-161830,台中逢甲文華道,2135,5500,4.0,8.7,很讚,19211,9.2,逢甲,4.9,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=161830
-2405061,Old School行旅 田中央旅店,3172,4311,3.5,9.0,超棒,10153,9.3,東區,0.4,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=2405061
-236983,清新溫泉飯店,6841,9578,5.0,8.4,很讚,8323,,烏日區,8.7,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=236983
-6948019,余舍行旅,2796,8592,4.0,8.5,很讚,9123,8.5,逢甲,5.7,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=6948019
-1196211,GOGO HOTEL 市政館,2753,6600,4.0,8.8,很讚,6481,8.7,西屯區,2.9,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=1196211
-6425500,台中順天環匯酒店,4788,6139,4.5,8.9,很讚,4559,8.8,逢甲,5.1,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=6425500
-1258043,雋格大飯店,2451,4196,4.0,8.8,很讚,1629,8.8,東區,0.7,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=1258043
-433342,台中港酒店,4602,7851,4.0,8.6,很讚,5407,,梧棲區,19.2,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=433342
-149167,天閣酒店台中館,2875,4618,4.0,8.7,很讚,10979,9.0,南屯區,2.5,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=149167
-1414975,MINI HOTELS - 逢甲館,2053,8210,3.5,8.7,很讚,15775,9.2,逢甲,5.1,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=1414975
-570005,水雲端旗艦概念旅館,2916,6560,,8.7,很讚,8679,8.9,逢甲,5.2,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=570005
-446412,雀客旅館 台中來來,3611,,4.0,,,,9.6,北區,0.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=446412
-1162573,天月人文休閒汽車旅館,3013,5094,3.0,8.6,很讚,4812,9.0,西屯區,4.8,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=1162573
-1148754,薆悅酒店台中館,3256,4592,4.0,8.7,很讚,14578,8.6,東區,0.7,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=1148754
-772256,雲端商務旅館,944,3776,3.0,8.5,很讚,12067,8.7,中區,0.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=772256
-84990909,旭樹・寓所 Hotel Arbol Taichung,3054,3146,4.0,8.9,很讚,214,8.8,西屯區,7.9,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=84990909
-8110292,一中慢漫呆,2256,3937,2.0,8.9,很讚,10284,9.0,中區,0.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=8110292
-8066947,葉綠宿一中館(一中漫走),2382,4600,3.5,8.9,很讚,4120,9.5,北區,0.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=8066947
-33243220,雀客旅館台中青海,2377,3570,4.0,8.3,很讚,3094,8.6,逢甲,5.2,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=33243220
-528878,雙星大飯店,1937,4200,4.0,8.3,很讚,27416,9.1,東區,0.2,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=528878
-85760473,福棧,1978,2069,3.0,9.1,超棒,212,9.7,大甲區,21.8,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=85760473
-17526138,台中豐邑MOXY酒店,3029,,3.5,8.7,很讚,6070,8.9,南屯區,3.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=17526138
-76473968,長弘時尚旅店-臺中文心舘,2170,3654,3.0,8.8,很讚,1119,9.2,西屯區,2.9,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=76473968
-1179332,新藍天旅棧,3855,5075,3.0,9.0,超棒,6225,9.1,中區,0.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=1179332
-25934748,挪威森林文創館,3242,4584,3.0,9.1,超棒,4777,9.5,南區,0.7,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=25934748
-1400088,希堤微旅 - 逢甲店,2892,5500,3.0,8.7,很讚,5129,8.9,西屯區,4.1,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=1400088
-35039894,台中李方艾美酒店,8800,,4.0,8.9,很讚,3816,9.2,中區,0.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=35039894
-4415622,植光花園飯店,3914,5131,3.0,8.5,很讚,9004,8.5,中區,0.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=4415622
-35957887,朵茉行館,4225,4229,3.0,8.8,很讚,3020,8.9,西屯區,5.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=35957887
-734798,龍谷大飯店,2536,5040,3.0,8.1,很讚,6471,8.9,谷關,32.1,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=734798
-25940522,歐菲旅店,1977,5678,3.0,7.7,很好,2046,8.3,西區,1.7,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=25940522
-445801,西悠飯店台中店  CU HOTEL,1994,3334,4.0,8.0,很讚,2856,8.1,北區,1.3,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=445801
-399450,沐蘭精品旅館-台中館,5079,8463,4.0,8.7,很讚,4865,9.0,西屯區,4.1,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=399450
-7031776,極光情境旅館,2670,5180,3.0,8.8,很讚,5023,8.8,北屯區,4.1,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=7031776
-9796019,嬉行旅,3914,5888,3.0,8.7,很讚,6841,9.0,西區,0.8,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=9796019
-292360,雀客藏居台中大墩,5525,7616,5.0,8.4,很讚,7003,8.8,西屯區,2.5,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=292360
-61747933,旅居文旅-台中文心館,1926,,3.0,8.9,很讚,3067,9.1,北區,1.6,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=61747933
-574301,台中星享道雅樂軒酒店,4069,,4.0,8.8,很讚,8087,9.4,逢甲,5.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=574301
-2264704,綠宿行旅,3546,5759,3.0,9.1,超棒,5890,9.2,西區,0.9,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=2264704
-20998886,葉綠宿站前館-川閱,2159,4000,3.0,9.0,超棒,7848,9.1,中區,0.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=20998886
-2971561,逢甲隱和旅,3030,4875,3.0,8.9,很讚,7056,9.4,逢甲,4.6,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=2971561
-28533906,雀客快捷台中逢甲,2153,3758,3.0,8.2,很讚,2038,9.1,逢甲,4.8,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=28533906
-1254507,TALMUD Select伯達行旅,2730,8000,4.0,8.0,很讚,5367,8.4,逢甲,5.7,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=1254507
-69424292,塔木德酒店 CLASSIC 台中火車站館,3096,3624,4.0,8.8,很讚,1001,9.2,中區,0.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=69424292
-35218975,17逢甲住宿,1299,3976,2.5,7.1,很好,990,,逢甲,5.1,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=35218975
-1184373,台中芭蕾城堡酒店,2281,9125,4.0,8.7,很讚,7066,8.6,南屯區,4.3,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=1184373
-444492,塔木德酒店Classic 台中台中館,3508,5786,4.0,8.3,很讚,6912,8.4,西屯區,3.7,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=444492
-335867,麗寶樂園－福容大飯店,6395,12800,5.0,8.8,很讚,3480,9.0,后里區,18.1,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=335867
-2061499,雀客旅館台中文心中清,2834,3841,3.0,8.3,很讚,5785,8.5,北區,2.5,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=2061499
-6428111,台中旭日文旅,1704,3551,3.0,7.9,很好,5526,8.3,北區,0.4,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=6428111
-762749,奇異果快捷旅店 - 站前二館,814,2800,3.0,8.6,很讚,17254,8.8,中區,0.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=762749
-4846263,Hotel Z 逢甲,3333,6667,4.0,8.8,很讚,5130,9.1,逢甲,5.2,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=4846263
-3578462,天韻精品旅館,4267,9439,4.0,8.7,很讚,3885,8.8,南屯區,4.6,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=3578462
-246344,豐原后豐商務會館,2724,4640,3.0,8.5,很讚,4059,8.4,豐原區,10.9,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=246344
-27851969,縵和旅居,5351,5565,3.0,,,,9.2,中區,0.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=27851969
-187122,台中香城大飯店,3970,4062,4.0,8.5,很讚,4982,8.5,北屯區,1.4,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=187122
-67002,武陵富野渡假村,6753,7006,4.0,8.4,很讚,2182,9.0,和平區,66.3,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=67002
-734797,星漾商旅 - 台中一中館,2044,3800,,8.6,很讚,5538,9.1,北區,0.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=734797
-1136094,鵲絲旅店,2091,4421,3.0,8.4,很讚,7651,9.3,逢甲,5.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=1136094
-47999431,由扉寓所-逢甲舘,3743,6479,4.0,9.2,超棒,8110,9.3,逢甲,5.3,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=47999431
-1623662,荷米旅居,2018,4400,3.0,8.8,很讚,4262,9.0,中區,0.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=1623662
-807006,葉綠宿旅館 - 逢甲館,1994,3821,3.0,8.7,很讚,8223,9.1,逢甲,4.8,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=807006
-255751,禾康商旅,2597,,3.0,8.6,很讚,2176,9.0,北屯區,3.1,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=255751
-1220614,承攜行旅-台中自由館,2935,3187,4.0,8.6,很讚,6588,8.9,中區,0.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=1220614
-47213859,逢甲享沃行旅,3221,12883,3.0,9.1,超棒,617,9.6,逢甲,5.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=47213859
-31726887,樂微行旅,2055,2318,3.0,9.1,超棒,904,9.4,南區,0.7,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=31726887
-730333,梨山賓館,4781,6600,4.0,8.2,很讚,1556,8.7,和平區,57.9,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=730333
-86388956,東隅行旅EastGateHotel,3482,4960,3.0,9.2,超棒,185,9.8,東區,0.2,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=86388956
-1158177,台中逢甲米樂旅店,2526,6000,4.0,8.8,很讚,6302,8.6,逢甲,5.6,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=1158177
-5824851,桂之旅,2199,3000,3.0,8.6,很讚,5041,8.8,西屯區,3.9,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=5824851
-23136212,二川行旅,1715,2478,3.0,8.7,很讚,1589,9.1,南區,0.2,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=23136212
-300680,富信大飯店 台中店,2930,4028,4.0,8.6,很讚,6086,8.8,中區,0.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=300680
-67849944,星輝旅宿 一中館,2251,2514,3.0,9.0,超棒,1405,9.5,北區,0.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=67849944
-186891,台中新幹線花園酒店,3117,3847,4.0,8.6,很讚,7288,,南屯區,6.7,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=186891
-304391,仲信金鬱金香飯店,3297,5265,4.0,8.1,很讚,9391,,北屯區,4.3,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=304391
-27746044,潣鑫旅居,2232,8929,3.0,8.6,很讚,4759,8.5,西屯區,3.2,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=27746044
-2429991,Feng Jia 25 Hotel,1672,6689,3.0,8.2,很讚,2504,8.2,逢甲,4.9,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=2429991
-502573,悅樂旅店- 台中站前,3933,6000,3.0,8.8,很讚,6191,9.2,中區,0.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=502573
-1197413,紫禁城MOTEL主題會館(臺中市旅館343號),2271,5200,2.5,8.5,很讚,2209,8.7,南屯區,3.2,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=1197413
-2374878,綠夜文旅,2345,3680,3.0,8.9,很讚,4467,9.4,西區,1.4,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=2374878
-433385,伊麗莎白酒店,2492,9969,3.0,8.4,很讚,3437,9.1,西區,1.9,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=433385
-16568051,挪威森林行旅3號館,2313,2711,,8.9,很讚,1422,9.3,東區,0.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=16568051
-929466,川賦商旅,3526,8500,3.0,8.6,很讚,2627,9.1,豐原區,10.9,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=929466
-564498,涵館汽車旅館,2529,2922,3.5,8.3,很讚,4494,8.3,南屯區,3.3,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=564498
-255749,谷野民宿 民宿編號031,4563,9680,4.5,8.3,很讚,849,8.1,谷關,27.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=255749
-861981,璞樹文旅,3493,7150,3.0,8.8,很讚,7137,8.6,逢甲,5.3,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=861981
-2608005,夢樓旅店,2391,7000,3.0,8.4,很讚,2522,8.9,西屯區,4.2,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=2608005
-2569726,圖樂文旅,3593,4398,3.0,8.4,很讚,8594,9.2,逢甲,5.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=2569726
-8707203,鳥人創意旅店,3305,5960,2.5,8.4,很讚,1607,8.7,北屯區,4.5,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=8707203
-37720366,禾淞津別邸,3541,5460,3.0,9.4,超棒,1940,9.4,西屯區,2.9,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=37720366
-502276,企業家大飯店,1845,3305,4.0,8.2,很讚,16170,8.9,東區,0.3,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=502276
-237067,歐遊國際連鎖精品旅館 - 台中館,2317,7000,4.0,8.5,很讚,1940,9.0,南屯區,3.2,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=237067
-18809966,梧棲行旅,3429,,2.0,8.6,很讚,2145,8.5,梧棲區,19.2,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=18809966
-1177990,水舞行館,3541,5500,4.0,8.5,很讚,4482,8.4,南屯區,4.8,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=1177990
-33984098,台中震大金鬱金香酒店,5541,13435,4.0,8.7,很讚,2367,8.3,梧棲區,19.5,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=33984098
-5891777,雀客旅館台中中山,4134,4297,3.0,8.7,很讚,4575,8.8,中區,0.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=5891777
-10558579,臺中逢甲智選假日酒店,3729,5468,4.0,9.1,超棒,2869,9.5,逢甲,5.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=10558579
-1070209,雲河概念旅館,2925,3159,4.0,8.8,很讚,7866,8.9,南屯區,4.4,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=1070209
-928918,台中博客創意旅店,1670,1896,3.0,8.5,很讚,9492,9.2,北區,0.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=928918
-457521,安可旅店,1498,3600,2.5,8.3,很讚,2605,9.3,中區,0.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=457521
-301991,逢甲101 公寓,1888,3686,3.0,7.2,很好,1366,,逢甲,4.9,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=301991
-774178,富王大飯店,2457,,4.0,7.9,很好,6784,8.8,西屯區,3.2,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=774178
-33479873,一期家旅,4246,5994,3.0,8.9,很讚,2565,8.9,西區,0.5,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=33479873
-41031325,凝萃文旅 台中車站店,2915,11660,3.0,8.0,很讚,2749,8.7,中區,0.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=41031325
-1254558,新盛橋行旅,2616,3800,3.5,8.6,很讚,4767,9.2,中區,0.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=1254558
-529219,麗加園邸酒店,2301,4436,4.0,8.3,很讚,3453,8.9,西區,1.1,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=529219
-55986662,逢甲日佃寓所,2704,5385,3.0,8.8,很讚,452,9.5,逢甲,5.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=55986662
-527770,Unique Hotel 微笑73旅店,2411,3728,4.0,8.4,很讚,5204,8.4,中區,0.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=527770
-5912004,雲月精品會館,2198,5680,3.0,8.7,很讚,844,8.8,大里區,3.9,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=5912004
-298494,台中朝聖行旅,1993,2303,3.0,8.1,很讚,4901,8.4,北區,0.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=298494
-3349975,曼特先生,2064,,3.0,8.4,很讚,5879,8.8,中區,0.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=3349975
-4842342,覓玥精品時尚旅館,3444,,3.0,8.7,很讚,4385,8.7,太平區,2.5,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=4842342
-434053,米卡沙旅店,2334,2726,3.5,8.4,很讚,7033,9.2,東區,0.088,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=434053
-81838899,Mr.Petter 佩德先生,3055,3945,4.0,8.7,很讚,245,8.7,北屯區,2.2,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=81838899
-6913274,逗點 INN,2414,,,9.0,超棒,4432,9.3,東區,0.3,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=6913274
-25455222,茂華商旅,2257,3980,3.0,8.6,很讚,791,9.4,大甲區,22.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=25455222
-1194522,美之旅商務飯店,1814,2019,4.0,8.4,很讚,1431,8.9,西區,1.3,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=1194522
-67023,高苑商務旅館中正店,1663,3347,3.0,8.2,很讚,4347,8.4,北區,0.2,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=67023
-6994144,逢甲微行商旅,1829,7314,3.0,8.7,很讚,1630,9.4,逢甲,4.9,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=6994144
-149099,台中公園智選假日飯店,3111,5699,4.0,8.4,很讚,6192,8.6,中區,0.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=149099
-6377126,台中萬豪萬楓酒店,3759,,4.0,8.5,很讚,1837,8.3,逢甲,5.7,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=6377126
-241373,明高溫泉,3232,12929,3.0,7.4,很好,1406,8.2,谷關,32.4,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=241373
-519462,萊悅行旅-原愛來時尚旅館,1798,3293,3.0,8.1,很讚,4396,8.6,西區,0.7,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=519462
-4983793,挪威森林漫活休閒旅館,2903,,3.0,8.6,很讚,3299,8.5,東區,2.6,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=4983793
-789214,雲平精品旅館,2683,7800,3.0,8.2,很讚,2606,8.3,太平區,1.9,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=789214
-240536,新福商務飯店,1008,4000,3.0,8.4,很讚,2539,8.7,北區,1.2,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=240536
-7338711,花沐蘭精品旅館,1974,2463,,8.6,很讚,1262,8.5,沙鹿區,15.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=7338711
-527769,Unique Hotel 黃埔75旅店,1935,,4.0,8.5,很讚,4432,8.6,西區,0.4,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=527769
-862611,巧合大飯店,2074,3568,3.0,8.5,很讚,24198,9.3,中區,0.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=862611
-246394,博奇大飯店,2091,3198,2.0,8.5,很讚,16701,8.8,中區,0.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=246394
-10564014,台中逢甲金瑞文旅,2363,9453,3.0,8.6,很讚,3585,9.2,逢甲,5.1,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=10564014
-178273,鼎隆國際商旅,2229,4392,3.0,8.5,很讚,684,8.8,逢甲,4.4,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=178273
-6546318,漫旅光城,3321,4285,3.0,8.7,很讚,4849,8.7,中區,0.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=6546318
-1991561,風華嚼旅,3543,4662,3.0,9.0,超棒,5155,9.1,北區,0.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=1991561
-2307880,台中愛戀旅店,2262,7218,3.0,8.2,很讚,7694,8.3,北區,0.3,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=2307880
-3590369,莿　桐　花　文　創　微　旅,1998,4044,3.0,8.4,很讚,7012,8.9,中區,0.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=3590369
-4138262,時空行旅,1735,3891,3.5,8.4,很讚,2131,9.0,西區,2.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=4138262
-5347424,富比世大飯店,1328,4800,3.0,7.2,很好,5811,,北區,0.7,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=5347424
-687216,塔木德酒店Choice 台中一中館,1858,,3.5,8.5,很讚,7469,9.4,北區,0.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=687216
-195790,梨山飛燕城堡度假飯店,3783,4847,3.0,8.0,很讚,276,8.4,和平區,58.3,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=195790
-10661804,楓采行館,2052,2780,3.0,7.9,很好,851,8.1,豐原區,9.7,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=10661804
-8266435,雀客旅館台中自由,2316,4003,3.0,8.3,很讚,2113,8.8,中區,0.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=8266435
-255791,華登商務大飯店,1842,2511,3.0,7.5,很好,2402,,北屯區,2.2,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=255791
-1196154,夏都精品汽車旅館,2298,4380,3.0,8.1,很讚,1951,8.5,北區,1.4,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=1196154
-8258564,和和旅宿,3016,3903,4.0,9.1,超棒,1095,9.0,后里區,18.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=8258564
-2009176,達斯旅店,2339,4137,2.0,8.5,很讚,2971,9.4,逢甲,4.6,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=2009176
-17219559,遇旅 House,2933,4266,4.0,8.9,很讚,3164,9.3,北區,0.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=17219559
-81149700,西悠巢旅臺中霧峰交響樂館,2426,,3.0,8.4,很讚,200,8.5,霧峰區,8.8,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=81149700
-4129854,宇春商旅,2212,6000,,8.3,很讚,1098,8.5,北屯區,5.2,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=4129854
-6587173,逢甲K行旅,3100,3208,3.0,9.2,超棒,2220,9.7,逢甲,4.5,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=6587173
-35350599,水瓶精品汽車旅館,2580,,3.0,8.6,很讚,1597,9.0,南屯區,2.6,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=35350599
-241996,皇星商旅中港館,2203,3570,3.0,8.1,很讚,2579,8.7,逢甲,4.4,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=241996
-291195,台中之星設計旅店,2908,4580,3.0,8.5,很讚,3656,8.6,逢甲,5.5,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=291195
-2065090,星漾商旅台中中清館,2370,4600,,8.6,很讚,2976,8.6,北區,0.6,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=2065090
-2847740,凝萃G11 - 水岸隱邸,2897,11588,3.0,8.4,很讚,2125,8.9,中區,0.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=2847740
-252345,蘭夏會館,2524,,4.0,8.0,很讚,1139,8.5,南屯區,3.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=252345
-6851829,寄居蟹行旅,1831,2183,,7.9,很好,1528,,梧棲區,18.7,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=6851829
-4641303,述夏精品汽車旅館,2935,6960,3.0,8.4,很讚,1428,8.4,北屯區,3.8,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=4641303
-28521603,台中拓程商旅,2071,3629,3.0,7.7,很好,2138,8.6,逢甲,4.4,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=28521603
-55304628,高美燈塔園區,4156,16623,4.0,8.7,很讚,503,9.0,清水區,22.1,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=55304628
-1160085,小西城旅店,2289,3769,2.5,8.5,很讚,4205,8.5,西區,0.4,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=1160085
-665562,雀客快捷台中福星二館,1869,2890,3.0,7.9,很好,2429,8.6,逢甲,5.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=665562
-886103,杜拜風情時尚旅館,2721,4971,3.5,8.4,很讚,3821,8.4,大雅區,7.8,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=886103
-2179613,行草景觀公寓,4588,8641,4.0,,,,9.6,西區,1.8,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=2179613
-25760298,小鹿之家,2876,4656,3.5,,,,9.2,北區,0.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=25760298
-4997807,雀客快捷台中福星,2279,3406,3.0,8.8,很讚,1577,9.1,逢甲,5.1,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=4997807
-81056855,山嵐居,4782,10000,3.0,9.0,超棒,51,9.1,和平區,62.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=81056855
-32764601,旅行家,2313,4311,3.0,8.7,很讚,2642,8.5,西屯區,3.2,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=32764601
-5090523,Rhine Castle Hotel,1738,2010,3.0,8.6,很讚,142,8.8,沙鹿區,15.6,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=5090523
-304372,豪爵大飯店 台中館,2765,3118,3.5,8.0,很讚,3743,,西區,0.9,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=304372
-8799180,華利大旅社,2097,,3.0,8.5,很讚,3818,9.0,中區,0.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=8799180
-894063,台中商旅 八仙山莊,13600,,4.0,8.4,很讚,850,8.7,谷關,31.8,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=894063
-8511858,沐品居無櫃台自助旅棧,1493,1811,,8.9,很讚,1156,9.5,中區,0.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=8511858
-81213732,丰居一中,3825,5507,4.0,9.0,超棒,392,9.2,北區,0.3,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=81213732
-67271799,N2酒店,3445,13781,3.0,9.2,超棒,1671,9.6,北區,0.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=67271799
-7788184,璽朵精品汽車旅館,2850,5247,3.0,8.6,很讚,1426,9.1,西屯區,4.8,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=7788184
-1166164,逢甲悠活,1194,4775,3.0,7.7,很好,2697,8.3,逢甲,4.9,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=1166164
-566628,富帝大飯店,1272,,3.0,7.1,很好,957,,南區,2.1,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=566628
-25467479,玉坤田商務旅館,2717,3377,4.0,8.3,很讚,598,8.1,梧棲區,16.2,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=25467479
-7447452,旅巷自在輕旅,2435,4500,,9.2,超棒,3683,9.6,中區,0.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=7447452
-240657,塔木德酒店Choice 台中公園館,1815,,3.0,7.6,很好,1410,,北區,0.2,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=240657
-24252648,第五大道汽車旅館,3792,4914,3.0,8.9,很讚,716,9.2,西屯區,3.9,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=24252648
-79562386,雅馥行旅,2623,,4.0,8.4,很讚,183,8.2,北屯區,2.2,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=79562386
-17244617,Holiday Inn Express TAICHUNG PARK by IHG,3096,3581,4.0,8.9,很讚,504,,中區,0.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=17244617
-3219911,漂鳥草悟道,2494,,3.0,9.1,超棒,4689,9.4,西區,1.5,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=3219911
-1723744,黑金文旅,1727,2800,1.0,8.8,很讚,3219,8.8,中區,0.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=1723744
-7033715,叮噹旅舍,2147,,3.0,8.4,很讚,2466,8.4,逢甲,5.6,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=7033715
-1621387,悅河精品旅館,2407,2605,3.0,8.3,很讚,2972,8.1,西屯區,5.4,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=1621387
-245773,奇異果快捷旅店 - 中正店,1988,2485,3.0,7.9,很好,3335,8.4,中區,0.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=245773
-2018880,北海大飯店,1180,2800,,7.1,很好,2306,,北區,1.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=2018880
-6172064,LIANN Hotel 黎安商旅,1732,1802,3.0,7.7,很好,1419,8.4,逢甲,5.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=6172064
-10893974,久窩行旅一中館,2580,3050,,9.1,超棒,663,9.6,北區,0.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=10893974
-67021,福爾摩沙聯盟草悟道酒店,2272,2626,3.0,8.2,很讚,2498,8.6,西區,1.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=67021
-548665,麗緹汽車旅館,2171,6000,3.0,7.2,很好,1373,,北屯區,1.7,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=548665
-2095896,簡愛汽車商務旅館 - 山西館,2867,,2.0,8.5,很讚,2401,8.8,北區,1.6,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=2095896
-26843368,木木行館,2478,3329,3.0,8.7,很讚,1022,8.8,北屯區,3.2,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=26843368
-284508,皇星商旅 上安館,2126,3002,3.0,7.7,很好,1554,8.3,逢甲,4.4,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=284508
-246327,怡達汽車旅館,2234,,3.0,8.5,很讚,1007,9.0,東區,1.6,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=246327
-4200738,春天國際旅館,2428,2671,,8.2,很讚,399,8.6,南區,3.4,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=4200738
-460317,艾菲爾Motel文化旅店,2939,,3.0,8.4,很讚,768,8.2,梧棲區,19.8,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=460317
-5441478,夢想12旅店,1901,4400,3.0,8.6,很讚,4190,8.3,北區,0.2,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=5441478
-241354,映夜行館,3872,6480,3.5,8.7,很讚,450,9.3,西屯區,4.2,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=241354
-666288,浮逸旅館-文心中清館,1864,2329,2.0,7.4,很好,1204,,北區,2.6,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=666288
-13415509,巢旅宿,745,2644,,8.2,很讚,2005,8.7,中區,0.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=13415509
-3940265,劦陶宛陶藝民宿,2316,3138,3.0,8.5,很讚,701,8.1,新社區,13.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=3940265
-871763,過來旅店,2840,,3.0,8.7,很讚,2034,8.6,中區,0.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=871763
-33969819,后麗安心親子時尚旅宿,1533,2792,4.5,8.3,很讚,630,8.2,后里區,19.4,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=33969819
-280983,漢彌敦大飯店,1863,2716,2.5,7.6,很好,1090,8.3,西區,1.8,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=280983
-46955423,沫秋立柳川行旅,2273,4409,3.0,8.5,很讚,1266,8.8,中區,0.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=46955423
-7550517,風緻汽車旅館台中大里,1991,3066,,7.9,很好,1190,8.2,大里區,2.6,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=7550517
-2281367,潛立方旅館,1886,2180,,8.6,很讚,686,8.5,西屯區,6.5,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=2281367
-8812268,羅馬假期汽車旅館,2450,3833,3.0,7.6,很好,1803,8.1,大里區,3.9,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=8812268
-5341861,神木谷假期大飯店,3896,4132,3.0,8.2,很讚,188,8.6,谷關,32.8,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=5341861
-8427607,真正好旅店,1628,1737,3.0,7.9,很好,800,8.4,豐原區,10.9,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=8427607
-4210644,優勝美地汽車旅館中華會館,2407,4112,,8.7,很讚,417,9.3,北區,0.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=4210644
-398987,金沙精品汽車旅館,2257,4780,3.0,7.9,很好,1294,8.3,北區,0.3,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=398987
-1184745,快樂腳旅棧,1836,3680,2.0,8.7,很讚,2997,8.7,中區,0.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=1184745
-4123094,優勝美地汽車旅館太原會館,2753,4247,,8.5,很讚,446,8.9,北區,1.6,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=4123094
-9115675,樂活行館Motel,2320,,3.0,8.6,很讚,881,8.7,南屯區,4.1,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=9115675
-1047300,62巷青年旅舍,1773,2050,2.5,8.7,很讚,959,8.3,龍井區,10.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=1047300
-27766137,好瓦文旅,3280,4266,3.0,8.7,很讚,1054,,沙鹿區,14.3,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=27766137
-5815264,水悅精品會館,2147,2326,,8.0,很讚,637,8.4,大里區,2.6,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=5815264
-18778476,明通行商旅,2131,2334,,8.8,很讚,372,8.8,中區,0.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=18778476
-3073541,浮逸旅館-台中車站館,2312,3044,3.0,8.7,很讚,44,9.1,中區,0.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=3073541
-4935999,春水漾精緻休閒旅館,2147,3264,,7.6,很好,450,,神岡區,10.6,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=4935999
-64349322,浪琴Motel文創旅館,2580,,3.0,8.3,很讚,940,8.5,西區,1.7,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=64349322
-37339044,婧仕女微旅-女子限定Women Only,2558,,,9.2,超棒,100,8.9,西區,0.8,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=37339044
-6256912,嵩夏汽車旅館,2407,,2.0,8.4,很讚,1653,8.6,大里區,2.4,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=6256912
-463041,法堤商旅,2068,4611,3.0,7.6,很好,1069,,北區,0.8,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=463041
-548905,合樂商旅台中朝馬,2240,4760,3.0,8.1,很讚,1876,8.9,西屯區,4.6,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=548905
-4070570,Spring SPA Motel 大里春天泡湯旅館,2725,4198,,8.5,很讚,1222,8.3,大里區,2.6,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=4070570
-2266809,一中街星澄,1558,1931,3.0,8.3,很讚,692,8.9,北區,0.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=2266809
-34143530,Still Haus 静の宿,1619,1859,3.5,8.6,很讚,1498,9.2,北區,0.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=34143530
-79927464,星雨行館- 全新商旅&長住優惠&統編發票&附設餐廳&逢甲洲際&一樓免費停車&國際會展中心,2280,,4.0,8.4,很讚,323,,北屯區,5.4,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=79927464
-10888987,楓華沐月台灣大道行館,1979,2809,3.0,8.3,很讚,5055,8.7,北區,0.073,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=10888987
-58007439,台中逢甲路意,1621,3000,3.5,8.3,很讚,598,9.2,逢甲,4.9,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=58007439
-85391632,台中市最美高樓層雙面窗景觀房,2986,3587,5.0,10.0,超棒,1,10.0,西區,1.7,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=85391632
-256082,竹林雅致商務汽車旅館,2960,5400,3.5,8.4,很讚,905,8.6,南屯區,3.2,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=256082
-547899,旅幸福-台中館,4150,8500,3.0,8.4,很讚,7451,8.3,中區,0.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=547899
-4144575,米閣商旅,1980,2405,3.0,7.7,很好,1383,,北區,0.2,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=4144575
-10627376,勤天文旅 台中館,2303,2961,3.0,8.5,很讚,7,8.4,北區,0.1,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=10627376
-4935681,檸檬樹,1546,2474,3.5,8.3,很讚,1313,9.0,北區,0.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=4935681
-87941305,East Gate Hotel,2707,3129,3.0,10.0,超棒,1,,東區,0.2,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=87941305
-2904001,高樓層豪景小宅,2571,3735,4.0,8.4,很讚,1905,9.5,西區,1.8,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=2904001
-51059057,元宿 – 台中一中街,2739,3660,2.5,8.9,很讚,1276,9.5,北區,0.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=51059057
-888851,背包41青年旅館 - 台中館,1236,3173,2.0,8.6,很讚,6066,9.0,中區,0.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=888851
-237712,台中怡東商務旅館,1641,6564,3.0,8.6,很讚,186,8.8,北區,2.2,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=237712
-4835464,法格斯-石光,4502,,3.5,9.6,超棒,102,9.2,外埔區,18.3,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=4835464
-2402417,撲克商旅,1634,3146,3.0,8.4,很讚,3546,8.7,西區,0.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=2402417
-8124561,想駐逢甲 Shine Residence,2390,3213,3.0,8.1,很讚,1564,8.5,逢甲,5.1,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=8124561
-2599368,東海牛棚背包客棧,1039,1983,,8.2,很讚,748,8.7,龍井區,9.5,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=2599368
-5972022,圖格旅,2424,3275,,8.3,很讚,452,8.8,中區,0.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=5972022
-33847665,台基殿,1714,2528,3.0,8.7,很讚,918,9.2,北區,0.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=33847665
-1159063,電競客棧宜舍館,2923,5082,2.5,8.9,很讚,6610,9.0,中區,0.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=1159063
-23784664,高樓景觀宅High-Rise Taichung,4286,5683,3.5,8.4,很讚,2206,9.3,西區,1.8,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=23784664
-245747,奇異果快捷旅店 - 站前一館,2490,3469,3.0,8.1,很讚,9927,9.0,中區,0.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=245747
-24247502,愛力根汽車旅館,2147,2891,,8.4,很讚,354,8.1,梧棲區,18.7,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=24247502
-951316,高鐵戀館(香緹兒旅館事業有限公司),2655,3780,3.0,7.1,很好,368,,烏日區,6.3,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=951316
-86436345,鄉野Field Stay｜四時之居,1327,4800,2.5,8.8,很讚,17,8.3,清水區,19.8,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=86436345
-74752213,澄居 live in,3153,,4.0,8.8,很讚,1326,9.6,北區,0.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=74752213
-2260218,心圓精緻汽車旅館,1558,2498,,7.8,很好,478,8.1,北屯區,3.3,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=2260218
-45565768,薩圖恩文旅,2618,3517,1.0,8.5,很讚,1196,8.7,北區,0.9,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=45565768
-3091045,台中車站智選假日酒店,3610,6118,4.0,8.7,很讚,1573,,中區,0.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=3091045
-46618132,史塔克的家民宿（Stark's House B&B）,2857,,2.5,8.1,很讚,186,,和平區,63.2,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=46618132
-16136982,Song Hua Ju,2637,,2.0,8.6,很讚,220,,谷關,26.4,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=16136982
-52001175,西區的1臥室獨棟住宅 - 100平方公尺/1間專用衛浴,3208,,4.5,8.9,很讚,378,9.5,西區,1.8,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=52001175
-48711160,南島旅宿,1152,1333,2.0,8.4,很讚,272,8.8,龍井區,9.7,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=48711160
-5170151,昭月民宿,2771,3445,3.0,9.1,超棒,312,8.8,東勢區,17.2,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=5170151
-3089529,電競客棧宜舍館,2444,,,8.9,很讚,12,8.9,中區,0.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=3089529
-33973746,風自然親子時尚旅宿,7563,,2.5,8.9,很讚,269,9.0,后里區,18.5,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=33973746
-5196685,城市水棧汽車旅館,2121,,2.5,7.8,很好,788,8.1,大雅區,7.6,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=5196685
-27919051,潣鑫旅居,2620,2833,3.0,8.4,很讚,4247,10.0,西屯區,3.2,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=27919051
-1164884,星河商旅,2070,2894,3.0,7.8,很好,1961,,中區,0.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=1164884
-2439374,逢甲 築光,1732,2350,2.5,7.7,很好,1017,8.3,逢甲,4.9,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=2439374
-59912408,心媞SPA休閒旅館,2199,4960,5.0,8.1,很讚,488,8.7,北區,2.5,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=59912408
-5920063,Rainbow Hill House彩虹山舍,3790,,3.0,8.6,很讚,682,8.3,新社區,16.1,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=5920063
-59854763,巷寓逢甲 Lane Fengjia,1413,3201,2.5,7.0,很好,232,,逢甲,5.1,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=59854763
-3377995,春日旅宿,2306,4000,2.0,8.3,很讚,1816,8.8,北區,0.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=3377995
-22412261,SharonInn閒雲小居會館,1881,5175,3.0,8.0,很讚,2099,8.7,中區,0.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=22412261
-63636880,斑鳩巢行旅,1845,4000,3.0,8.1,很讚,52,8.5,北區,0.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=63636880
-1016025,逢甲美學院,1979,3600,1.5,8.0,很讚,445,8.3,逢甲,4.9,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=1016025
-7417036,梨的故事館,2609,3705,4.0,8.6,很讚,299,8.4,東勢區,21.5,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=7417036
-55889569,Art Turtle,2078,,3.0,9.1,超棒,217,9.2,龍井區,9.4,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=55889569
-40482452,逢甲沐旅,1974,,3.5,8.5,很讚,1674,9.0,逢甲,4.6,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=40482452
-13449737,暖かさ城宿,1905,,3.5,8.9,很讚,867,9.2,北區,0.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=13449737
-3578031,星月文旅民宿,3680,4236,3.0,8.2,很讚,385,8.1,后里區,19.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=3578031
-38596879,逢甲的3臥室獨棟住宅 - 100平方公尺/2間專用衛浴,9953,12472,3.5,9.5,超棒,78,9.1,西屯區,5.7,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=38596879
-247715,瑞君商務旅館,1425,2453,3.0,7.3,很好,1483,8.2,東區,0.2,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=247715
-78750157,皇凱酒店,1322,1585,2.0,7.3,很好,781,,中區,0.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=78750157
-67798480,馨舍民宿,1916,2146,2.5,8.1,很讚,43,8.2,新社區,13.8,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=67798480
-4138595,戀愛逢甲精品旅店,1395,4500,3.0,7.3,很好,735,,逢甲,4.9,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=4138595
-28017530,台中自由行,2857,,4.0,8.8,很讚,96,9.8,西區,1.8,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=28017530
-50083825,谷關的5臥室公寓 - 500平方公尺/7間專用衛浴,1772,4000,4.0,7.7,很好,15,,谷關,25.2,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=50083825
-29525999,星光山悦景觀民宿,3257,,3.0,8.0,很讚,192,,東勢區,21.2,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=29525999
-41213431,樂萄萄逢甲,2588,,3.0,8.8,很讚,297,9.1,逢甲,4.8,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=41213431
-2733901,鹿莫思 Lumos,3810,4448,3.0,8.9,很讚,92,8.6,清水區,21.9,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=2733901
-1266540,金禧民宿,1729,,3.0,8.3,很讚,618,9.2,龍井區,9.4,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=1266540
-38049738,卡布里,1524,2451,3.0,8.4,很讚,1072,9.1,北區,0.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=38049738
-36358384,圈圈宿QQs & 三點不陋SDBL,2113,2338,4.0,9.1,超棒,204,8.9,龍井區,9.6,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=36358384
-17211684,Manju,1331,2496,2.0,7.0,很好,2,9.0,逢甲,4.8,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=17211684
-1621810,豐和立hotel商旅,3999,,,8.0,很讚,451,8.7,逢甲,5.2,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=1621810
-35415231,墨鐵會館,3058,8000,3.0,8.1,很讚,168,8.3,中區,0.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=35415231
-90729066,star hostel,2325,2688,3.0,8.9,很讚,18,,北屯區,5.4,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=90729066
-2241466,長居,1732,1763,4.0,8.8,很讚,2242,8.9,逢甲,4.2,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=2241466
-9883694,希臘地中海旅館,1732,,2.5,7.4,很好,351,,逢甲,4.5,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=9883694
-58312721,New Swiss Hotel 新瑞士大旅店,2771,,,7.0,很好,19,,和平區,58.7,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=58312721
-37145103,慢 生活屋,2494,3882,3.0,8.5,很讚,545,9.3,逢甲,4.8,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=37145103
-2379855,后里庄園,2034,2351,3.0,8.3,很讚,207,8.3,后里區,17.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=2379855
-7424779,逢甲客居,1558,2742,,7.6,很好,264,8.7,逢甲,4.5,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=7424779
-30789349,采岩汽車旅館,2468,3170,,8.7,很讚,162,9.2,北屯區,2.9,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=30789349
-1623161,框框背包客棧,1461,,5.0,9.2,超棒,757,9.1,龍井區,9.5,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=1623161
-1196883,心戀逢甲,1558,,4.0,7.4,很好,788,8.4,逢甲,4.6,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=1196883
-83401287,Stellar Twilight Ｘ,3729,,3.5,9.2,超棒,10,9.0,和平區,63.9,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=83401287
-5894563,逢甲Jocy House,2381,,2.5,8.3,很讚,858,8.3,逢甲,4.6,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=5894563
-5901665,D.Y. Hotel,1732,,3.0,8.3,很讚,233,8.4,北區,0.3,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=5901665
-463045,仁美時尚飯店,2402,2824,3.0,7.9,很好,1272,,北區,0.5,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=463045
-7482817,RaRa 旅宿,2320,,,8.5,很讚,228,9.1,逢甲,4.2,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=7482817
-66731893,台中一中街 元宿,3010,,,9.0,超棒,120,9.3,北區,0.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=66731893
-81168666,山頂洞人,1238,,2.5,8.6,很讚,37,9.5,豐原區,10.6,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=81168666
-27997663,逢甲Morning,2147,,3.0,7.7,很好,508,8.4,逢甲,4.6,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=27997663
-12430433,逢甲Jumbo,1645,,3.0,7.9,很好,468,9.1,逢甲,4.8,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=12430433
-31962817,一中街灰熊飯店 - 活性氧離子消毒 - 消滅病毒及細菌，酒精消毒，實名登記,2307,,3.0,8.7,很讚,1535,8.9,北區,0.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=31962817
-8258594,朵麗絲會館,1769,6449,3.5,8.9,很讚,53,8.4,沙鹿區,16.1,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=8258594
-1574735,麗都平價商旅,1855,2162,,6.6,滿意,38,,北屯區,5.3,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=1574735
-17211689,Warm House Hostel,2246,2346,2.0,9.2,超棒,12,8.9,新社區,13.7,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=17211689
-81184784,逢甲Cartoon,2457,,3.0,8.2,很讚,184,9.0,逢甲,4.6,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=81184784
-17207845,Mei Hsiao Yuen Hostel,2241,2591,2.0,7.8,很好,127,,逢甲,4.9,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=17207845
-807015,豪宮大飯店,1195,,2.5,6.4,滿意,674,,中區,0.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=807015
-83130553,山禾湖畔,3541,,3.0,9.3,超棒,25,8.7,新社區,15.1,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=83130553
-9883677,一中找宿,2095,2668,2.5,8.5,很讚,82,8.8,北區,0.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=9883677
-42566752,西濱休息站旁,1314,1387,3.0,6.1,滿意,140,,大安區,26.6,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=42566752
-37833972,逢甲的3臥室獨棟住宅 - 100平方公尺/2間專用衛浴,9953,13940,3.5,9.7,超棒,104,9.3,西屯區,5.7,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=37833972
-34038854,新社小宿食光包棟民宿,12857,,3.5,8.4,很讚,15,8.5,新社區,13.3,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=34038854
-3088820,流星花園民宿,3636,5586,3.0,8.3,很讚,65,,豐原區,13.4,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=3088820
-11308844,逢甲樂寶,4762,,3.0,8.6,很讚,202,9.3,逢甲,5.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=11308844
-1578709,Feng Chia Rove,1714,2230,3.0,7.9,很好,191,10.0,逢甲,4.9,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=1578709
-34468735,逢甲的1臥室公寓 - 40平方公尺/1間專用衛浴,3540,4251,2.5,9.2,超棒,5,10.0,西屯區,4.1,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=34468735
-72151859,大雪星空包棟民宿,18298,29800,4.0,9.6,超棒,4,,東勢區,20.9,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=72151859
-10672011,清水區的1臥室獨棟住宅 - 30平方公尺/1間專用衛浴,2159,7529,2.5,9.0,超棒,12,8.7,清水區,17.9,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=10672011
-9095279,東海13.8民宿,1981,,4.0,9.1,超棒,551,9.4,龍井區,9.4,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=9095279
-5964302,逢甲晨熙,1368,,3.0,6.2,滿意,47,,逢甲,4.9,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=5964302
-31438648,龍井鄉的2臥室獨棟住宅 - 180平方公尺/1間專用衛浴,1916,5754,4.0,9.0,超棒,7,,龍井區,15.8,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=31438648
-8451272,168活水源民宿,8348,10192,3.0,8.7,很讚,18,8.5,東勢區,15.5,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=8451272
-60665595,勤美高樓層雙面窗景觀房28樓,2949,7908,4.0,9.6,超棒,219,9.6,西區,1.7,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=60665595
-38670027,東勢區的1臥室獨棟住宅 - 50平方公尺/1間專用衛浴,3942,4063,3.0,9.4,超棒,20,8.9,東勢區,18.3,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=38670027
-61367029,北區的1臥室小屋 - 平方公尺/1間專用衛浴,18963,25715,2.5,,,,,北區,1.3,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=61367029
-49668830,西區的1臥室公寓 - 50平方公尺/1間專用衛浴,7373,8856,2.0,,,,,西區,1.8,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=49668830
-25066194,逢甲的1臥室獨棟住宅 - 15平方公尺/1間專用衛浴,8193,11111,1.5,,,,,逢甲,4.7,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=25066194
-6117128,一中春日,2438,3270,,8.6,很讚,1634,8.5,北區,0.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=6117128
-62504467,中區的1臥室公寓 - 12平方公尺/1間專用衛浴,7227,9800,1.0,,,,,北區,0.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=62504467
-29418945,北區的1臥室公寓 - 15平方公尺/1間專用衛浴,3114,,2.5,9.8,超棒,2,10.0,西屯區,2.4,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=29418945
-62093350,中區的1臥室公寓 - 8平方公尺/1間專用衛浴,6563,,2.0,,,,,北區,0.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=62093350
-84652808,Shanhe Lake,3251,3755,2.0,9.2,超棒,19,,新社區,14.8,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=84652808
-12488521,西屯區公寓套房 - 40平方公尺/1間專用衛浴,3618,,3.0,9.0,超棒,23,9.5,西屯區,4.1,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=12488521
-11040420,高美大有貨櫃民宿,2667,,3.5,7.3,很好,73,8.3,清水區,21.9,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=11040420
-26865985,逢甲的5臥室公寓 - 30平方公尺/4間專用衛浴,63132,67992,2.0,,,,,逢甲,4.9,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=26865985
-8744334,西屯區的1臥室公寓 - 30平方公尺/1間專用衛浴,8185,9831,3.5,2.0,評鑑得分,1,,逢甲,4.4,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=8744334
-63296979,逢甲的4臥室公寓 - 15平方公尺/4間專用衛浴,168952,,3.0,,,,,西屯區,2.8,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=63296979
-63140206,北區的1臥室公寓 - 10平方公尺/0間專用衛浴,7227,9800,1.5,,,,,北區,0.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=63140206
-37842951,逢甲的3臥室公寓 - 100平方公尺/2間專用衛浴,9953,12403,3.5,9.7,超棒,105,9.0,西屯區,5.7,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=37842951
-64171779,Play Play YiChuang,2560,2959,2.0,8.4,很讚,113,,北區,0.0,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=64171779
-10543959,太平區的1臥室小屋 - 13平方公尺/0間專用衛浴,10242,,3.0,,,,,太平區,2.6,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=10543959
-63296950,逢甲的1臥室公寓 - 16平方公尺/1間專用衛浴,168952,,3.0,,,,,西屯區,2.8,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=63296950
-10547392,Smile House Homestay,2957,,3.0,8.5,很讚,42,8.4,太平區,5.4,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=10547392
-17217359,北區的1臥室公寓 - 7平方公尺/1間專用衛浴,22491,,4.0,7.8,很好,16,,北區,0.6,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=17217359
-36376503,Matsu Suite Room,1589,2189,3.5,7.5,很好,2,10.0,清水區,13.5,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=36376503
-75905943,逢甲的1臥室 - 平方公尺/1間專用衛浴,5899,7999,1.5,,,,,逢甲,4.9,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=75905943
-78195970,逢甲的1臥室獨棟住宅 - 平方公尺/1間專用衛浴,22122,29999,1.5,9.6,超棒,429,9.8,逢甲,4.5,否,否,https://www.agoda.com/zh-tw/accom/property?propertyId=78195970
+55805457,新通豪大飯店,1526,2895,4.0,8.5,很讚,14621,8.8,北區,1.9,是,是,https://www.agoda.com/zh-tw/t-hotel/hotel/taichung-tw.html
+81213815,丰森酒店,1282,4569,4.0,8.9,很讚,874,9.1,北區,0.3,是,是,https://www.agoda.com/zh-tw/fosen-hotel/hotel/taichung-tw.html
+292676,統一渡假村 - 谷關溫泉養生會館,5741,12000,4.0,8.5,很讚,4341,8.6,谷關,31.9,是,是,https://www.agoda.com/zh-tw/uni-resort-kukuan/hotel/taichung-tw.html
+246351,宿野行旅,1372,5488,3.0,8.5,很讚,5890,8.8,北區,0.3,否,否,https://www.agoda.com/zh-tw/jin-man-jia-hotel/hotel/taichung-tw.html
+31635581,葉綠宿-茶覺旅,1151,4605,3.0,8.9,很讚,9060,9.4,中區,0.0,是,否,https://www.agoda.com/zh-tw/fm-hotel_2/hotel/taichung-tw.html
+35441673,春樹商旅,1403,5610,3.5,9.1,超棒,10280,9.0,西區,1.7,是,否,https://www.agoda.com/zh-tw/spring-s-rhapsody-hotel/hotel/taichung-tw.html
+407479,台中日月千禧酒店,3408,12000,5.0,9.0,超棒,12449,9.1,西屯區,3.6,是,否,https://www.agoda.com/zh-tw/millennium-hotel-taichung/hotel/taichung-tw.html
+798543,林酒店,3769,13800,5.0,8.8,很讚,22250,9.3,西屯區,4.4,是,否,https://www.agoda.com/zh-tw/the-lin-hotel/hotel/taichung-tw.html
+29149415,台中鳳凰酒店,1974,7260,5.0,8.9,很讚,15965,9.1,中區,0.0,是,否,https://www.agoda.com/zh-tw/phoenix-hotel-taichung/hotel/taichung-tw.html
+16424623,台中東旅,1123,4494,3.0,8.9,很讚,12971,9.1,中區,0.0,是,否,https://www.agoda.com/zh-tw/da-dun-street-hotel/hotel/taichung-tw.html
+64629833,塔木德酒店 Classic 台灣大道館,1735,3756,4.0,8.9,很讚,1656,9.2,西區,0.4,是,是,https://www.agoda.com/zh-tw/classic/hotel/taichung-tw.html
+411750,53行館,979,3917,4.0,8.8,很讚,21173,9.3,中區,0.0,是,是,https://www.agoda.com/zh-tw/53-hotel/hotel/taichung-tw.html
+39633306,永豐棧酒店,1655,6620,5.0,8.0,很讚,10105,8.8,西屯區,2.6,是,否,https://www.agoda.com/zh-tw/tempus-hotel-taichung_3/hotel/taichung-tw.html
+37131495,享得道HOTEL,2364,7886,4.0,9.1,超棒,9035,9.4,西屯區,4.1,是,否,https://www.agoda.com/zh-tw/in-joy-hotel/hotel/taichung-tw.html
+23070137,麗寶樂園- T11/T12賽車主題旅店,2120,8481,3.0,8.3,很讚,2208,8.3,后里區,17.9,否,否,https://www.agoda.com/zh-tw/t11-t12-hotel/hotel/taichung-tw.html
+55664247,烏日璞旅,2200,3817,4.0,8.9,很讚,7991,8.4,烏日區,9.2,是,否,https://www.agoda.com/zh-tw/boutech-wuri/hotel/taichung-tw.html
+35444406,暮雲商旅,1387,5550,3.0,9.1,超棒,9486,9.1,西區,1.7,是,否,https://www.agoda.com/zh-tw/autumn-willow-hotel/hotel/taichung-tw.html
+61225109,采寓,2414,3111,4.0,9.0,超棒,4572,9.5,西屯區,4.2,是,否,https://www.agoda.com/zh-tw/halo-hotel/hotel/taichung-tw.html
+4973376,三好行旅,1803,7200,4.0,8.6,很讚,14950,9.2,南屯區,3.0,是,否,https://www.agoda.com/zh-tw/sun-hao-hotel-taichung/hotel/taichung-tw.html
+4973327,台中大毅老爺行旅,2325,9300,4.0,9.0,超棒,13009,9.0,西區,0.9,否,否,https://www.agoda.com/zh-tw/the-place-taichung/hotel/taichung-tw.html
+7585,台中福華大飯店,2131,8525,5.0,8.8,很讚,16850,8.8,西屯區,6.4,是,否,https://www.agoda.com/zh-tw/howard-prince-hotel-taichung/hotel/taichung-tw.html
+535693,KUN Hotel逢甲,1035,4140,4.0,8.6,很讚,15288,9.2,逢甲,5.0,是,否,https://www.agoda.com/zh-tw/kun-hotel/hotel/taichung-tw.html
+5288,長榮桂冠酒店 - 台中,2597,9000,5.0,8.8,很讚,26140,9.1,西屯區,2.4,是,否,https://www.agoda.com/zh-tw/evergreen-laurel-hotel-taichung/hotel/taichung-tw.html
+255728,碧根逢甲酒店,1224,4896,4.0,8.5,很讚,19674,9.5,逢甲,4.8,否,否,https://www.agoda.com/zh-tw/beacon-hotel/hotel/taichung-tw.html
+782687,Hotel 7 逢甲,1298,5193,4.0,8.8,很讚,22666,9.1,逢甲,5.1,是,否,https://www.agoda.com/zh-tw/hotel-7-taichung/hotel/taichung-tw.html
+90296009,一宿逢甲Fengjia OneNight,489,1344,3.0,8.7,很讚,201,9.4,逢甲,4.9,是,否,https://www.agoda.com/zh-tw/fengjia-onenight/hotel/taichung-tw.html
+5819,台中金典酒店,2613,8000,5.0,8.8,很讚,13547,9.4,西區,1.8,否,否,https://www.agoda.com/zh-tw/splendor-hotel/hotel/taichung-tw.html
+50139881,We2大飯店,876,3504,3.0,8.4,很讚,2889,8.9,中區,0.0,是,否,https://www.agoda.com/zh-tw/moon-lake-hotel_3/hotel/taichung-tw.html
+4576031,薆悅酒店五權館,1563,6252,4.0,9.0,超棒,9405,9.0,北區,0.4,否,否,https://www.agoda.com/zh-tw/inhouse-hotel-grand/hotel/taichung-tw.html
+2733310,卡爾登飯店台中館,1589,4805,4.0,8.5,很讚,11552,8.6,西區,2.0,是,否,https://www.agoda.com/zh-tw/the-carlton-taichung/hotel/taichung-tw.html
+246346,全國大飯店,2011,5600,4.0,8.6,很讚,12952,9.4,西區,1.5,是,否,https://www.agoda.com/zh-tw/hotel-national/hotel/taichung-tw.html
+570005,水雲端旗艦概念旅館,1834,6560,,8.7,很讚,8688,8.9,逢甲,5.2,是,否,https://www.agoda.com/zh-tw/icloud-luxury-resort-and-hotel/hotel/taichung-tw.html
+240528,台中輕行旅,815,2600,4.0,8.4,很讚,10719,9.4,中區,0.0,是,否,https://www.agoda.com/zh-tw/butler-hotel-plaza-hotel/hotel/taichung-tw.html
+867602,悅樂旅店台中文心,1567,5950,4.0,9.0,超棒,2035,9.2,北屯區,1.9,否,否,https://www.agoda.com/zh-tw/linkworld-hotel-taichung/hotel/taichung-tw.html
+248403,台中裕元花園酒店,3402,11660,5.0,9.0,超棒,7640,8.9,西屯區,6.5,是,否,https://www.agoda.com/zh-tw/windsor-hotel/hotel/taichung-tw.html
+5056282,探索私旅,1543,5892,4.0,9.0,超棒,28970,9.2,逢甲,5.1,是,否,https://www.agoda.com/zh-tw/explore-hotel/hotel/taichung-tw.html
+5795498,GOGO HOTEL 逢甲館,1289,5155,4.0,8.9,很讚,6580,9.4,逢甲,4.7,是,否,https://www.agoda.com/zh-tw/icasa-by-gogo-hotel/hotel/taichung-tw.html
+1148754,薆悅酒店台中館,1024,4096,4.0,8.7,很讚,14584,8.6,東區,0.7,否,否,https://www.agoda.com/zh-tw/inhouse-hotel-taichung/hotel/taichung-tw.html
+1414975,MINI HOTELS - 逢甲館,908,3633,3.5,8.7,很讚,15775,9.2,逢甲,5.1,是,否,https://www.agoda.com/zh-tw/mini-hotels-feng-jia-branch/hotel/taichung-tw.html
+69185,中科大飯店,1502,2554,3.0,8.5,很讚,14229,8.9,北屯區,1.8,否,否,https://www.agoda.com/zh-tw/zhong-ke-hotel/hotel/taichung-tw.html
+1162573,天月人文休閒汽車旅館,1489,5957,3.0,8.6,很讚,4813,9.0,西屯區,4.8,是,否,https://www.agoda.com/zh-tw/moonlight-motel/hotel/taichung-tw.html
+161830,台中逢甲文華道,1231,4924,4.0,8.7,很讚,19211,9.2,逢甲,4.9,是,否,https://www.agoda.com/zh-tw/taichung-fengjia-in-one-city-inn/hotel/taichung-tw.html
+773214,豐邑逢甲商旅,2078,7700,4.0,9.0,超棒,16521,9.4,逢甲,4.6,是,否,https://www.agoda.com/zh-tw/la-vida-hotel/hotel/taichung-tw.html
+772256,雲端商務旅館,880,3200,3.0,8.5,很讚,12073,8.7,中區,0.0,是,否,https://www.agoda.com/zh-tw/the-cloud-hotel/hotel/taichung-tw.html
+665570,紅點文旅,1712,3874,4.0,8.7,很讚,8477,8.6,中區,0.0,是,否,https://www.agoda.com/zh-tw/red-dot-hotel/hotel/taichung-tw.html
+59299567,臺中勤美洲際酒店,7276,19853,5.0,9.1,超棒,1323,9.6,西區,1.4,否,否,https://www.agoda.com/zh-tw/intercontinental-taichung/hotel/taichung-tw.html
+8186321,浮雲客棧,1870,6000,3.0,9.0,超棒,12135,9.3,逢甲,4.9,是,否,https://www.agoda.com/zh-tw/kloud-hotel_2/hotel/taichung-tw.html
+17526138,台中豐邑MOXY酒店,2251,,3.5,8.7,很讚,6071,8.9,南屯區,3.0,否,否,https://www.agoda.com/zh-tw/moxy-taichung/hotel/taichung-tw.html
+446412,雀客旅館 台中來來,1293,,4.0,9.0,超棒,5891,9.6,北區,0.0,否,否,https://www.agoda.com/zh-tw/lai-lai-hotel/hotel/taichung-tw.html
+236983,清新溫泉飯店,4246,9577,5.0,8.4,很讚,8325,,烏日區,8.7,否,否,https://www.agoda.com/zh-tw/fresh-fields-hotel/hotel/taichung-tw.html
+35957887,朵茉行館,2272,3693,3.0,8.8,很讚,3020,8.9,西屯區,5.0,是,否,https://www.agoda.com/zh-tw/domo-hotel/hotel/taichung-tw.html
+4415812,MINI HOTELS - 台中火車站館,954,3816,3.5,9.0,超棒,13987,9.4,東區,0.4,是,否,https://www.agoda.com/zh-tw/mini-hotels-taichung-station-branch/hotel/taichung-tw.html
+6425500,台中順天環匯酒店,3400,3894,4.5,8.9,很讚,4560,8.8,逢甲,5.1,是,否,https://www.agoda.com/zh-tw/the-huan-hotel-taichung/hotel/taichung-tw.html
+149167,天閣酒店台中館,2042,4490,4.0,8.7,很讚,10982,9.0,南屯區,2.5,是,否,https://www.agoda.com/zh-tw/tango-hotel-taichung/hotel/taichung-tw.html
+5862575,赫絲珀HSR高鐵行旅,1303,5211,3.0,8.4,很讚,8309,8.5,烏日區,6.7,否,否,https://www.agoda.com/zh-tw/hotel-hesper-hsr-taichung/hotel/taichung-tw.html
+73196323,橙居台中,1062,4246,4.0,8.7,很讚,1063,9.0,西區,2.1,否,否,https://www.agoda.com/zh-tw/hotel-day-plus-taichung/hotel/taichung-tw.html
+91999145,森朵文旅 Santor Hotel,1693,6000,4.0,9.0,超棒,51,8.4,西屯區,6.4,是,否,https://www.agoda.com/zh-tw/santor-hotel/hotel/taichung-tw.html
+69424292,塔木德酒店 CLASSIC 台中火車站館,1782,3794,4.0,8.8,很讚,1003,9.2,中區,0.0,是,否,https://www.agoda.com/zh-tw/talmud-hotel-taichung-taichung-train-station/hotel/taichung-tw.html
+1031516,威汀城市酒店,1797,5200,4.0,8.5,很讚,9236,8.1,大雅區,8.6,是,否,https://www.agoda.com/zh-tw/hotel-reve-taichung/hotel/taichung-tw.html
+2279955,KUN Tour Hotel逢甲,1109,4437,4.0,8.7,很讚,13807,9.1,逢甲,5.0,是,否,https://www.agoda.com/zh-tw/kun-tour-hotel/hotel/taichung-tw.html
+76473968,長弘時尚旅店-臺中文心舘,782,1304,3.0,8.8,很讚,1120,9.2,西屯區,2.9,是,否,https://www.agoda.com/zh-tw/grand-hotel_2/hotel/taichung-tw.html
+234438,台中商旅,2536,7000,4.0,9.1,超棒,9186,9.3,西屯區,4.8,否,否,https://www.agoda.com/zh-tw/hung-s-mansion/hotel/taichung-tw.html
+2405061,Old School行旅 田中央旅店,1622,4310,3.5,9.0,超棒,10155,9.3,東區,0.4,是,否,https://www.agoda.com/zh-tw/old-school-hotel/hotel/taichung-tw.html
+1196211,GOGO HOTEL 市政館,1116,4463,4.0,8.8,很讚,6483,8.7,西屯區,2.9,是,否,https://www.agoda.com/zh-tw/gogo-hotel/hotel/taichung-tw.html
+84990909,旭樹・寓所 Hotel Arbol Taichung,1864,2732,4.0,8.9,很讚,215,8.8,西屯區,7.9,是,否,https://www.agoda.com/zh-tw/hotel-arbol-taichung/hotel/taichung-tw.html
+35039894,台中李方艾美酒店,4800,,4.0,8.9,很讚,3817,9.2,中區,0.0,是,否,https://www.agoda.com/zh-tw/le-meridien-taichung/hotel/taichung-tw.html
+76987931,歐酷酒店,3392,,5.0,9.0,超棒,1975,9.0,中區,0.0,是,否,https://www.agoda.com/zh-tw/oku-hotel/hotel/taichung-tw.html
+262575,台中日光溫泉會館,3231,10000,5.0,8.5,很讚,4111,8.2,北屯區,8.8,是,否,https://www.agoda.com/zh-tw/the-sun-hot-spring-resort/hotel/taichung-tw.html
+7260156,逢甲馬吉屋,466,1862,2.0,8.4,很讚,4657,9.3,逢甲,4.3,是,否,https://www.agoda.com/zh-tw/fengjia-tonight-hostel/hotel/taichung-tw.html
+335867,麗寶樂園－福容大飯店,3833,12800,5.0,8.8,很讚,3482,9.0,后里區,18.1,是,否,https://www.agoda.com/zh-tw/lihpao-resort/hotel/taichung-tw.html
+6510594,城市漫遊行旅,993,3972,3.0,8.8,很讚,2656,8.4,北屯區,4.5,是,否,https://www.agoda.com/zh-tw/hotel-ramble/hotel/taichung-tw.html
+1177990,水舞行館,2028,5500,4.0,8.5,很讚,4485,8.4,南屯區,4.8,是,否,https://www.agoda.com/zh-tw/shuei-wu-motel/hotel/taichung-tw.html
+61747933,旅居文旅-台中文心館,1178,,3.0,8.9,很讚,3069,9.1,北區,1.6,否,否,https://www.agoda.com/zh-tw/h59936609/hotel/taichung-tw.html
+1060645,賀緹酒店,1919,6800,3.0,8.9,很讚,7883,8.7,太平區,2.5,是,否,https://www.agoda.com/zh-tw/he-ti-hotel/hotel/taichung-tw.html
+20998886,葉綠宿站前館-川閱,1052,3444,3.0,9.0,超棒,7848,9.1,中區,0.0,是,否,https://www.agoda.com/zh-tw/green-hotel-midori/hotel/taichung-tw.html
+1573604,草悟道文旅,1001,2974,3.0,8.1,很讚,12936,9.0,西區,1.2,否,否,https://www.agoda.com/zh-tw/calligraphy-greenway-hotel/hotel/taichung-tw.html
+527771,麻雀巢行旅,661,2644,3.0,8.6,很讚,11847,8.7,中區,0.0,是,否,https://www.agoda.com/zh-tw/talmud-business-hotel-zhong-shan/hotel/taichung-tw.html
+433342,台中港酒店,3010,7849,4.0,8.6,很讚,5409,,梧棲區,19.2,是,否,https://www.agoda.com/zh-tw/taichung-harbor-hotel/hotel/taichung-tw.html
+1220614,承攜行旅-台中自由館,1105,4422,4.0,8.6,很讚,6589,8.9,中區,0.0,是,否,https://www.agoda.com/zh-tw/moving-star-hotel/hotel/taichung-tw.html
+8066947,葉綠宿一中館(一中漫走),994,3977,3.5,8.9,很讚,4121,9.5,北區,0.0,是,否,https://www.agoda.com/zh-tw/taichung-easylazy-inn/hotel/taichung-tw.html
+6165939,二八樹巷藝術文旅,2219,5600,4.0,9.1,超棒,3884,8.8,西屯區,3.8,是,否,https://www.agoda.com/zh-tw/28shuxiang/hotel/taichung-tw.html
+528878,雙星大飯店,684,2737,4.0,8.3,很讚,27424,9.1,東區,0.2,是,否,https://www.agoda.com/zh-tw/twinstar-hotel/hotel/taichung-tw.html
+3578462,天韻精品旅館,3063,9438,4.0,8.7,很讚,3888,8.8,南屯區,4.6,是,否,https://www.agoda.com/zh-tw/ease-motel-taichung/hotel/taichung-tw.html
+399450,沐蘭精品旅館-台中館,2299,5500,4.0,8.7,很讚,4865,9.0,西屯區,4.1,是,否,https://www.agoda.com/zh-tw/mulan-motel/hotel/taichung-tw.html
+734797,星漾商旅 - 台中一中館,1127,3800,,8.6,很讚,5541,9.1,北區,0.0,是,否,https://www.agoda.com/zh-tw/stay-hotel/hotel/taichung-tw.html
+1400088,希堤微旅 - 逢甲店,1639,5500,3.0,8.7,很讚,5132,8.9,西屯區,4.1,是,否,https://www.agoda.com/zh-tw/hotel-mapp/hotel/taichung-tw.html
+35218975,17逢甲住宿,392,1566,2.5,7.1,很好,990,,逢甲,5.1,是,否,https://www.agoda.com/zh-tw/17/hotel/taichung-tw.html
+444492,塔木德酒店Classic 台中台中館,1944,4997,4.0,8.3,很讚,6919,8.4,西屯區,3.7,是,否,https://www.agoda.com/zh-tw/talmud-business-hotel-yuan-de/hotel/taichung-tw.html
+1254507,TALMUD Select伯達行旅,1595,5200,4.0,8.0,很讚,5373,8.4,逢甲,5.7,否,否,https://www.agoda.com/zh-tw/boda-hotel-taichung/hotel/taichung-tw.html
+6948019,余舍行旅,1289,5154,4.0,8.5,很讚,9123,8.5,逢甲,5.7,是,否,https://www.agoda.com/zh-tw/royal-roi-hotel/hotel/taichung-tw.html
+2061499,雀客旅館台中文心中清,937,3520,3.0,8.3,很讚,5788,8.5,北區,2.5,否,否,https://www.agoda.com/zh-tw/yong-yue-hotel/hotel/taichung-tw.html
+60406,谷關飯店,2296,5244,3.0,8.1,很讚,4751,8.7,谷關,32.7,是,否,https://www.agoda.com/zh-tw/ku-kuan-hotel/hotel/taichung-tw.html
+33243220,雀客旅館台中青海,1089,4356,4.0,8.3,很讚,3094,8.6,逢甲,5.2,是,否,https://www.agoda.com/zh-tw/check-inn-taichung-qinghai-quarantine-hotel/hotel/taichung-tw.html
+1623662,荷米旅居,1009,4036,3.0,8.8,很讚,4265,9.0,中區,0.0,是,否,https://www.agoda.com/zh-tw/hommie-inn/hotel/taichung-tw.html
+85760473,福棧,1328,1707,3.0,9.1,超棒,215,9.7,大甲區,21.8,是,否,https://www.agoda.com/zh-tw/full-inn-h54979916/hotel/taichung-tw.html
+10564168,康茵行旅高鐵飯店,1272,2455,3.0,8.4,很讚,6332,8.3,南屯區,5.7,否,否,https://www.agoda.com/zh-tw/comin-place/hotel/taichung-tw.html
+7031776,極光情境旅館,1237,4680,3.0,8.8,很讚,5023,8.8,北屯區,4.1,是,否,https://www.agoda.com/zh-tw/aurora-motel/hotel/taichung-tw.html
+2264704,綠宿行旅,1860,3928,3.0,9.1,超棒,5891,9.2,西區,0.9,否,否,https://www.agoda.com/zh-tw/green-hotel-west-district_2/hotel/taichung-tw.html
+2971561,逢甲隱和旅,1077,4308,3.0,8.9,很讚,7057,9.4,逢甲,4.6,是,否,https://www.agoda.com/zh-tw/fengchia-innk-hotel/hotel/taichung-tw.html
+292360,雀客藏居台中大墩,1208,4833,5.0,8.4,很讚,7006,8.8,西屯區,2.5,是,否,https://www.agoda.com/zh-tw/tempus-hotel-da-dun/hotel/taichung-tw.html
+28533906,雀客快捷台中逢甲,841,3362,3.0,8.2,很讚,2038,9.1,逢甲,4.8,否,否,https://www.agoda.com/zh-tw/le-parker-taichung_3/hotel/taichung-tw.html
+25934748,挪威森林文創館,1579,3500,3.0,9.1,超棒,4779,9.5,南區,0.7,是,否,https://www.agoda.com/zh-tw/h25934748/hotel/taichung-tw.html
+1135397,頭等艙飯店台中綠園道館,1660,5000,4.0,8.9,很讚,13791,9.4,西區,1.7,是,否,https://www.agoda.com/zh-tw/airline-inn-taichung-green-park-way/hotel/taichung-tw.html
+1258043,雋格大飯店,957,2077,4.0,8.8,很讚,1630,8.8,東區,0.7,是,否,https://www.agoda.com/zh-tw/golden-pacific-hotel-taichung/hotel/taichung-tw.html
+8110292,一中慢漫呆,622,2487,2.0,8.9,很讚,10289,9.0,中區,0.0,是,否,https://www.agoda.com/zh-tw/adagio-hostel/hotel/taichung-tw.html
+734798,龍谷大飯店,1959,5039,3.0,8.1,很讚,6473,8.9,谷關,32.1,是,否,https://www.agoda.com/zh-tw/dragon-vally-hotel-and-paradise/hotel/taichung-tw.html
+1070209,雲河概念旅館,1694,1941,4.0,8.8,很讚,7869,9.0,南屯區,4.4,否,否,https://www.agoda.com/zh-tw/uherhotel/hotel/taichung-tw.html
+1136094,鵲絲旅店,909,2969,3.0,8.4,很讚,7651,9.3,逢甲,5.0,是,否,https://www.agoda.com/zh-tw/chase-walker-hotel/hotel/taichung-tw.html
+336387,新驛旅店台中車站店,1491,5964,4.0,8.9,很讚,15191,9.2,東區,0.1,是,否,https://www.agoda.com/zh-tw/cityinn-plus-taichung-station-branch/hotel/taichung-tw.html
+47213859,逢甲享沃行旅,1015,4060,3.0,9.1,超棒,618,9.6,逢甲,5.0,是,否,https://www.agoda.com/zh-tw/h47213859/hotel/taichung-tw.html
+1158177,台中逢甲米樂旅店,1288,5000,4.0,8.8,很讚,6304,8.6,逢甲,5.6,是,否,https://www.agoda.com/zh-tw/miller-inn/hotel/taichung-tw.html
+27851969,縵和旅居,3013,5564,3.0,9.4,超棒,2147,9.2,中區,0.0,是,否,https://www.agoda.com/zh-tw/manho-hotel/hotel/all/taichung-tw.html
+4846263,Hotel Z 逢甲,1429,5714,4.0,8.8,很讚,5131,9.1,逢甲,5.2,是,否,https://www.agoda.com/zh-tw/hotel-z/hotel/taichung-tw.html
+25940522,歐菲旅店,716,2863,3.0,7.7,很好,2046,8.3,西區,1.7,是,否,https://www.agoda.com/zh-tw/old-friend-hotel/hotel/taichung-tw.html
+1197413,紫禁城MOTEL主題會館(臺中市旅館343號),1550,5200,2.5,8.5,很讚,2211,8.7,南屯區,3.2,是,否,https://www.agoda.com/zh-tw/forbidden-city-motel/hotel/taichung-tw.html
+687216,塔木德酒店Choice 台中一中館,1360,2298,3.5,8.5,很讚,7472,9.4,北區,0.0,否,否,https://www.agoda.com/zh-tw/talmud-business-hotel-yi-chong/hotel/taichung-tw.html
+23136212,二川行旅,735,2477,3.0,8.7,很讚,1589,9.1,南區,0.2,是,否,https://www.agoda.com/zh-tw/hiriver-hotel/hotel/taichung-tw.html
+88136019,虹夕諾雅 谷關,19674,22488,5.0,9.0,超棒,93,9.3,谷關,32.8,否,否,https://www.agoda.com/zh-tw/hoshinoya-guguan-h23954616/hotel/taichung-tw.html
+1156717,雀客旅館台中黎明,803,3213,3.5,7.9,很好,2070,8.3,逢甲,5.6,是,否,https://www.agoda.com/zh-tw/lumi-hotel/hotel/taichung-tw.html
+564498,涵館汽車旅館,1541,3224,3.5,8.3,很讚,4495,8.3,南屯區,3.3,是,否,https://www.agoda.com/zh-tw/han-guan-motel/hotel/taichung-tw.html
+186891,台中新幹線花園酒店,1989,3846,4.0,8.6,很讚,7289,,南屯區,6.7,是,否,https://www.agoda.com/zh-tw/shinkansen-grand-hotel/hotel/taichung-tw.html
+445801,西悠飯店台中店  CU HOTEL,1489,3550,4.0,8.0,很讚,2857,8.1,北區,1.3,是,否,https://www.agoda.com/zh-tw/cu-hotel-taichung/hotel/taichung-tw.html
+67023,高苑商務旅館中正店,663,2654,3.0,8.2,很讚,4347,8.4,北區,0.2,是,否,https://www.agoda.com/zh-tw/kao-yuan-hotel-zhong-zheng_6/hotel/taichung-tw.html
+47999431,由扉寓所-逢甲舘,1426,5706,4.0,9.2,超棒,8110,9.3,逢甲,5.3,是,否,https://www.agoda.com/zh-tw/hotel-euphemia/hotel/taichung-tw.html
+10558579,臺中逢甲智選假日酒店,3026,5467,4.0,9.1,超棒,2871,9.5,逢甲,5.0,否,否,https://www.agoda.com/zh-tw/holiday-inn-express-taichung-fengchia/hotel/taichung-tw.html
+1184373,台中芭蕾城堡酒店,1502,1719,4.0,8.7,很讚,7067,8.6,南屯區,4.3,否,否,https://www.agoda.com/zh-tw/villa-ballet/hotel/taichung-tw.html
+1179332,新藍天旅棧,1252,4775,3.0,9.0,超棒,6226,9.1,中區,0.0,是,否,https://www.agoda.com/zh-tw/1969-blue-sky-hotel_3/hotel/taichung-tw.html
+502573,悅樂旅店- 台中站前,1460,5840,3.0,8.8,很讚,6191,9.2,中區,0.0,是,否,https://www.agoda.com/zh-tw/reloading-hotel/hotel/taichung-tw.html
+6956442,挪威森林行旅1號館,920,2545,3.0,8.6,很讚,1773,9.5,中區,0.0,是,否,https://www.agoda.com/zh-tw/blues-hotel/hotel/taichung-tw.html
+27746044,潣鑫旅居,596,2382,3.0,8.6,很讚,4761,8.5,西屯區,3.2,是,否,https://www.agoda.com/zh-tw/h27746044/hotel/taichung-tw.html
+16568051,挪威森林行旅3號館,761,2413,,8.9,很讚,1424,9.3,東區,0.0,是,否,https://www.agoda.com/zh-tw/norway-forest-travel-hotel-3-taichung/hotel/taichung-tw.html
+6913274,逗點 INN,1029,,,9.0,超棒,4435,9.3,東區,0.3,是,否,https://www.agoda.com/zh-tw/ddinn-hotel/hotel/taichung-tw.html
+6915990,路得行旅國際青年旅館台中站前館,821,2363,3.5,9.4,超棒,6978,9.8,中區,0.0,否,否,https://www.agoda.com/zh-tw/norden-ruder-hostel-taichung_2/hotel/taichung-tw.html
+529219,麗加園邸酒店,1135,2251,4.0,8.3,很讚,3460,8.9,西區,1.1,是,否,https://www.agoda.com/zh-tw/lichia-royal-garden-hotel/hotel/taichung-tw.html
+4415622,植光花園飯店,1698,4822,3.0,8.5,很讚,9003,8.5,中區,0.0,是,否,https://www.agoda.com/zh-tw/sof-hotel/hotel/taichung-tw.html
+255751,禾康商旅,1091,2478,3.0,8.6,很讚,2179,9.0,北屯區,3.1,否,否,https://www.agoda.com/zh-tw/herkang-hotel/hotel/taichung-tw.html
+3349975,曼特先生,716,1232,3.0,8.4,很讚,5882,8.8,中區,0.0,是,否,https://www.agoda.com/zh-tw/mr-mantter_2/hotel/taichung-tw.html
+762749,奇異果快捷旅店 - 站前二館,465,1861,3.0,8.6,很讚,17258,8.8,中區,0.0,是,否,https://www.agoda.com/zh-tw/kiwi-express-hotel-taichung-station-branch-ii/hotel/taichung-tw.html
+304391,仲信金鬱金香飯店,1608,6432,4.0,8.1,很讚,9391,,北屯區,4.3,是,否,https://www.agoda.com/zh-tw/maison-de-chine-chao-yin-building/hotel/taichung-tw.html
+83780808,沐夏會館,2323,4900,5.0,8.9,很讚,58,9.1,北屯區,3.9,是,否,https://www.agoda.com/zh-tw/h83780808/hotel/taichung-tw.html
+8707203,鳥人創意旅店,2445,5960,2.5,8.4,很讚,1608,8.7,北屯區,4.5,是,否,https://www.agoda.com/zh-tw/birdman-motel/hotel/taichung-tw.html
+807006,葉綠宿旅館 - 逢甲館,845,3380,3.0,8.7,很讚,8225,9.1,逢甲,4.8,否,否,https://www.agoda.com/zh-tw/green-hotel-fengjia/hotel/taichung-tw.html
+433385,伊麗莎白酒店,1068,4270,3.0,8.4,很讚,3438,9.1,西區,1.9,是,否,https://www.agoda.com/zh-tw/hotel-elizabeth/hotel/taichung-tw.html
+86388956,東隅行旅EastGateHotel,1114,4457,3.0,9.2,超棒,185,9.8,東區,0.2,是,否,https://www.agoda.com/zh-tw/eastgatehotel/hotel/taichung-tw.html
+2429991,Feng Jia 25 Hotel,708,2833,3.0,8.2,很讚,2504,8.2,逢甲,4.9,否,否,https://www.agoda.com/zh-tw/feng-jia-25-hotel/hotel/taichung-tw.html
+8266435,雀客旅館台中自由,950,3800,3.0,8.3,很讚,2113,8.8,中區,0.0,是,否,https://www.agoda.com/zh-tw/double-pretty-hotel/hotel/taichung-tw.html
+774178,富王大飯店,1429,2307,4.0,7.9,很好,6787,8.8,西屯區,3.2,否,否,https://www.agoda.com/zh-tw/fulwon-hotel/hotel/taichung-tw.html
+237067,歐遊國際連鎖精品旅館 - 台中館,1820,4590,4.0,8.5,很讚,1940,9.0,南屯區,3.2,是,否,https://www.agoda.com/zh-tw/all-ur-boutique-motel-tai-chung-branch/hotel/taichung-tw.html
+861981,璞樹文旅,1921,3663,3.0,8.8,很讚,7138,8.6,逢甲,5.3,是,否,https://www.agoda.com/zh-tw/treeart-hotel/hotel/taichung-tw.html
+67849944,星輝旅宿 一中館,779,2754,3.0,9.0,超棒,1408,9.5,北區,0.0,是,否,https://www.agoda.com/zh-tw/ms-hotel/hotel/taichung-tw.html
+2569726,圖樂文旅,916,3662,3.0,8.4,很讚,8594,9.2,逢甲,5.0,是,否,https://www.agoda.com/zh-tw/tu-le-wen-lu/hotel/taichung-tw.html
+527770,Unique Hotel 微笑73旅店,962,3847,4.0,8.4,很讚,5205,8.4,中區,0.0,是,否,https://www.agoda.com/zh-tw/unique-hotel-smile-73-hotel/hotel/taichung-tw.html
+41031325,凝萃文旅 台中車站店,589,2355,3.0,8.0,很讚,2759,8.7,中區,0.0,是,否,https://www.agoda.com/zh-tw/outstanding-literary-brigade/hotel/taichung-tw.html
+11059334,品朵行旅 台中 逢甲館,1152,,3.0,8.9,很讚,215,9.2,逢甲,4.2,是,否,https://www.agoda.com/zh-tw/jin-inn/hotel/taichung-tw.html
+9796019,嬉行旅,1772,5887,3.0,8.7,很讚,6841,9.0,西區,0.8,是,否,https://www.agoda.com/zh-tw/hotel-si/hotel/taichung-tw.html
+246344,豐原后豐商務會館,1856,3522,3.0,8.5,很讚,4065,8.4,豐原區,10.9,否,否,https://www.agoda.com/zh-tw/ho-fong-business-stay/hotel/taichung-tw.html
+6428111,台中旭日文旅,441,1765,3.0,7.9,很好,5529,8.3,北區,0.4,是,否,https://www.agoda.com/zh-tw/raise-hotel-taichung/hotel/taichung-tw.html
+2010790,逢甲小日子 Tiny Day,507,2029,4.0,7.4,很好,2318,,西屯區,4.2,是,否,https://www.agoda.com/zh-tw/fenjia-lemu/hotel/taichung-tw.html
+574301,台中星享道雅樂軒酒店,3203,,4.0,8.8,很讚,8091,9.4,逢甲,5.0,是,否,https://www.agoda.com/zh-tw/aloft-taichung-h574301/hotel/taichung-tw.html
+5824851,桂之旅,2597,5625,3.0,8.6,很讚,5043,8.8,西屯區,3.9,是,否,https://www.agoda.com/zh-tw/hotelkuei/hotel/taichung-tw.html
+5912004,雲月精品會館,1541,3303,3.0,8.7,很讚,844,8.8,大里區,3.9,是,否,https://www.agoda.com/zh-tw/kumotsuki-motel/hotel/taichung-tw.html
+255749,谷野民宿 民宿編號031,3713,9680,4.5,8.3,很讚,849,8.1,谷關,27.0,否,否,https://www.agoda.com/zh-tw/goya-spring-resort/hotel/taichung-tw.html
+6994144,逢甲微行商旅,1455,1662,3.0,8.7,很讚,1630,9.4,逢甲,4.9,是,否,https://www.agoda.com/zh-tw/micro-hotel/hotel/taichung-tw.html
+18809966,梧棲行旅,2836,3574,2.0,8.6,很讚,2146,8.5,梧棲區,19.2,否,否,https://www.agoda.com/zh-tw/oursea-hotel/hotel/taichung-tw.html
+301991,逢甲101 公寓,548,2191,3.0,7.1,很好,1368,,逢甲,4.9,是,否,https://www.agoda.com/zh-tw/dreamcatcher/hotel/taichung-tw.html
+187122,台中香城大飯店,1264,1447,4.0,8.5,很讚,4982,8.5,北屯區,1.4,是,否,https://www.agoda.com/zh-tw/charming-city-hotel-taichung/hotel/taichung-tw.html
+149099,台中公園智選假日飯店,3200,5638,4.0,8.4,很讚,6190,8.6,中區,0.0,是,否,https://www.agoda.com/zh-tw/holiday-inn-express-taichung-park/hotel/taichung-tw.html
+502276,企業家大飯店,744,2976,4.0,8.2,很讚,16168,8.9,東區,0.3,是,否,https://www.agoda.com/zh-tw/the-enterpriser-hotel/hotel/taichung-tw.html
+2374878,綠夜文旅,1352,2832,3.0,8.9,很讚,4467,9.4,西區,1.4,否,否,https://www.agoda.com/zh-tw/greenight-hotel/hotel/taichung-tw.html
+31726887,樂微行旅,1061,1185,3.0,9.1,超棒,905,9.4,南區,0.7,否,否,https://www.agoda.com/zh-tw/the-way-inn/hotel/taichung-tw.html
+2608005,夢樓旅店,874,3494,3.0,8.4,很讚,2524,8.9,西屯區,4.2,是,否,https://www.agoda.com/zh-tw/dream-mansion-hotel/hotel/taichung-tw.html
+67002,武陵富野渡假村,5887,7005,4.0,8.4,很讚,2183,9.0,和平區,66.3,是,否,https://www.agoda.com/zh-tw/hoya-resort-wuling/hotel/taichung-tw.html
+9883664,誠星青年旅館,1665,2327,3.0,9.3,超棒,5642,9.7,西區,1.3,是,否,https://www.agoda.com/zh-tw/star-hostel-taichung-parklane/hotel/all/taichung-tw.html
+241373,明高溫泉,1637,6550,3.0,7.4,很好,1409,8.2,谷關,32.4,否,否,https://www.agoda.com/zh-tw/mingao-spring-hotel/hotel/taichung-tw.html
+81838899,Mr.Petter 佩德先生,1204,3959,4.0,8.7,很讚,245,8.7,北屯區,2.2,是,否,https://www.agoda.com/zh-tw/mr-petter-h81838899/hotel/taichung-tw.html
+255791,華登商務大飯店,636,1049,3.0,7.5,很好,2405,,北屯區,2.2,是,否,https://www.agoda.com/zh-tw/waugh-den-business-hotel/hotel/taichung-tw.html
+7531370,台中香榭驪舍大飯店,1087,4348,3.0,8.3,很讚,3162,8.7,北區,0.1,是,否,https://www.agoda.com/zh-tw/champs-elysees-hotel/hotel/taichung-tw.html
+55986662,逢甲日佃寓所,1058,4234,3.0,8.8,很讚,452,9.5,逢甲,5.0,否,否,https://www.agoda.com/zh-tw/h55639503/hotel/taichung-tw.html
+67021,福爾摩沙聯盟草悟道酒店,1885,4696,3.0,8.2,很讚,2500,8.6,西區,1.0,否,否,https://www.agoda.com/zh-tw/formosa-corridor-hotel/hotel/taichung-tw.html
+37720366,禾淞津別邸,2129,5459,3.0,9.4,超棒,1941,9.4,西屯區,2.9,是,否,https://www.agoda.com/zh-tw/69/hotel/taichung-tw.html
+33984098,台中震大金鬱金香酒店,3186,12745,4.0,8.7,很讚,2367,8.3,梧棲區,19.5,是,否,https://www.agoda.com/zh-tw/h33984098/hotel/taichung-tw.html
+789214,雲平精品旅館,1601,5132,3.0,8.2,很讚,2605,8.3,太平區,1.9,是,否,https://www.agoda.com/zh-tw/taichung-ease-motel_2/hotel/taichung-tw.html
+300680,富信大飯店 台中店,1408,5632,4.0,8.6,很讚,6087,8.8,中區,0.0,是,否,https://www.agoda.com/zh-tw/fushin-hotel-taichung/hotel/taichung-tw.html
+2009176,達斯旅店,1271,3200,2.0,8.5,很讚,2972,9.4,逢甲,4.6,是,否,https://www.agoda.com/zh-tw/dazz-inn/hotel/taichung-tw.html
+4138262,時空行旅,1146,3335,3.5,8.4,很讚,2132,9.0,西區,2.0,是,否,https://www.agoda.com/zh-tw/time-flyer-hotel/hotel/taichung-tw.html
+928918,台中博客創意旅店,634,2283,3.0,8.5,很讚,9494,9.2,北區,0.0,是,否,https://www.agoda.com/zh-tw/taichung-box-design-hotel/hotel/taichung-tw.html
+2065090,星漾商旅台中中清館,1253,4600,,8.6,很讚,2975,8.6,北區,0.6,是,否,https://www.agoda.com/zh-tw/stay-hotel-taichung-zhongqing/hotel/taichung-tw.html
+5891777,雀客旅館台中中山,1785,4197,3.0,8.7,很讚,4576,8.8,中區,0.0,否,否,https://www.agoda.com/zh-tw/petrichor-hotel_4/hotel/taichung-tw.html
+6377126,台中萬豪萬楓酒店,3500,,4.0,8.5,很讚,1840,8.3,逢甲,5.7,是,否,https://www.agoda.com/zh-tw/fairfield-by-marriott-taichung/hotel/taichung-tw.html
+246322,惠來谷關溫泉會館,4398,,5.0,8.3,很讚,937,8.2,谷關,32.9,是,否,https://www.agoda.com/zh-tw/bali-nature-spa-hot-spring-resort/hotel/taichung-tw.html
+929466,川賦商旅,2828,5604,3.0,8.6,很讚,2627,9.1,豐原區,10.9,是,否,https://www.agoda.com/zh-tw/new-plaza-hotel/hotel/taichung-tw.html
+862611,巧合大飯店,717,2868,3.0,8.5,很讚,24205,9.3,中區,0.0,是,否,https://www.agoda.com/zh-tw/chance-hotel/hotel/taichung-tw.html
+886103,杜拜風情時尚旅館,1567,4970,3.5,8.4,很讚,3824,8.4,大雅區,7.8,否,否,https://www.agoda.com/zh-tw/dubai-villa-motel/hotel/taichung-tw.html
+434053,米卡沙旅店,1050,3430,3.5,8.4,很讚,7034,9.2,東區,0.088,是,否,https://www.agoda.com/zh-tw/hotel-mi-casa/hotel/taichung-tw.html
+28521603,台中拓程商旅,899,3597,3.0,7.7,很好,2138,8.6,逢甲,4.4,是,否,https://www.agoda.com/zh-tw/the-galerie-hotel_4/hotel/taichung-tw.html
+1254558,新盛橋行旅,763,3054,3.5,8.6,很讚,4767,9.2,中區,0.0,是,否,https://www.agoda.com/zh-tw/shin-sei-bashi-hotel/hotel/taichung-tw.html
+527769,Unique Hotel 黃埔75旅店,1038,4154,4.0,8.5,很讚,4437,8.6,西區,0.4,是,否,https://www.agoda.com/zh-tw/unique-hotel-military-75-hotel/hotel/taichung-tw.html
+665562,雀客快捷台中福星二館,612,2448,3.0,7.9,很好,2430,8.6,逢甲,5.0,是,否,https://www.agoda.com/zh-tw/story-hotel/hotel/taichung-tw.html
+291195,台中之星設計旅店,1536,4580,3.0,8.5,很讚,3656,8.6,逢甲,5.5,是,否,https://www.agoda.com/zh-tw/motel-stars-business/hotel/taichung-tw.html
+240536,新福商務飯店,1008,3210,3.0,8.4,很讚,2540,8.7,北區,1.2,是,否,https://www.agoda.com/zh-tw/sin-fu-business-hotel/hotel/taichung-tw.html
+3590369,莿　桐　花　文　創　微　旅,673,2690,3.0,8.4,很讚,7014,8.9,中區,0.0,是,否,https://www.agoda.com/zh-tw/taichung-napas-hotel/hotel/taichung-tw.html
+4129854,宇春商旅,1193,4000,,8.3,很讚,1100,8.5,北屯區,5.2,是,否,https://www.agoda.com/zh-tw/yu-chun-hotel_2/hotel/taichung-tw.html
+246394,博奇大飯店,693,2771,2.0,8.5,很讚,16702,8.8,中區,0.0,是,否,https://www.agoda.com/zh-tw/vip-hotel/hotel/taichung-tw.html
+33479873,一期家旅,1697,3333,3.0,8.9,很讚,2565,8.9,西區,0.5,否,否,https://www.agoda.com/zh-tw/1li7e-hotel/hotel/taichung-tw.html
+1194522,美之旅商務飯店,1110,1930,4.0,8.4,很讚,1432,8.9,西區,1.3,是,否,https://www.agoda.com/zh-tw/mei-business-hotel/hotel/taichung-tw.html
+5347424,富比世大飯店,506,2022,3.0,7.2,很好,5811,,北區,0.7,是,否,https://www.agoda.com/zh-tw/forbes-hotel_4/hotel/taichung-tw.html
+457521,安可旅店,574,2296,2.5,8.3,很讚,2611,9.3,中區,0.0,是,否,https://www.agoda.com/zh-tw/bravo-hotel/hotel/taichung-tw.html
+1196154,夏都精品汽車旅館,1261,4380,3.0,8.1,很讚,1952,8.5,北區,1.4,是,否,https://www.agoda.com/zh-tw/xiadu-motel/hotel/taichung-tw.html
+730333,梨山賓館,4236,7700,4.0,8.2,很讚,1556,8.7,和平區,57.9,是,否,https://www.agoda.com/zh-tw/li-shan-guest-house/hotel/taichung-tw.html
+8258564,和和旅宿,1785,4691,4.0,9.1,超棒,1095,9.0,后里區,18.0,是,否,https://www.agoda.com/zh-tw/wt-bnb-taichung/hotel/taichung-tw.html
+25455222,茂華商旅,1868,3980,3.0,8.6,很讚,792,9.4,大甲區,22.0,是,否,https://www.agoda.com/zh-tw/maohua-motel-h8886924/hotel/taichung-tw.html
+298494,台中朝聖行旅,562,2247,3.0,8.1,很讚,4904,8.4,北區,0.0,是,否,https://www.agoda.com/zh-tw/taichung-one-chung-business-hotel/hotel/taichung-tw.html
+241354,映夜行館,1936,,3.5,8.7,很讚,452,9.3,西屯區,4.2,是,否,https://www.agoda.com/zh-tw/enjoy-motel_2/hotel/taichung-tw.html
+519462,萊悅行旅-原愛來時尚旅館,879,3232,3.0,8.1,很讚,3119,8.6,西區,0.7,是,否,https://www.agoda.com/zh-tw/ai-lai-fashion-hotel/hotel/taichung-tw.html
+7788184,璽朵精品汽車旅館,1906,5680,3.0,8.6,很讚,1427,9.1,西屯區,4.8,是,否,https://www.agoda.com/zh-tw/chateau-boutique-motel/hotel/taichung-tw.html
+2307880,台中愛戀旅店,793,4266,3.0,8.2,很讚,7694,8.3,北區,0.3,是,否,https://www.agoda.com/zh-tw/taichung-amour-hotel_2/hotel/taichung-tw.html
+178273,鼎隆國際商旅,2135,4392,3.0,8.5,很讚,684,8.8,逢甲,4.4,是,否,https://www.agoda.com/zh-tw/hotel-dion/hotel/taichung-tw.html
+1166164,逢甲悠活,521,2085,3.0,7.7,很好,2699,8.3,逢甲,4.9,否,否,https://www.agoda.com/zh-tw/feng-chia-enjoy/hotel/taichung-tw.html
+2847740,凝萃G11 - 水岸隱邸,897,3588,3.0,8.4,很讚,2125,8.9,中區,0.0,是,否,https://www.agoda.com/zh-tw/g11-hotel/hotel/taichung-tw.html
+16504195,台中豐禾行旅,1088,1620,3.5,8.5,很讚,1525,8.5,北區,0.1,是,否,https://www.agoda.com/zh-tw/taichung-enrichlife-hotel/hotel/taichung-tw.html
+81149700,西悠巢旅臺中霧峰交響樂館,1544,2534,3.0,8.4,很讚,201,8.5,霧峰區,8.8,是,否,https://www.agoda.com/zh-tw/h81149700/hotel/taichung-tw.html
+10661804,楓采行館,1476,2780,3.0,7.9,很好,851,8.1,豐原區,9.7,是,否,https://www.agoda.com/zh-tw/mapleton-spa-motel-h10631417/hotel/taichung-tw.html
+4842342,覓玥精品時尚旅館,1616,,3.0,8.7,很讚,4391,8.7,太平區,2.5,是,否,https://www.agoda.com/zh-tw/miyue-motel/hotel/taichung-tw.html
+6546318,漫旅光城,1039,4156,3.0,8.7,很讚,4850,8.7,中區,0.0,是,否,https://www.agoda.com/zh-tw/m-hotel/hotel/taichung-tw.html
+17244617,Holiday Inn Express TAICHUNG PARK by IHG,2701,3094,4.0,8.9,很讚,504,,中區,0.0,否,否,https://www.agoda.com/zh-tw/holiday-inn-express-taichung-park_7/hotel/taichung-tw.html
+1160085,小西城旅店,664,2656,2.5,8.5,很讚,4208,8.5,西區,0.4,是,否,https://www.agoda.com/zh-tw/mini-west-hotel/hotel/taichung-tw.html
+241996,皇星商旅中港館,1205,3569,3.0,8.1,很讚,2579,8.7,逢甲,4.4,是,否,https://www.agoda.com/zh-tw/huang-shin-business-hotel-chung-kang/hotel/taichung-tw.html
+35350599,水瓶精品汽車旅館,1904,,3.0,8.6,很讚,1597,9.0,南屯區,2.6,是,否,https://www.agoda.com/zh-tw/aquarius-boutique-motel/hotel/taichung-tw.html
+17219559,遇旅 House,635,2541,4.0,8.9,很讚,3164,9.3,北區,0.0,是,否,https://www.agoda.com/zh-tw/inn_9/hotel/all/taichung-tw.html
+32764601,旅行家,687,2748,3.0,8.7,很讚,2642,8.5,西屯區,3.2,是,否,https://www.agoda.com/zh-tw/vivace-hostel/hotel/taichung-tw.html
+1991561,風華嚼旅,1169,4675,3.0,9.0,超棒,5155,9.1,北區,0.0,是,否,https://www.agoda.com/zh-tw/la-vie-hotel/hotel/taichung-tw.html
+1134991,默默旅宿,1775,2031,4.0,8.8,很讚,1745,8.7,后里區,18.0,是,否,https://www.agoda.com/zh-tw/momo-bnb/hotel/taichung-tw.html
+7033715,叮噹旅舍,1195,,3.0,8.4,很讚,2468,8.4,逢甲,5.6,是,否,https://www.agoda.com/zh-tw/hotel-bell/hotel/taichung-tw.html
+79562386,雅馥行旅,1325,2409,4.0,8.4,很讚,183,8.2,北屯區,2.2,是,否,https://www.agoda.com/zh-tw/h79562386/hotel/taichung-tw.html
+7338711,花沐蘭精品旅館,2407,3949,,8.6,很讚,1262,8.5,沙鹿區,15.0,是,否,https://www.agoda.com/zh-tw/hua-mu-lan-hotel/hotel/all/taichung-tw.html
+25760298,小鹿之家,674,2694,3.5,9.0,超棒,1679,9.2,北區,0.0,是,否,https://www.agoda.com/zh-tw/bambi-homestay/hotel/all/taichung-tw.html
+6851829,寄居蟹行旅,1408,4500,,7.9,很好,1531,,梧棲區,18.7,是,否,https://www.agoda.com/zh-tw/hermit-crab-b-b/hotel/taichung-tw.html
+10564014,台中逢甲金瑞文旅,969,1108,3.0,8.6,很讚,3586,9.2,逢甲,5.1,否,否,https://www.agoda.com/zh-tw/h10208156/hotel/taichung-tw.html
+8799180,華利大旅社,617,2470,3.0,8.5,很讚,3819,9.0,中區,0.0,否,否,https://www.agoda.com/zh-tw/modern-inn/hotel/taichung-tw.html
+566628,富帝大飯店,1272,,3.0,7.1,很好,959,,南區,2.1,否,否,https://www.agoda.com/zh-tw/fu-di-hotel/hotel/taichung-tw.html
+67271799,N2酒店,1170,4680,3.0,9.2,超棒,1674,9.6,北區,0.0,是,否,https://www.agoda.com/zh-tw/n2-hotel/hotel/taichung-tw.html
+6172064,LIANN Hotel 黎安商旅,1299,1802,3.0,7.7,很好,1419,8.4,逢甲,5.0,是,否,https://www.agoda.com/zh-tw/liann-hotel_2/hotel/all/taichung-tw.html
+24252648,第五大道汽車旅館,2234,4845,3.0,8.9,很讚,716,9.2,西屯區,3.9,是,否,https://www.agoda.com/zh-tw/fifth-avenue-motel/hotel/all/taichung-tw.html
+4983793,挪威森林漫活休閒旅館,1816,3150,3.0,8.6,很讚,3301,8.6,東區,2.6,是,否,https://www.agoda.com/zh-tw/norway-forest-leisure-motel/hotel/taichung-tw.html
+195790,梨山飛燕城堡度假飯店,3252,4792,3.0,8.0,很讚,276,8.4,和平區,58.3,否,否,https://www.agoda.com/zh-tw/swallow-castel-resort-hotel/hotel/taichung-tw.html
+252345,蘭夏會館,1472,,4.0,8.0,很讚,1139,8.5,南屯區,3.0,是,否,https://www.agoda.com/zh-tw/lanshy-boutique-motel/hotel/taichung-tw.html
+256492,西苑旅店,952,3810,3.0,7.6,很好,1211,8.1,中區,0.0,否,否,https://www.agoda.com/zh-tw/garden-hotel-taichung/hotel/taichung-tw.html
+547899,旅幸福-台中館,1111,4444,3.0,8.4,很讚,7452,8.3,中區,0.0,是,否,https://www.agoda.com/zh-tw/wemeet-boutique-hotel-taichung/hotel/taichung-tw.html
+81056855,山嵐居,4165,10000,3.0,9.0,超棒,51,9.1,和平區,62.0,否,否,https://www.agoda.com/zh-tw/h81056855/hotel/taichung-tw.html
+548665,麗緹汽車旅館,1002,4008,3.0,7.2,很好,1374,,北屯區,1.7,是,否,https://www.agoda.com/zh-tw/liti-motel/hotel/taichung-tw.html
+240657,塔木德酒店Choice 台中公園館,622,1601,3.0,7.6,很好,1411,,北區,0.2,是,否,https://www.agoda.com/zh-tw/talmud-business-hotel-gong-yuan/hotel/taichung-tw.html
+23126583,想窩11餐旅館,3593,4376,5.0,9.1,超棒,2214,8.7,沙鹿區,12.9,否,否,https://www.agoda.com/zh-tw/11/hotel/taichung-tw.html
+304372,豪爵大飯店 台中館,509,,3.5,8.0,很讚,3744,,西區,0.9,是,否,https://www.agoda.com/zh-tw/city-suites-taichung-wuquan/hotel/taichung-tw.html
+548905,合樂商旅台中朝馬,1323,4760,3.0,8.1,很讚,1876,8.9,西屯區,4.6,否,否,https://www.agoda.com/zh-tw/hola-motel/hotel/taichung-tw.html
+2281367,潛立方旅館,1139,1302,,8.6,很讚,687,8.5,西屯區,6.5,是,否,https://www.agoda.com/zh-tw/divecube-hotel_2/hotel/all/taichung-tw.html
+1621387,悅河精品旅館,1537,3980,3.0,8.3,很讚,2972,8.1,西屯區,5.4,是,否,https://www.agoda.com/zh-tw/voga-pic-motel/hotel/taichung-tw.html
+4641303,述夏精品汽車旅館,1801,,3.0,8.4,很讚,1428,8.4,北屯區,3.8,是,否,https://www.agoda.com/zh-tw/shushia-motel/hotel/taichung-tw.html
+55304628,高美燈塔園區,1212,4848,4.0,8.7,很讚,503,9.0,清水區,22.1,是,否,https://www.agoda.com/zh-tw/gaomei-lighthouse/hotel/taichung-tw.html
+33969819,后麗安心親子時尚旅宿,1326,2791,4.5,8.3,很讚,630,8.2,后里區,19.4,是,否,https://www.agoda.com/zh-tw/ho-li-safety-parent-child-inn/hotel/taichung-tw.html
+7447452,旅巷自在輕旅,1172,4100,,9.2,超棒,3684,9.6,中區,0.0,是,否,https://www.agoda.com/zh-tw/loosha-hostel_2/hotel/taichung-tw.html
+1723744,黑金文旅,782,2800,1.0,8.8,很讚,3219,8.8,中區,0.0,是,否,https://www.agoda.com/zh-tw/k-gold/hotel/taichung-tw.html
+73996464,后HO民宿,1528,4500,3.5,9.2,超棒,34,8.7,后里區,19.7,是,否,https://www.agoda.com/zh-tw/ho/hotel/taichung-tw.html
+3219911,漂鳥草悟道,834,3336,3.0,9.1,超棒,4691,9.4,西區,1.5,是,否,https://www.agoda.com/zh-tw/stray-birds-taichung-hostel_2/hotel/taichung-tw.html
+8812268,羅馬假期汽車旅館,1128,1611,3.0,7.6,很好,1804,8.1,大里區,3.9,否,否,https://www.agoda.com/zh-tw/roman-vacation-motel/hotel/taichung-tw.html
+46955423,沫秋立柳川行旅,1042,3797,3.0,8.5,很讚,1266,8.8,中區,0.0,是,否,https://www.agoda.com/zh-tw/mercuryhotel/hotel/taichung-tw.html
+2095896,簡愛汽車商務旅館 - 山西館,2867,,2.0,8.5,很讚,2402,8.8,北區,1.6,是,否,https://www.agoda.com/zh-tw/jane-eyre-motel/hotel/taichung-tw.html
+6256912,嵩夏汽車旅館,1455,3922,2.0,8.4,很讚,1654,8.7,大里區,2.4,是,否,https://www.agoda.com/zh-tw/song-xia/hotel/taichung-tw.html
+6587173,逢甲K行旅,1588,2312,3.0,9.2,超棒,2220,9.7,逢甲,4.5,是,否,https://www.agoda.com/zh-tw/fengjia-k-hotel/hotel/taichung-tw.html
+284508,皇星商旅 上安館,1162,3001,3.0,7.7,很好,1554,8.3,逢甲,4.4,是,否,https://www.agoda.com/zh-tw/huang-shin-business-hotel-shang-an/hotel/taichung-tw.html
+25467479,玉坤田商務旅館,2227,3376,4.0,8.3,很讚,598,8.1,梧棲區,16.2,是,否,https://www.agoda.com/zh-tw/yu-kun-tien-hotel/hotel/taichung-tw.html
+894063,台中商旅 八仙山莊,3714,4778,4.0,8.4,很讚,850,8.7,谷關,31.8,是,否,https://www.agoda.com/zh-tw/basian-villas/hotel/taichung-tw.html
+8511858,沐品居無櫃台自助旅棧,1094,1811,,8.9,很讚,1155,9.5,中區,0.0,是,否,https://www.agoda.com/zh-tw/mupinju-hostel/hotel/taichung-tw.html
+245773,奇異果快捷旅店 - 中正店,720,2310,3.0,7.9,很好,3336,8.4,中區,0.0,是,否,https://www.agoda.com/zh-tw/kiwi-express-hotel-zhongzheng-rd/hotel/taichung-tw.html
+463041,法堤商旅,903,3612,3.0,7.6,很好,1070,,北區,0.8,是,否,https://www.agoda.com/zh-tw/ren-mei-business-hotel/hotel/taichung-tw.html
+1274067,火柴盒青年旅館,720,1273,3.5,8.3,很讚,1032,8.7,龍井區,9.4,是,否,https://www.agoda.com/zh-tw/matchbox-hostel_2/hotel/taichung-tw.html
+4200738,春天國際旅館,1762,2670,,8.2,很讚,399,8.6,南區,3.4,是,否,https://www.agoda.com/zh-tw/spring-hotel/hotel/all/taichung-tw.html
+4997807,雀客快捷台中福星,950,2616,3.0,8.8,很讚,1577,9.1,逢甲,5.1,是,否,https://www.agoda.com/zh-tw/h-inn/hotel/taichung-tw.html
+7550517,風緻汽車旅館台中大里,1117,2199,,7.9,很好,1190,8.2,大里區,2.6,是,否,https://www.agoda.com/zh-tw/fongchih-motel/hotel/taichung-tw.html
+280983,漢彌敦大飯店,732,2716,2.5,7.6,很好,1090,8.3,西區,1.8,否,否,https://www.agoda.com/zh-tw/hamilton-hotel/hotel/taichung-tw.html
+246327,怡達汽車旅館,1281,1770,3.0,8.5,很讚,1007,9.0,東區,1.6,是,否,https://www.agoda.com/zh-tw/eusta-motel/hotel/taichung-tw.html
+26843368,木木行館,2800,5880,3.0,8.7,很讚,1022,8.8,北屯區,3.2,否,否,https://www.agoda.com/zh-tw/motel-lin/hotel/taichung-tw.html
+908103,踢‧生活背包客棧,633,1495,2.0,8.9,很讚,1263,8.8,龍井區,9.4,是,否,https://www.agoda.com/zh-tw/t-life-hostel/hotel/taichung-tw.html
+5441478,夢想12旅店,660,2638,3.0,8.6,很讚,4190,8.3,北區,0.2,是,否,https://www.agoda.com/zh-tw/unique-hotel-dream-12-hotel/hotel/taichung-tw.html
+51059057,元宿 – 台中一中街,940,3660,2.5,8.9,很讚,1276,9.5,北區,0.0,是,否,https://www.agoda.com/zh-tw/familyinn/hotel/taichung-tw.html
+2179613,行草景觀公寓,2016,8065,4.0,9.1,超棒,853,9.6,西區,1.8,是,否,https://www.agoda.com/zh-tw/corner-inn/hotel/all/taichung-tw.html
+1047300,62巷青年旅舍,670,1645,2.5,8.7,很讚,960,8.3,龍井區,10.0,是,否,https://www.agoda.com/zh-tw/lane62-hostel/hotel/taichung-tw.html
+13415509,巢旅宿,794,2644,,8.2,很讚,2006,8.7,中區,0.0,否,否,https://www.agoda.com/zh-tw/su-taichung-hostel/hotel/taichung-tw.html
+666288,浮逸旅館-文心中清館,1147,1373,2.0,7.4,很好,1204,,北區,2.6,是,否,https://www.agoda.com/zh-tw/kiwi-express-hotel-mrt-zhongqing-branch/hotel/taichung-tw.html
+10893974,久窩行旅一中館,1628,3044,,9.1,超棒,664,9.6,北區,0.0,是,否,https://www.agoda.com/zh-tw/k-hotel-yizhong/hotel/all/taichung-tw.html
+1184745,快樂腳旅棧,959,3680,2.0,8.7,很讚,2998,8.7,中區,0.0,是,否,https://www.agoda.com/zh-tw/happy-inn-hostel/hotel/taichung-tw.html
+76259499,酒桶山民宿,4429,6648,5.0,9.3,超棒,155,8.7,太平區,12.6,是,否,https://www.agoda.com/zh-tw/chill-hill-cottage/hotel/taichung-tw.html
+3073541,浮逸旅館-台中車站館,1147,3044,3.0,8.7,很讚,45,9.0,中區,0.0,是,否,https://www.agoda.com/zh-tw/kiwi-express-hotel-chenggong-rd_2/hotel/all/taichung-tw.html
+4935681,檸檬樹,580,2320,3.5,8.3,很讚,1313,9.0,北區,0.0,是,否,https://www.agoda.com/zh-tw/yi-chung-disney/hotel/all/taichung-tw.html
+27919051,潣鑫旅居,669,766,3.0,8.4,很讚,4247,10.0,西屯區,3.2,否,否,https://www.agoda.com/zh-tw/allegro-hostel_2/hotel/all/taichung-tw.html
+4210644,優勝美地汽車旅館中華會館,1455,3534,,8.7,很讚,417,9.3,北區,0.0,是,否,https://www.agoda.com/zh-tw/yosemite-motel-chunghua-branch/hotel/all/taichung-tw.html
+4070570,Spring SPA Motel 大里春天泡湯旅館,1938,4197,,8.5,很讚,1222,8.3,大里區,2.6,否,否,https://www.agoda.com/zh-tw/spring-spa-motel/hotel/all/taichung-tw.html
+81213732,丰居一中,1593,4528,4.0,9.0,超棒,392,9.2,北區,0.3,是,否,https://www.agoda.com/zh-tw/via-garden-hotel-h6537479/hotel/taichung-tw.html
+398987,金沙精品汽車旅館,1294,4780,3.0,7.9,很好,1294,8.3,北區,0.3,是,否,https://www.agoda.com/zh-tw/jin-sha-motel/hotel/taichung-tw.html
+2402417,撲克商旅,623,2492,3.0,8.4,很讚,3546,8.7,西區,0.0,是,否,https://www.agoda.com/zh-tw/aacehotel/hotel/taichung-tw.html
+8427607,真正好旅店,1368,1736,3.0,7.9,很好,801,8.4,豐原區,10.9,是,否,https://www.agoda.com/zh-tw/good-hotel/hotel/taichung-tw.html
+5943553,給恰旅店,1333,2057,3.0,8.5,很讚,4895,9.1,北區,0.0,否,否,https://www.agoda.com/zh-tw/getcha-hostel-bistro/hotel/taichung-tw.html
+5815264,水悅精品會館,1714,2325,,8.0,很讚,637,8.4,大里區,2.6,是,否,https://www.agoda.com/zh-tw/shuiyue-lizhi-motel/hotel/taichung-tw.html
+237712,台中怡東商務旅館,1677,6709,3.0,8.6,很讚,186,8.8,北區,2.2,否,否,https://www.agoda.com/zh-tw/hotel-e-tung/hotel/taichung-tw.html
+460317,艾菲爾Motel文化旅店,2417,2837,3.0,8.4,很讚,768,8.2,梧棲區,19.8,是,否,https://www.agoda.com/zh-tw/affair-motel/hotel/taichung-tw.html
+18778476,明通行商旅,1121,2214,,8.8,很讚,372,8.8,中區,0.0,是,否,https://www.agoda.com/zh-tw/hotel-huru-house/hotel/all/taichung-tw.html
+33847665,台基殿,571,2286,3.0,8.7,很讚,918,9.2,北區,0.0,是,否,https://www.agoda.com/zh-tw/h33847665/hotel/all/taichung-tw.html
+10888987,楓華沐月台灣大道行館,1173,3835,3.0,8.3,很讚,5055,8.7,北區,0.073,是,否,https://www.agoda.com/zh-tw/hotel-maple/hotel/taichung-tw.html
+2266809,一中街星澄,606,1931,3.0,8.3,很讚,692,8.9,北區,0.0,是,否,https://www.agoda.com/zh-tw/yi-zhong-jie-yujian-xiatian/hotel/taichung-tw.html
+64349322,浪琴Motel文創旅館,1455,2501,3.0,8.3,很讚,940,8.5,西區,1.7,是,否,https://www.agoda.com/zh-tw/h15911652/hotel/taichung-tw.html
+871763,過來旅店,1327,3173,3.0,8.7,很讚,2034,8.6,中區,0.0,是,否,https://www.agoda.com/zh-tw/p-f-hotel/hotel/taichung-tw.html
+2599368,東海牛棚背包客棧,779,1983,,8.2,很讚,748,8.7,龍井區,9.5,是,否,https://www.agoda.com/zh-tw/donghai-cottage-backpack-inn-suite/hotel/all/taichung-tw.html
+951316,高鐵戀館(香緹兒旅館事業有限公司),1607,1839,3.0,7.1,很好,368,,烏日區,6.3,否,否,https://www.agoda.com/zh-tw/shantir-motel/hotel/taichung-tw.html
+59854763,巷寓逢甲 Lane Fengjia,433,1731,2.5,7.0,很好,232,,逢甲,5.1,是,否,https://www.agoda.com/zh-tw/fengjia-91-house/hotel/all/taichung-tw.html
+2439374,逢甲 築光,502,2009,2.5,7.7,很好,1017,8.3,逢甲,4.9,是,否,https://www.agoda.com/zh-tw/funky-home_2/hotel/all/taichung-tw.html
+74752213,澄居 live in,688,,4.0,8.8,很讚,1326,9.6,北區,0.0,是,否,https://www.agoda.com/zh-tw/elk/hotel/taichung-tw.html
+256082,竹林雅致商務汽車旅館,1932,2082,3.5,8.4,很讚,905,8.6,南屯區,3.2,是,否,https://www.agoda.com/zh-tw/refinement-motel/hotel/taichung-tw.html
+27766137,好瓦文旅,2154,4332,3.0,8.7,很讚,1054,,沙鹿區,14.3,是,否,https://www.agoda.com/zh-tw/golden-w-hotel/hotel/all/taichung-tw.html
+3091045,台中車站智選假日酒店,3200,5440,4.0,8.7,很讚,1573,,中區,0.0,是,否,https://www.agoda.com/zh-tw/holiday-inn-express-taichung-park-an-ihg-hotel/hotel/all/taichung-tw.html
+4935999,春水漾精緻休閒旅館,1541,3264,,7.6,很好,451,,神岡區,10.6,是,否,https://www.agoda.com/zh-tw/spring-young-motel/hotel/all/taichung-tw.html
+5090523,Rhine Castle Hotel,1277,1454,3.0,8.6,很讚,142,8.8,沙鹿區,15.6,否,否,https://www.agoda.com/zh-tw/rhine-castle-hotel_7/hotel/taichung-tw.html
+34143530,Still Haus 静の宿,552,1859,3.5,8.6,很讚,1498,9.2,北區,0.0,是,否,https://www.agoda.com/zh-tw/free-stay-no-2/hotel/all/taichung-tw.html
+59912408,心媞SPA休閒旅館,1340,4960,5.0,8.1,很讚,488,8.7,北區,2.5,否,否,https://www.agoda.com/zh-tw/shining-motel_2/hotel/taichung-tw.html
+3940265,劦陶宛陶藝民宿,1973,3137,3.0,8.5,很讚,701,8.1,新社區,13.0,否,否,https://www.agoda.com/zh-tw/shye-lithuania-homestay/hotel/all/taichung-tw.html
+79927464,星雨行館- 全新商旅&長住優惠&統編發票&附設餐廳&逢甲洲際&一樓免費停車&國際會展中心,1275,,4.0,8.4,很讚,323,,北屯區,5.4,是,否,https://www.agoda.com/zh-tw/h79927464/hotel/all/taichung-tw.html
+86436345,鄉野Field Stay｜四時之居,1341,4800,2.5,8.8,很讚,17,8.3,清水區,19.8,是,否,https://www.agoda.com/zh-tw/field-stay/hotel/taichung-tw.html
+5972022,圖格旅,857,1670,,8.3,很讚,452,8.8,中區,0.0,是,否,https://www.agoda.com/zh-tw/tg-hostel/hotel/taichung-tw.html
+35484130,墨鐵會館,1327,3556,3.0,8.2,很讚,1446,8.6,中區,0.0,否,否,https://www.agoda.com/zh-tw/h35484130/hotel/all/taichung-tw.html
+245747,奇異果快捷旅店 - 站前一館,1454,3469,3.0,8.1,很讚,9927,9.0,中區,0.0,是,否,https://www.agoda.com/zh-tw/kiwi-express-hotel-taichung-station-branch-1/hotel/taichung-tw.html
+9115675,樂活行館Motel,2061,2249,3.0,8.6,很讚,881,8.7,南屯區,4.1,是,否,https://www.agoda.com/zh-tw/icolour-villa-motel/hotel/taichung-tw.html
+16136982,Song Hua Ju,927,,2.0,8.6,很讚,220,,谷關,26.4,是,否,https://www.agoda.com/zh-tw/housetel/hotel/taichung-tw.html
+8124561,想駐逢甲 Shine Residence,798,2439,3.0,8.1,很讚,1564,8.5,逢甲,5.1,否,否,https://www.agoda.com/zh-tw/shine-residence/hotel/all/taichung-tw.html
+5341861,神木谷假期大飯店,2727,4119,3.0,8.2,很讚,189,8.6,谷關,32.8,是,否,https://www.agoda.com/zh-tw/utopia-holiday-hotel_2/hotel/all/taichung-tw.html
+2662926,古都民宿,1306,5222,,8.3,很讚,44,,谷關,29.0,是,否,https://www.agoda.com/zh-tw/gudu-bed-and-breakfast/hotel/taichung-tw.html
+48711160,南島旅宿,765,875,2.0,8.4,很讚,272,8.8,龍井區,9.7,是,否,https://www.agoda.com/zh-tw/baby-time-family-b-b/hotel/taichung-tw.html
+4123094,優勝美地汽車旅館太原會館,1714,4819,,8.5,很讚,446,8.9,北區,1.6,是,否,https://www.agoda.com/zh-tw/yosemite-motel-taiyuan-branch_3/hotel/all/taichung-tw.html
+4144575,米閣商旅,799,2334,3.0,7.7,很好,1383,,北區,0.2,是,否,https://www.agoda.com/zh-tw/migo-hotel/hotel/taichung-tw.html
+10627376,勤天文旅 台中館,1158,2960,3.0,8.5,很讚,7,8.4,北區,0.1,是,否,https://www.agoda.com/zh-tw/hotel-maple/hotel/all/taichung-tw.html
+4062565,荷村 Motel,1818,2809,,7.8,很好,591,,梧棲區,16.6,是,否,https://www.agoda.com/zh-tw/motel_2/hotel/all/taichung-tw.html
+75534630,芙若蕥居,2383,3057,5.0,9.2,超棒,197,8.8,清水區,18.8,否,否,https://www.agoda.com/zh-tw/h75534630/hotel/all/taichung-tw.html
+1637735,詩歌謠天空,6369,8800,4.0,9.2,超棒,233,8.8,和平區,64.9,是,否,https://www.agoda.com/zh-tw/sqoyawsky/hotel/taichung-tw.html
+37339044,婧仕女微旅-女子限定Women Only,2558,,,9.2,超棒,100,8.9,西區,0.8,是,否,https://www.agoda.com/zh-tw/h37339044/hotel/all/taichung-tw.html
+80165818,雲山盼盼,2554,8000,1.0,9.3,超棒,30,8.8,東勢區,18.7,是,否,https://www.agoda.com/zh-tw/kumoyoku/hotel/taichung-tw.html
+1159063,電競客棧宜舍館,1949,3388,2.5,8.9,很讚,6610,9.0,中區,0.0,是,否,https://www.agoda.com/zh-tw/ease-single-inn/hotel/taichung-tw.html
+399551,麒麟峰溫泉會館,2504,4800,3.0,7.6,很好,727,,北屯區,5.4,是,否,https://www.agoda.com/zh-tw/kylin-peak-hotspring-resort/hotel/taichung-tw.html
+40482452,逢甲沐旅,519,,3.5,8.5,很讚,1674,9.0,逢甲,4.6,是,否,https://www.agoda.com/zh-tw/sky-tree-b-b/hotel/taichung-tw.html
+2923785,台中高鐵民宿,1156,2509,3.5,8.1,很讚,830,,烏日區,7.8,是,否,https://www.agoda.com/zh-tw/taichung-hsr-homestay/hotel/all/taichung-tw.html
+33973746,風自然親子時尚旅宿,4486,,2.5,8.9,很讚,269,9.0,后里區,18.5,是,否,https://www.agoda.com/zh-tw/wind-natural-parent-child-inn_2/hotel/taichung-tw.html
+45565768,薩圖恩文旅,799,2582,1.0,8.5,很讚,1196,8.7,北區,0.9,是,否,https://www.agoda.com/zh-tw/h45565768/hotel/taichung-tw.html
+2904001,高樓層豪景小宅,1320,3735,4.0,8.4,很讚,1905,9.5,西區,1.8,是,否,https://www.agoda.com/zh-tw/luxury-house/hotel/all/taichung-tw.html
+87941305,East Gate Hotel,967,,3.0,10.0,超棒,1,,東區,0.2,是,否,https://www.agoda.com/zh-tw/eastgatehotel-h88100676/hotel/taichung-tw.html
+49384818,Mini微行小窩,1028,1624,2.5,9.3,超棒,117,8.8,梧棲區,15.6,否,否,https://www.agoda.com/zh-tw/mini-h49384818/hotel/taichung-tw.html
+56033762,東海獨角獸,774,2800,3.5,8.1,很讚,44,8.5,龍井區,9.6,是,否,https://www.agoda.com/zh-tw/tunghai-unicorn/hotel/taichung-tw.html
+888851,背包41青年旅館 - 台中館,1245,3172,2.0,8.6,很讚,6068,9.0,中區,0.0,是,否,https://www.agoda.com/zh-tw/backpacker-41-hostel-taichung/hotel/taichung-tw.html
+58007439,台中逢甲路意,532,2129,3.5,8.3,很讚,598,9.2,逢甲,4.9,否,否,https://www.agoda.com/zh-tw/ez-stay/hotel/taichung-tw.html
+52233878,哇哈妮－環山部落,3649,5339,3.5,9.2,超棒,49,9.2,和平區,63.6,是,否,https://www.agoda.com/zh-tw/wahaniy/hotel/taichung-tw.html
+85391632,台中市最美高樓層雙面窗景觀房,2007,2389,5.0,10.0,超棒,1,10.0,西區,1.7,是,否,https://www.agoda.com/zh-tw/h85391632/hotel/taichung-tw.html
+78750157,皇凱酒店,529,1213,2.0,7.3,很好,781,,中區,0.0,是,否,https://www.agoda.com/zh-tw/huang-kai-hotel/hotel/taichung-tw.html
+23784664,高樓景觀宅High-Rise Taichung,1543,6171,3.5,8.4,很讚,2206,9.3,西區,1.8,是,否,https://www.agoda.com/zh-tw/h-high-rise-taichung/hotel/all/taichung-tw.html
+4138595,戀愛逢甲精品旅店,760,3038,3.0,7.3,很好,735,,逢甲,4.9,是,否,https://www.agoda.com/zh-tw/love-fengjia/hotel/taichung-tw.html
+3089529,電競客棧宜舍館,1629,,,8.7,很讚,13,9.0,中區,0.0,是,否,https://www.agoda.com/zh-tw/ease-single-inn_3/hotel/all/taichung-tw.html
+24247502,愛力根汽車旅館,1887,2890,,8.4,很讚,354,8.1,梧棲區,18.7,是,否,https://www.agoda.com/zh-tw/alegran-motel/hotel/all/taichung-tw.html
+2260218,心圓精緻汽車旅館,1299,2497,,7.8,很好,478,8.1,北屯區,3.3,是,否,https://www.agoda.com/zh-tw/xin-yuan-motel/hotel/all/taichung-tw.html
+37495760,南田旅宿親子商務,2190,,3.0,9.4,超棒,277,8.9,豐原區,12.0,是,否,https://www.agoda.com/zh-tw/h37495760/hotel/all/taichung-tw.html
+17211684,Manju,641,2562,2.0,7.0,很好,2,9.0,逢甲,4.8,是,否,https://www.agoda.com/zh-tw/sky-home-sky-house-h17211684/hotel/taichung-tw.html
+22412261,SharonInn閒雲小居會館,822,3152,3.0,8.0,很讚,2098,8.7,中區,0.0,是,否,https://www.agoda.com/zh-tw/h18465626/hotel/taichung-tw.html
+67798480,馨舍民宿,1712,2145,2.5,8.1,很讚,43,8.2,新社區,13.8,是,否,https://www.agoda.com/zh-tw/xin-she-homestay/hotel/taichung-tw.html
+76736685,梨山景觀民宿,3455,,3.0,8.6,很讚,84,9.0,和平區,58.8,否,否,https://www.agoda.com/zh-tw/h76736685/hotel/all/nantou-tw.html
+37192936,東南亞行旅,870,1496,,8.5,很讚,262,9.3,大甲區,21.5,是,否,https://www.agoda.com/zh-tw/southeast-asia-hostel/hotel/all/taichung-tw.html
+1266540,金禧民宿,1113,1410,3.0,8.3,很讚,618,9.2,龍井區,9.4,否,否,https://www.agoda.com/zh-tw/chinhsi-homestay/hotel/taichung-tw.html
+35415231,墨鐵會館,1389,5555,3.0,8.1,很讚,168,8.3,中區,0.0,是,否,https://www.agoda.com/zh-tw/hui-wan-business-hotel/hotel/taichung-tw.html
+266546,米拉飯店,762,,3.0,7.6,很好,1101,,北區,0.4,是,否,https://www.agoda.com/zh-tw/alice-hotel/hotel/taichung-tw.html
+247715,瑞君商務旅館,896,1612,3.0,7.3,很好,1484,8.2,東區,0.2,否,否,https://www.agoda.com/zh-tw/zaw-jung-business-hotel/hotel/taichung-tw.html
+5196685,城市水棧汽車旅館,1628,2056,2.5,7.8,很好,788,8.1,大雅區,7.6,是,否,https://www.agoda.com/zh-tw/city-water-stack-motel/hotel/taichung-tw.html
+79183958,一中 鎂宿館,613,,3.5,9.5,超棒,375,10.0,北區,0.0,否,否,https://www.agoda.com/zh-tw/h79183958/hotel/all/taichung-tw.html
+82626812,戀葡萄園民宿,3344,4100,,9.8,超棒,8,10.0,外埔區,18.3,是,否,https://www.agoda.com/zh-tw/h82626812-h82626812/hotel/taichung-tw.html
+5920063,Rainbow Hill House彩虹山舍,2838,3140,3.0,8.6,很讚,682,8.3,新社區,16.1,否,否,https://www.agoda.com/zh-tw/rainbow-hill-house/hotel/all/taichung-tw.html
+3377995,春日旅宿,691,2762,2.0,8.3,很讚,1817,8.8,北區,0.0,是,否,https://www.agoda.com/zh-tw/dream-homestay/hotel/taichung-tw.html
+1164884,星河商旅,719,2876,3.0,7.8,很好,1961,,中區,0.0,是,否,https://www.agoda.com/zh-tw/galaxia-business-hotel/hotel/taichung-tw.html
+2241466,長居,545,1763,4.0,8.8,很讚,2242,8.9,逢甲,4.2,是,否,https://www.agoda.com/zh-tw/nu-stay/hotel/taichung-tw.html
+1623161,框框背包客棧,870,1421,5.0,9.2,超棒,757,9.1,龍井區,9.5,是,否,https://www.agoda.com/zh-tw/kuang-kuang-hostel/hotel/taichung-tw.html
+46881681,133 Hotel,1181,1351,2.0,8.3,很讚,142,,烏日區,6.3,否,否,https://www.agoda.com/zh-tw/133-hotel-h18897456/hotel/taichung-tw.html
+1016025,逢甲美學院,726,2902,1.5,8.0,很讚,445,8.3,逢甲,4.9,是,否,https://www.agoda.com/zh-tw/fengchia-beauty-hostel/hotel/taichung-tw.html
+67531864,wuchiculture,5135,5869,2.0,10.0,超棒,1,10.0,梧棲區,19.3,否,否,https://www.agoda.com/zh-tw/wuchiculture/hotel/taichung-tw.html
+2733901,鹿莫思 Lumos,2667,3989,3.0,8.9,很讚,92,8.6,清水區,21.9,否,否,https://www.agoda.com/zh-tw/deer-gaomei/hotel/all/taichung-tw.html
+9377709,一中陽光,519,,2.0,8.5,很讚,75,9.0,北區,0.0,是,否,https://www.agoda.com/zh-tw/52-good-nest-milan/hotel/all/taichung-tw.html
+2100518,梅林親水岸,817,3270,4.0,6.4,滿意,497,,新社區,11.7,是,否,https://www.agoda.com/zh-tw/maylin/hotel/taichung-tw.html
+90258249,日出香頌旅宿,4362,,3.5,10.0,超棒,5,,后里區,16.1,是,否,https://www.agoda.com/zh-tw/2-h90258249/hotel/all/taichung-tw.html
+4835464,法格斯-石光,4502,4566,3.5,9.6,超棒,102,9.2,外埔區,18.3,是,否,https://www.agoda.com/zh-tw/frogs-time/hotel/all/taichung-tw.html
+50083825,谷關的5臥室公寓 - 500平方公尺/7間專用衛浴,1792,4000,4.0,7.7,很好,15,,谷關,25.2,是,否,https://www.agoda.com/zh-tw/h50083825/hotel/taichung-tw.html
+22357563,松之戀湖畔森林旅宿 The Pines,6165,6880,4.0,9.2,超棒,212,8.3,新社區,13.7,否,否,https://www.agoda.com/zh-tw/the-pines_2/hotel/all/taichung-tw.html
+55889569,Art Turtle,1299,,3.0,9.1,超棒,217,9.2,龍井區,9.4,是,否,https://www.agoda.com/zh-tw/art-turtle/hotel/taichung-tw.html
+52001175,西區的1臥室獨棟住宅 - 100平方公尺/1間專用衛浴,1563,,4.5,8.9,很讚,378,9.5,西區,1.8,是,否,https://www.agoda.com/zh-tw/h52001175/hotel/taichung-tw.html
+5901665,D.Y. Hotel,736,,3.0,8.3,很讚,233,8.4,北區,0.3,是,否,https://www.agoda.com/zh-tw/d-y-hotel_2/hotel/taichung-tw.html
+30789349,采岩汽車旅館,1688,2680,,8.7,很讚,162,9.2,北屯區,2.9,是,否,https://www.agoda.com/zh-tw/colorful-stone-motel/hotel/all/taichung-tw.html
+81184784,逢甲Cartoon,762,,3.0,8.2,很讚,185,8.9,逢甲,4.6,是,否,https://www.agoda.com/zh-tw/cartoon/hotel/all/taichung-tw.html
+42566752,西濱休息站旁,1314,1387,3.0,6.1,滿意,140,,大安區,26.6,是,否,https://www.agoda.com/zh-tw/h42566752/hotel/all/taichung-tw.html
+36358384,圈圈宿QQs & 三點不陋SDBL,1243,2374,4.0,9.1,超棒,204,8.9,龍井區,9.6,是,否,https://www.agoda.com/zh-tw/quan-quan-stay/hotel/all/taichung-tw.html
+7424779,逢甲客居,1645,2742,,7.6,很好,264,8.7,逢甲,4.5,是,否,https://www.agoda.com/zh-tw/feng-jia-homestay/hotel/all/taichung-tw.html
+6172929,大雪山莊園民宿,2604,2946,3.0,6.5,滿意,184,,谷關,22.0,是,否,https://www.agoda.com/zh-tw/king-villa/hotel/all/taichung-tw.html
+85391712,台中絕美雙面採光景觀房,3076,5278,5.0,8.7,很讚,3,10.0,西區,1.8,是,否,https://www.agoda.com/zh-tw/h85391712/hotel/taichung-tw.html
+46618132,史塔克的家民宿（Stark's House B&B）,2857,,2.5,8.1,很讚,186,,和平區,63.2,是,否,https://www.agoda.com/zh-tw/stark-s-house-b-b/hotel/all/taichung-tw.html
+1196883,心戀逢甲,779,1511,4.0,7.4,很好,788,8.4,逢甲,4.6,是,否,https://www.agoda.com/zh-tw/feng-chia-love-heart/hotel/taichung-tw.html
+3578031,星月文旅民宿,3680,4235,3.0,8.2,很讚,385,8.1,后里區,19.0,否,否,https://www.agoda.com/zh-tw/star-moon-b-b/hotel/all/taichung-tw.html
+1621810,豐和立hotel商旅,1129,,,8.0,很讚,451,8.7,逢甲,5.2,否,否,https://www.agoda.com/zh-tw/taichung-fengchia-hotel99/hotel/taichung-tw.html
+37145103,慢 生活屋,866,3463,3.0,8.5,很讚,545,9.3,逢甲,4.8,是,否,https://www.agoda.com/zh-tw/fengjia-pig-s-house/hotel/all/taichung-tw.html
+63636880,斑鳩巢行旅,685,1471,3.0,8.1,很讚,52,8.5,北區,0.0,是,否,https://www.agoda.com/zh-tw/taichung-one-hotel/hotel/taichung-tw.html
+9883694,希臘地中海旅館,693,1646,2.5,7.4,很好,351,,逢甲,4.5,是,否,https://www.agoda.com/zh-tw/greece-mediterranean-b-b/hotel/all/taichung-tw.html
+90729066,star hostel,1174,1341,3.0,8.9,很讚,18,,北屯區,5.4,是,否,https://www.agoda.com/zh-tw/star-hostel-h89081020/hotel/taichung-tw.html
+58312721,New Swiss Hotel 新瑞士大旅店,2424,2719,,7.0,很好,19,,和平區,58.7,是,否,https://www.agoda.com/zh-tw/h58312721/hotel/all/taichung-tw.html
+807015,豪宮大飯店,1039,1410,2.5,6.4,滿意,674,,中區,0.0,是,否,https://www.agoda.com/zh-tw/hau-gung-hotel/hotel/taichung-tw.html
+38049738,卡布里,571,2286,3.0,8.4,很讚,1072,9.1,北區,0.0,是,否,https://www.agoda.com/zh-tw/h38049738/hotel/all/taichung-tw.html
+27997663,逢甲Morning,606,1968,3.0,7.7,很好,508,8.4,逢甲,4.6,是,否,https://www.agoda.com/zh-tw/hapy-house/hotel/all/taichung-tw.html
+81168666,山頂洞人,1238,,2.5,8.6,很讚,37,9.5,豐原區,10.6,是,否,https://www.agoda.com/zh-tw/h81168666/hotel/all/taichung-tw.html
+41213431,樂萄萄逢甲,1207,2389,3.0,8.8,很讚,297,9.1,逢甲,4.8,是,否,https://www.agoda.com/zh-tw/h41213431/hotel/all/taichung-tw.html
+38596879,逢甲的3臥室獨棟住宅 - 100平方公尺/2間專用衛浴,8950,12470,3.5,9.5,超棒,78,9.1,西屯區,5.7,是,否,https://www.agoda.com/zh-tw/fengjia-enjoy-life-comfortable-whole-floor-home/hotel/taichung-tw.html
+39854672,逢甲緩慢時光,524,2095,2.0,8.4,很讚,617,8.8,逢甲,4.9,是,否,https://www.agoda.com/zh-tw/fengjia-boos-travel/hotel/all/taichung-tw.html
+7417036,梨的故事館,1739,2128,4.0,8.6,很讚,299,8.4,東勢區,21.5,是,否,https://www.agoda.com/zh-tw/pear-story-house/hotel/all/taichung-tw.html
+5170151,昭月民宿,2165,3444,3.0,9.1,超棒,312,8.8,東勢區,17.2,是,否,https://www.agoda.com/zh-tw/bright-moon-homestay/hotel/all/taichung-tw.html
+8258594,朵麗絲會館,1789,6448,3.5,8.9,很讚,53,8.4,沙鹿區,16.1,否,否,https://www.agoda.com/zh-tw/doris_2/hotel/taichung-tw.html
+5894563,逢甲Jocy House,619,2476,2.5,8.3,很讚,859,8.3,逢甲,4.6,是,否,https://www.agoda.com/zh-tw/fengjia-jocy-house/hotel/all/taichung-tw.html
+28017530,台中自由行,1905,2555,4.0,8.8,很讚,96,9.8,西區,1.8,否,否,https://www.agoda.com/zh-tw/elegant/hotel/all/taichung-tw.html
+1578709,Feng Chia Rove,741,2230,3.0,7.9,很好,191,10.0,逢甲,4.9,是,否,https://www.agoda.com/zh-tw/feng-chia-enjoy_2/hotel/all/taichung-tw.html
+463045,仁美時尚飯店,1147,2824,3.0,7.9,很好,1272,,北區,0.5,是,否,https://www.agoda.com/zh-tw/ren-mei-fashion-hotel/hotel/taichung-tw.html
+66731893,台中一中街 元宿,1029,,,9.0,超棒,120,9.3,北區,0.0,是,否,https://www.agoda.com/zh-tw/h66731893/hotel/all/taichung-tw.html
+29525999,星光山悦景觀民宿,3257,,3.0,8.0,很讚,192,,東勢區,21.2,否,否,https://www.agoda.com/zh-tw/h29525999/hotel/all/taichung-tw.html
+7482817,RaRa 旅宿,935,,,8.5,很讚,228,9.1,逢甲,4.2,是,否,https://www.agoda.com/zh-tw/rara-stay/hotel/taichung-tw.html
+17211689,Warm House Hostel,1991,2346,2.0,9.2,超棒,12,8.9,新社區,13.7,是,否,https://www.agoda.com/zh-tw/warm-house-hostel/hotel/taichung-tw.html
+83130553,山禾湖畔,2762,3336,3.0,9.3,超棒,25,8.7,新社區,15.1,是,否,https://www.agoda.com/zh-tw/a-shin-tainan-hostel-h83217467/hotel/taichung-tw.html
+31962817,一中街灰熊飯店 - 活性氧離子消毒 - 消滅病毒及細菌，酒精消毒，實名登記,809,,3.0,8.7,很讚,1535,8.9,北區,0.0,是,否,https://www.agoda.com/zh-tw/deer-seeker-b-b/hotel/taichung-tw.html
+23923307,台中向日葵,762,2103,2.5,8.4,很讚,146,8.7,北區,0.0,是,否,https://www.agoda.com/zh-tw/h23923307/hotel/all/taichung-tw.html
+31429710,龍井鄉的4臥室獨棟住宅 - 180平方公尺/3間專用衛浴,1904,7617,3.5,8.9,很讚,54,8.5,龍井區,15.8,是,否,https://www.agoda.com/zh-tw/queen-and-edan-house/hotel/taichung-tw.html
+19151920,Dreamwood Lodge 夢木小屋,19810,23442,4.5,9.5,超棒,43,9.0,東勢區,20.2,否,否,https://www.agoda.com/zh-tw/dreamwood-lodge/hotel/all/taichung-tw.html
+17207845,Mei Hsiao Yuen Hostel,867,992,2.0,7.8,很好,127,,逢甲,4.9,是,否,https://www.agoda.com/zh-tw/mei-hsiao-yuen-hostel-h17207845/hotel/taichung-tw.html
+80251330,雲山盼盼民宿,3038,,3.0,9.5,超棒,27,9.5,東勢區,18.7,是,否,https://www.agoda.com/zh-tw/h80251330/hotel/all/taichung-tw.html
+16567416,星森林包棟住宿-台中東勢-山區景觀,8485,12136,4.0,8.9,很讚,49,8.5,東勢區,19.7,否,否,https://www.agoda.com/zh-tw/star-forest/hotel/all/taichung-tw.html
+74224360,后HO民宿,1543,,3.0,10.0,超棒,5,10.0,后里區,20.0,是,否,https://www.agoda.com/zh-tw/holi-homestay/hotel/all/taichung-tw.html
+60665415,勤美高樓層雙面窗景觀房29樓,1863,7340,4.0,9.5,超棒,11,9.8,西區,1.7,否,否,https://www.agoda.com/zh-tw/rare-house-with-double-sided-windows-and-views/hotel/taichung-tw.html
+12430433,逢甲Jumbo,502,,3.0,7.9,很好,468,9.1,逢甲,4.8,是,否,https://www.agoda.com/zh-tw/jumbo-house/hotel/taichung-tw.html
+3088820,流星花園民宿,2909,5585,3.0,8.3,很讚,65,,豐原區,13.4,否,否,https://www.agoda.com/zh-tw/meteor-garden-b-b_2/hotel/all/taichung-tw.html
+1574735,麗都平價商旅,1855,2162,,6.6,滿意,38,,北屯區,5.3,是,否,https://www.agoda.com/zh-tw/rido-hotel/hotel/all/taichung-tw.html
+84657981,秀禾宇庭園民宿,2771,,4.5,9.8,超棒,4,,東勢區,17.2,是,否,https://www.agoda.com/zh-tw/h84657981/hotel/all/taichung-tw.html
+5964302,逢甲晨熙,762,,3.0,6.2,滿意,47,,逢甲,4.9,否,否,https://www.agoda.com/zh-tw/fengjai-chenxi/hotel/all/taichung-tw.html
+9883677,一中找宿,762,3048,2.5,8.5,很讚,82,8.8,北區,0.0,否,否,https://www.agoda.com/zh-tw/h9883677/hotel/all/taichung-tw.html
+9095279,東海13.8民宿,1314,1759,4.0,9.1,超棒,551,9.4,龍井區,9.4,是,否,https://www.agoda.com/zh-tw/donghae13-8/hotel/all/taichung-tw.html
+34038854,新社小宿食光包棟民宿,12857,,3.5,8.4,很讚,15,8.5,新社區,13.3,是,否,https://www.agoda.com/zh-tw/xinshe-xiao-shu-time-homestay/hotel/all/taichung-tw.html
+55965672,東海獨角獸,4429,,4.5,8.3,很讚,142,,龍井區,9.6,是,否,https://www.agoda.com/zh-tw/unicorn/hotel/all/taichung-tw.html
+10672011,清水區的1臥室獨棟住宅 - 30平方公尺/1間專用衛浴,2186,7528,2.5,9.0,超棒,12,8.7,清水區,17.9,否,否,https://www.agoda.com/zh-tw/joy-b-b/hotel/taichung-tw.html
+7462048,一中太陽綠墅,16000,,3.5,8.5,很讚,318,8.8,北區,0.5,否,否,https://www.agoda.com/zh-tw/sun-green-villa/hotel/all/taichung-tw.html
+876949,百老匯碟影旅館,7695,,2.0,7.6,很好,249,,北區,0.4,是,否,https://www.agoda.com/zh-tw/broadway-hotel/hotel/taichung-tw.html
+34468735,逢甲的1臥室公寓 - 40平方公尺/1間專用衛浴,3583,4245,2.5,9.2,超棒,5,10.0,西屯區,4.1,是,否,https://www.agoda.com/zh-tw/taichung-h34468735/hotel/taichung-tw.html
+37833972,逢甲的3臥室獨棟住宅 - 100平方公尺/2間專用衛浴,8950,13938,3.5,9.7,超棒,104,9.3,西屯區,5.7,是,否,https://www.agoda.com/zh-tw/fengjia-new-life-2-fengjia-and-shuinan-floor-room/hotel/taichung-tw.html
+31438648,龍井鄉的2臥室獨棟住宅 - 180平方公尺/1間專用衛浴,1938,5753,4.0,9.0,超棒,7,,龍井區,15.8,是,否,https://www.agoda.com/zh-tw/edan-and-queen-house/hotel/taichung-tw.html
+11017980,肆拾光陰 寵物友善 老宅民宿 Forty Time Homestay,4762,9020,3.5,8.7,很讚,3,9.2,龍井區,9.6,否,否,https://www.agoda.com/zh-tw/forty-time-homestay/hotel/all/taichung-tw.html
+7485912,歐森View包棟Villa x 雲海夜景 x 獨立空間,8381,14584,4.5,9.2,超棒,28,8.8,東勢區,19.5,否,否,https://www.agoda.com/zh-tw/view-villa-x-x/hotel/all/taichung-tw.html
+8451272,168活水源民宿,6783,10190,3.0,8.7,很讚,18,8.5,東勢區,15.5,是,否,https://www.agoda.com/zh-tw/168-living-water/hotel/all/taichung-tw.html
+72151859,大雪星空包棟民宿,14097,29800,4.0,9.6,超棒,4,,東勢區,20.9,否,否,https://www.agoda.com/zh-tw/h72151859/hotel/taichung-tw.html
+60665595,勤美高樓層雙面窗景觀房28樓,1863,7453,4.0,9.6,超棒,219,9.6,西區,1.7,否,否,https://www.agoda.com/zh-tw/24-f-3/hotel/taichung-tw.html
+60665597,勤美高樓層雙面窗·高樓層景觀房,1789,7155,4.0,9.5,超棒,65,9.8,西區,1.7,否,否,https://www.agoda.com/zh-tw/rare-double-sided-window-28-f-3/hotel/taichung-tw.html
+78195970,逢甲的1臥室獨棟住宅 - 平方公尺/1間專用衛浴,22782,29999,1.5,9.6,超棒,429,9.8,逢甲,4.5,否,否,https://www.agoda.com/zh-tw/central-taichung-6p-1-mins-fengchai-night-market/hotel/taichung-tw.html
+17217359,北區的1臥室公寓 - 7平方公尺/1間專用衛浴,23163,,4.0,7.8,很好,16,,北區,0.6,否,否,https://www.agoda.com/zh-tw/kiki/hotel/taichung-tw.html
+84652808,Shanhe Lake,2504,2866,2.0,9.2,超棒,19,,新社區,14.8,是,否,https://www.agoda.com/zh-tw/shanhe-lake-h84652808/hotel/taichung-tw.html
+75905943,逢甲的1臥室 - 平方公尺/1間專用衛浴,5973,7999,1.5,,,,,逢甲,4.9,是,否,https://www.agoda.com/zh-tw/h75905943/hotel/taichung-tw.html
+62093350,中區的1臥室公寓 - 8平方公尺/1間專用衛浴,6645,,2.0,,,,,北區,0.0,否,否,https://www.agoda.com/zh-tw/serenity-inn/hotel/taichung-tw.html
+63140206,北區的1臥室公寓 - 10平方公尺/0間專用衛浴,7322,9800,1.5,,,,,北區,0.0,否,否,https://www.agoda.com/zh-tw/h63140206/hotel/taichung-tw.html
+37842951,逢甲的3臥室公寓 - 100平方公尺/2間專用衛浴,8950,12401,3.5,9.7,超棒,105,9.0,西屯區,5.7,是,否,https://www.agoda.com/zh-tw/fengjia-enjoy-life-comfortable-whole-floor-home-h37842951/hotel/taichung-tw.html
+87078395,利木山居Lishan House,7082,8388,5.0,,,,,和平區,53.7,否,否,https://www.agoda.com/zh-tw/lishan-house-h87078395/hotel/taichung-tw.html
+25066194,逢甲的1臥室獨棟住宅 - 15平方公尺/1間專用衛浴,8297,11111,1.5,,,,,逢甲,4.7,是,否,https://www.agoda.com/zh-tw/cuppachino-home/hotel/taichung-tw.html
+38670027,東勢區的1臥室獨棟住宅 - 50平方公尺/1間專用衛浴,3985,4062,3.0,9.4,超棒,20,8.9,東勢區,18.3,是,否,https://www.agoda.com/zh-tw/passion/hotel/taichung-tw.html
+12488521,西屯區公寓套房 - 40平方公尺/1間專用衛浴,3663,,3.0,9.0,超棒,23,9.5,西屯區,4.1,是,否,https://www.agoda.com/zh-tw/sunny-house-h12488521/hotel/taichung-tw.html
+29418945,北區的1臥室公寓 - 15平方公尺/1間專用衛浴,3152,,2.5,9.8,超棒,2,10.0,西屯區,2.4,否,否,https://www.agoda.com/zh-tw/just-sleep/hotel/taichung-tw.html
+6117128,一中春日,723,2894,2.0,8.6,很讚,1634,8.5,北區,0.0,是,否,https://www.agoda.com/zh-tw/moon-house/hotel/all/taichung-tw.html
+3087505,萊悅行旅,876,1003,3.0,8.3,很讚,1280,8.5,西區,0.7,是,否,https://www.agoda.com/zh-tw/ai-lai-fashion-hotel_2/hotel/all/taichung-tw.html
+10543959,太平區的1臥室小屋 - 13平方公尺/0間專用衛浴,10376,,3.0,,,,,太平區,2.6,是,否,https://www.agoda.com/zh-tw/my-home/hotel/taichung-tw.html
+62504467,中區的1臥室公寓 - 12平方公尺/1間專用衛浴,7322,9800,1.0,,,,,北區,0.0,否,否,https://www.agoda.com/zh-tw/h62504467/hotel/taichung-tw.html
+61367029,北區的1臥室小屋 - 平方公尺/1間專用衛浴,19529,25715,2.5,,,,,北區,1.3,是,否,https://www.agoda.com/zh-tw/h61367029/hotel/taichung-tw.html
+8744334,西屯區的1臥室公寓 - 30平方公尺/1間專用衛浴,8293,9815,3.5,2.0,評鑑得分,1,,逢甲,4.4,是,否,https://www.agoda.com/zh-tw/fengjia-night-market-2-or-3-person-elevator-suite/hotel/taichung-tw.html
+11040420,高美大有貨櫃民宿,2667,,3.5,7.3,很好,73,8.3,清水區,21.9,是,否,https://www.agoda.com/zh-tw/komei-container-homestay/hotel/all/taichung-tw.html
+36376503,Matsu Suite Room,1609,2188,3.5,7.5,很好,2,10.0,清水區,13.5,是,否,https://www.agoda.com/zh-tw/q/hotel/taichung-tw.html
+10547392,Smile House Homestay,1565,,3.0,8.5,很讚,42,8.4,太平區,5.4,否,否,https://www.agoda.com/zh-tw/smile-house-homestay_2/hotel/all/taichung-tw.html
+26865985,逢甲的5臥室公寓 - 30平方公尺/4間專用衛浴,63321,67963,2.0,,,,,逢甲,4.9,是,否,https://www.agoda.com/zh-tw/victory/hotel/taichung-tw.html
+2522184,樹之間民宿 樟間 櫸間,3117,3340,,8.2,很讚,46,,東勢區,19.3,否,否,https://www.agoda.com/zh-tw/between-trees-bnb/hotel/all/taichung-tw.html
+63296979,逢甲的4臥室公寓 - 15平方公尺/4間專用衛浴,168952,,3.0,,,,,西屯區,2.8,否,否,https://www.agoda.com/zh-tw/30-8/hotel/taichung-tw.html
+9581712,東勢區的3臥室小屋 - 100平方公尺/3間專用衛浴,11940,12984,4.5,9.4,超棒,11,8.9,東勢區,19.3,否,否,https://www.agoda.com/zh-tw/shueiwei-house/hotel/taichung-tw.html
+63296950,逢甲的1臥室公寓 - 16平方公尺/1間專用衛浴,168952,,3.0,,,,,西屯區,2.8,否,否,https://www.agoda.com/zh-tw/30-30/hotel/taichung-tw.html
+49668830,西區的1臥室公寓 - 50平方公尺/1間專用衛浴,7470,8841,2.0,,,,,西區,1.8,是,否,https://www.agoda.com/zh-tw/cozy-cabin/hotel/taichung-tw.html
+64171779,Play Play YiChuang,824,,2.0,8.4,很讚,113,,北區,0.0,是,否,https://www.agoda.com/zh-tw/play-play-yichuang/hotel/fuzhou-cn.html
