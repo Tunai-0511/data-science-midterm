@@ -7,3 +7,6 @@ venv/
 # 作業系統
 .DS_Store
 Thumbs.db
+
+# 報告等成品（不進 git）
+out/

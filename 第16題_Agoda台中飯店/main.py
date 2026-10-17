@@ -30,7 +30,8 @@
     6. 移除沒有價格的飯店（已額滿或不開放預訂）。
     7. 移除重複的飯店（同一間飯店出現在不同頁，用 Agoda 的飯店 ID 判斷，只留第一次）。
     8. 格式轉換：把文字轉成可以計算的數字，例如價格「NT$ 1,474」→ 1474、
-       評價「平均很讚8.5分（滿分10分），共6,789則評論」→ 評分 8.5、評價等級「很讚」、評論數 6789。
+       評價「8.5 很讚 14,621 篇評鑑」→ 評分 8.5、評價等級「很讚」、評論數 14621
+       （Agoda 舊版寫成「平均很讚8.5分（滿分10分），共6,789則評論」，兩種寫法都能轉換）。
     9. 存成 agoda_result_processed.csv，並印出每一步移除了幾筆。
 
 輸出（與本程式同一個資料夾，重新執行會直接覆蓋）
@@ -38,7 +39,7 @@
     agoda_result_processed.csv  有資料處理（移除沒有價格、移除重複、格式轉換）
 
     價格說明：Agoda 顯示的是「每晚價格（不含稅及其他費用）」，日期與房價會隨查詢當天變動。
-    執行時間：每頁約 40 秒，全部約 3～4 分鐘。中途出錯或按 Ctrl+C，已抓到的資料照樣存檔處理。
+    執行時間：每頁約 40 秒，全部約 4～5 分鐘。中途出錯或按 Ctrl+C，已抓到的資料照樣存檔處理。
 
 執行
     python 第16題_Agoda台中飯店/main.py
@@ -52,7 +53,7 @@ from urllib.parse import parse_qs, urljoin, urlsplit
 import pandas as pd
 from bs4 import BeautifulSoup
 from selenium import webdriver
-from selenium.common.exceptions import WebDriverException
+from selenium.common.exceptions import TimeoutException, WebDriverException
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
@@ -73,6 +74,13 @@ NEXT_BUTTON = "[data-selenium='pagination-next-btn']"
 # 第一部分：爬蟲 —— 抓下網頁上的原始資料（沒有資料處理）
 # ======================================================================
 
+def visible_search_button(driver):
+    """「搜出好價」按鈕。Agoda 的按鈕名稱有 search-button、search-button-sticky（上方固定搜尋列）等版本，
+    所以找名稱以 search-button 開頭的按鈕，挑看得見、能按的那一個；還沒有就回傳 False，讓 WebDriverWait 繼續等。"""
+    buttons = driver.find_elements(By.CSS_SELECTOR, "button[data-element-name^='search-button']")
+    return next((b for b in buttons if b.is_displayed() and b.is_enabled()), False)
+
+
 def search_taichung(driver):
     """在首頁自動輸入「台中」，選「台中市」，再按「搜出好價」。"""
     wait = WebDriverWait(driver, 30)
@@ -92,11 +100,19 @@ def search_taichung(driver):
     check_out = driver.find_element(By.CSS_SELECTOR, "[data-selenium='checkOutText']").text
     print(f"目的地：台中市｜入住 {check_in}｜退房 {check_out}｜2 位大人、1 間房（網站預設）\n")
 
-    # 3. 按「搜出好價」，結果會開在新分頁
+    # 3. 按「搜出好價」，結果會開在新分頁；偶爾按了沒反應，15 秒沒開新分頁就再按一次（最多 3 次）
     tabs_before = len(driver.window_handles)
-    search_button = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button[data-element-name='search-button']")))
-    search_button.click()
-    wait.until(lambda d: len(d.window_handles) > tabs_before)
+    for attempt in range(1, 4):
+        search_button = wait.until(visible_search_button)
+        driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", search_button)
+        search_button.click()
+        try:
+            WebDriverWait(driver, 15).until(lambda d: len(d.window_handles) > tabs_before)
+            break
+        except TimeoutException:
+            if attempt == 3:
+                raise
+            print("（按了「搜出好價」沒有開出結果頁，再按一次）")
     driver.switch_to.window(driver.window_handles[-1])  # 切換到新分頁
     wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, HOTEL_NAME)))
 
@@ -108,9 +124,17 @@ def text_of(card, selector):
 
 
 def first_text_of(card, selector):
-    """欄位裡的第一段文字，例如評價欄的「平均很讚8.5分（滿分10分），共6,789則評論」。"""
+    """欄位裡的第一段文字，例如原價欄的「原始價格：4,574」（後面還有折扣等其他文字）。"""
     node = card.select_one(selector)
     return next((s.strip() for s in node.find_all(string=True) if s.strip()), "") if node else ""
+
+
+def review_of(card):
+    """評價文字。Agoda 有兩種版面：有的先有一段「平均很讚8.5分（滿分10分），共14,621則評論」，
+    有的只有「8.5 很讚 14,621 篇評鑑」（第一段只是分數 8.5）。先取第一段，只拿到分數時改取整段。"""
+    selector = "[data-element-name='property-card-review']"
+    review = first_text_of(card, selector)
+    return review if "評" in review else text_of(card, selector)
 
 
 def hotel_url(href):
@@ -137,7 +161,7 @@ def parse_card(card, page):
         "價格": f"{currency} {price}".strip(),
         "原價": first_text_of(card, "[data-element-name='fpc-cor-price']"),  # 劃線的原始價格
         "星級": text_of(card, "[data-element-name='ssr-property-card-star-rating']"),
-        "評價": first_text_of(card, "[data-element-name='property-card-review']"),
+        "評價": review_of(card),
         "位置得分": text_of(card, "[data-element-name='property-card-location-score-inline']"),
         "地區": text_of(card, "[data-selenium='area-city-text']"),
         "附近地標": text_of(card, "[data-selenium='popular-landmarks-text']"),
@@ -214,8 +238,9 @@ def scrape_all_pages():
 # ======================================================================
 
 def to_number(text_series, pattern):
-    """用正規表示式從文字裡取出數字（去掉千分位逗號）；取不到的變成空值。"""
-    numbers = text_series.str.extract(pattern)[0].str.replace(",", "")
+    """用正規表示式從文字裡取出數字（去掉千分位逗號）；取不到的變成空值。
+    pattern 可以用 | 寫好幾種寫法，取第一個有對到的。"""
+    numbers = text_series.str.extract(pattern).bfill(axis=1)[0].str.replace(",", "")
     return pd.to_numeric(numbers, errors="coerce")
 
 
@@ -246,15 +271,17 @@ def preprocess(raw):
     print(f"2. 移除重複的：{before - len(data)} 筆")
 
     # 3. 格式轉換：把文字轉成可以計算的數字（原本的文字欄位換成整理後的欄位）
+    # 評價有新舊兩種寫法：「8.5 很讚 14,621 篇評鑑」、「平均很讚8.5分（滿分10分），共6,789則評論」
+    grade = data["評價"].str.extract(r"^([\d.]+)\s+(\S+)|平均(\D+?)[\d.]+分")
     clean = pd.DataFrame({
         "飯店ID": data["飯店ID"],
         "飯店名": data["飯店名"],
         "價格(元)": to_number(data["價格"], r"([\d,]+)"),                          # NT$ 1,474 → 1474
         "原價(元)": to_number(data["原價"], r"([\d,]+)").astype("Int64"),          # 原始價格：4,574 → 4574
         "星級": to_number(data["星級"], r"獲得([\d.]+)顆星"),                      # …住宿獲得4顆星 → 4
-        "評分": to_number(data["評價"], r"([\d.]+)分"),                            # 平均很讚8.5分… → 8.5
-        "評價等級": data["評價"].str.extract(r"平均(\D+?)[\d.]+分")[0],            # 平均很讚8.5分 → 很讚
-        "評論數": to_number(data["評價"], r"共([\d,]+)則").astype("Int64"),        # 共6,789則評論 → 6789
+        "評分": to_number(data["評價"], r"([\d.]+)"),                              # 8.5 很讚… → 8.5
+        "評價等級": grade[1].fillna(grade[2]),                                      # 8.5 很讚… → 很讚
+        "評論數": to_number(data["評價"], r"([\d,]+)\s*篇|共([\d,]+)則").astype("Int64"),  # 14,621 篇評鑑 → 14621
         "位置得分": to_number(data["位置得分"], r"([\d.]+)"),                      # 8.8 位置得分 → 8.8
         "地區": data["地區"].str.split(",").str[0].str.strip(),                    # 北區, 台中市 - … → 北區
         "距市中心(公里)": pd.to_numeric(data["地區"].apply(distance_to_center)),   # 距市中心1.9公里 → 1.9
