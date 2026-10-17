@@ -16,9 +16,18 @@
        表格裡沒有背號，所以用 Selenium 打開這 3 位球員的個人頁，
        用 BeautifulSoup 讀出姓名與背號（例如 #30），連同薪資存成 highest.csv。
 
+延伸：全聯盟薪資排名圖
+    583 位球員全部畫成有名字的長條會擠成一團看不清楚，所以畫兩張圖：
+      左：本季薪資前 20 名的長條圖（單位：百萬美元）；
+      右：全部球員依薪資排名畫成一條曲線（每位球員都在線上），標出中位數，
+          看得出薪水集中在少數頂薪球員身上。
+    薪資文字前面可能有 TW（雙向合約）、T／P（球隊／球員選擇權），轉成數字時去掉；
+    「-」代表沒有這一季的合約，不列入。程式也會印出總薪資、中位數，以及前 10% 球員領走幾成薪資。
+
 輸出（與本程式同一個資料夾，重新執行會直接覆蓋）
-    all_play.csv：排名、球員、各球季薪資（薪資前的 P／T 是網站標示的球員選擇權／球隊選擇權）
+    all_play.csv：排名、球員、各球季薪資（薪資前的 P／T 是網站標示的球員選擇權／球隊選擇權，TW 是雙向合約）
     highest.csv：名字、背號、薪資（目前球季）
+    salary_charts.png（延伸：薪資排名圖）
 
 執行
     python 第14題_NBA球員薪水/main.py
@@ -29,12 +38,17 @@ import re
 from pathlib import Path
 from urllib.parse import urljoin
 
+import matplotlib
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException, StaleElementReferenceException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
+
+matplotlib.use("Agg")  # 只存圖檔、不開視窗
+import matplotlib.pyplot as plt  # noqa: E402
+from matplotlib import font_manager  # noqa: E402
 
 URL = "https://hoopshype.com/salaries/players"
 FOLDER = Path(__file__).parent
@@ -118,6 +132,55 @@ def save_csv(path, fields, rows):
         writer.writerows(rows)
 
 
+def salary_number(text):
+    """延伸：「$62,587,158」「TW$678,882」「P$60,156,000」→ 數字；「-」（沒有合約）→ None。"""
+    digits = re.sub(r"\D", "", text)  # 去掉 $、逗號和前面的 TW／T／P
+    return int(digits) if digits else None
+
+
+def use_chinese_font():
+    """matplotlib 預設字型沒有中文，從電腦上已有的中文字型挑一個（Windows／macOS 都適用）。"""
+    candidates = ["Microsoft JhengHei", "PingFang TC", "Heiti TC", "Noto Sans CJK TC", "Arial Unicode MS"]
+    installed = {font.name for font in font_manager.fontManager.ttflist}
+    plt.rcParams["font.sans-serif"] = [name for name in candidates if name in installed] + ["DejaVu Sans"]
+
+
+def draw_salary_charts(rows, season, path):
+    """延伸：左邊畫前 20 名長條圖，右邊畫全部球員的薪資排名曲線；回傳印出用的統計數字。"""
+    players = [(row["Player"], salary_number(row[season])) for row in rows]
+    players = sorted([p for p in players if p[1]], key=lambda p: p[1], reverse=True)
+    millions = [salary / 1_000_000 for _, salary in players]  # 換成百萬美元
+    total = sum(millions)
+    median = sorted(millions)[len(millions) // 2]
+    top10 = sum(millions[: len(millions) // 10]) / total * 100  # 前 10% 球員占總薪資的比例
+
+    use_chinese_font()
+    fig, (left, right) = plt.subplots(1, 2, figsize=(14, 6))
+
+    names = [name for name, _ in players[:20]]
+    left.barh(names[::-1], millions[:20][::-1], color="#1D428A")  # 反過來畫，第 1 名在最上面
+    for y, value in enumerate(millions[:20][::-1]):
+        left.text(value + 0.5, y, f"{value:.1f}", va="center", fontsize=8)
+    left.set_xlim(0, millions[0] * 1.12)  # 右邊留空間給數字
+    left.set_title(f"{season} 球季薪資前 20 名")
+    left.set_xlabel("薪資（百萬美元）")
+    left.tick_params(axis="y", labelsize=8)
+
+    ranks = range(1, len(millions) + 1)
+    right.plot(ranks, millions, color="#C8102E")
+    right.fill_between(ranks, millions, color="#C8102E", alpha=0.15)
+    right.axhline(median, color="black", linestyle="--", linewidth=1)
+    right.text(len(millions) * 0.55, median + 2, f"中位數 {median:.1f} 百萬美元")
+    right.set_title(f"全部 {len(millions)} 位球員的薪資排名（前 10% 球員領走 {top10:.0f}% 的薪資）")
+    right.set_xlabel("薪資排名")
+    right.set_ylabel("薪資（百萬美元）")
+
+    fig.tight_layout()
+    fig.savefig(path, dpi=150)
+    plt.close(fig)
+    return len(millions), total, median, top10
+
+
 def main():
     options = webdriver.ChromeOptions()
     options.page_load_strategy = "eager"  # 網頁廣告很多，主要內容出現就先操作
@@ -140,6 +203,12 @@ def main():
     for player in highest:
         print(f"  {player['名字']} #{player['背號']}：{player['薪資']}")
     print(f"\n薪資表共 {len(all_rows)} 位球員，已存成 all_play.csv；前 3 名已存成 highest.csv")
+
+    # 延伸：全聯盟薪資排名圖
+    count, total, median, top10 = draw_salary_charts(all_rows, season, FOLDER / "salary_charts.png")
+    print(f"\n延伸：{season} 球季有合約的 {count} 位球員，總薪資 {total:,.0f} 百萬美元、"
+          f"中位數 {median:.1f} 百萬美元；前 10% 球員領走 {top10:.0f}% 的薪資")
+    print("已存成 salary_charts.png")
 
 
 if __name__ == "__main__":

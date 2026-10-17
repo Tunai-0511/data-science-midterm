@@ -20,6 +20,17 @@
        已被刪除的文章沒有連結，跳過。
     5. 依題目格式印出，並另存 ptt_gossiping.csv（網址、標題、作者），重新執行會直接覆蓋。
 
+延伸：多抓推文數與日期，看出哪些文章熱門
+    同一個 <div class="r-ent"> 裡還有日期（.meta .date，例如 10/17）和推文數（.nrec）。
+    PTT 的推文數是「推 − 噓」的淨值：數字＝淨推文數；「爆」＝100 以上；
+    「X1」～「X9」＝被噓 10～90 以上、「XX」＝被噓 100 以上；空白＝0。
+    程式把它換成數字（爆→100、X3→-30、XX→-100），另存 ptt_gossiping_detail.csv，
+    並印出本頁最熱門的 5 篇。
+
+輸出
+    ptt_gossiping.csv（題目要求的網址、標題、作者）
+    ptt_gossiping_detail.csv（延伸：再加日期、推文數、淨推文數）
+
 執行
     python 第10題_PTT八卦板/main.py
 """
@@ -34,6 +45,9 @@ from selenium.webdriver.support.ui import WebDriverWait
 
 URL = "https://www.ptt.cc/bbs/Gossiping/index.html"
 OUTPUT = Path(__file__).parent / "ptt_gossiping.csv"
+FIELDS = ["網址", "標題", "作者"]
+DETAIL_OUTPUT = Path(__file__).parent / "ptt_gossiping_detail.csv"  # 延伸
+DETAIL_FIELDS = FIELDS + ["日期", "推文數", "淨推文數"]
 
 
 def pass_age_check(driver):
@@ -60,8 +74,30 @@ def get_articles(driver):
             "網址": links[0].get_dom_attribute("href"),
             "標題": links[0].text,
             "作者": entry.find_element(By.CSS_SELECTOR, ".meta .author").text,
+            # 延伸：日期與推文數
+            "日期": entry.find_element(By.CSS_SELECTOR, ".meta .date").text,
+            "推文數": entry.find_element(By.CSS_SELECTOR, ".nrec").text,
         })
     return articles
+
+
+def push_count(text):
+    """延伸：把 PTT 的推文數標示換成數字：爆→100、X3→-30、XX→-100、空白→0。"""
+    if text == "爆":
+        return 100
+    if text == "XX":
+        return -100
+    if text.startswith("X"):
+        return -10 * int(text[1:])
+    return int(text) if text.isdigit() else 0
+
+
+def save_csv(rows, path, fields):
+    """存成 CSV（utf-8-sig：Excel 開啟中文不會亂碼）；fields 以外的欄位不寫入。"""
+    with open(path, "w", newline="", encoding="utf-8-sig") as file:
+        writer = csv.DictWriter(file, fieldnames=fields, extrasaction="ignore")
+        writer.writeheader()
+        writer.writerows(rows)
 
 
 def main():
@@ -81,11 +117,17 @@ def main():
         print(article["作者"])
         print()
 
-    with open(OUTPUT, "w", newline="", encoding="utf-8-sig") as file:
-        writer = csv.DictWriter(file, fieldnames=["網址", "標題", "作者"])
-        writer.writeheader()
-        writer.writerows(articles)
+    save_csv(articles, OUTPUT, FIELDS)
     print(f"本頁共 {len(articles)} 篇文章，已存成 {OUTPUT.name}")
+
+    # 延伸：推文數換成數字，另存一份，並印出最熱門的 5 篇
+    for article in articles:
+        article["淨推文數"] = push_count(article["推文數"])
+    save_csv(articles, DETAIL_OUTPUT, DETAIL_FIELDS)
+    print("\n延伸：本頁最熱門的 5 篇（依淨推文數）")
+    for article in sorted(articles, key=lambda a: a["淨推文數"], reverse=True)[:5]:
+        print(f"  {article['推文數'] or '0':>3}｜{article['日期']}｜{article['標題']}")
+    print(f"已存成 {DETAIL_OUTPUT.name}")
 
 
 if __name__ == "__main__":

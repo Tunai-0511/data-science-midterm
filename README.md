@@ -49,7 +49,7 @@ python run.py 5
 | 題 | 題目 | 使用技術 | 輸出檔 | 需要人工 |
 |:-:|---|---|---|---|
 | 1 | 開眼電影網本週新片（延伸：點進內頁多抓欄位） | requests + BeautifulSoup | `new_movies.csv`、延伸 `new_movies_detail.csv` | — |
-| 2 | 臺灣銀行牌告匯率 | Selenium 載入 + BeautifulSoup | `bank.csv` | — |
+| 2 | 臺灣銀行牌告匯率（延伸：買賣價差） | Selenium 載入 + BeautifulSoup | `bank.csv`、延伸 `bank_detail.csv` | — |
 | 3 | 政府資料開放平臺：健保門診及住院就診人次統計－腸病毒 | Selenium 模擬搜尋與點選 + requests 下載 | `NHI_EnteroviralInfection.csv` | — |
 | 4 | 博客來「演算法」搜尋結果 | Selenium 載入 + BeautifulSoup | `booklist.csv` | 偶爾需勾選真人驗證 |
 | 5 | 開眼台北週末票房排行榜（20 筆） | Selenium（ActionChains 模擬滑鼠） | `Taipei_movies.csv` | — |
@@ -57,11 +57,11 @@ python run.py 5
 | 7 | Google Books API 搜尋 Python（兩頁） | requests（API 回傳 JSON） | `pythonbook.csv` | 執行時輸入 API 金鑰 |
 | 8 | 開眼近期上映強片 | requests + BeautifulSoup | `movies.csv` | — |
 | 9 | Google 新聞各分類標題 | Selenium | `google_news.csv`（另印出） | — |
-| 10 | PTT 八卦板文章列表 | Selenium（點選年齡確認） | `ptt_gossiping.csv`（另印出） | — |
+| 10 | PTT 八卦板文章列表（延伸：推文數、日期） | Selenium（點選年齡確認） | `ptt_gossiping.csv`（另印出）、延伸 `ptt_gossiping_detail.csv` | — |
 | 11 | NBA 商品資料，每頁一個 CSV | Selenium（操作分頁） | `NBA_Products1.csv`～`NBA_Products17.csv` | — |
 | 12 | Google 搜尋「Steam 遊戲推薦」 | Selenium | `steam_games.csv` | Google 可能擋下程式控制的瀏覽器（見說明） |
 | 13 | momo 自動搜尋 nba | Selenium | `NBA_test.html` | — |
-| 14 | HoopsHype 球員薪水 | Selenium + BeautifulSoup | `highest.csv`、`all_play.csv` | — |
+| 14 | HoopsHype 球員薪水（延伸：薪資排名圖） | Selenium + BeautifulSoup + matplotlib | `highest.csv`、`all_play.csv`、延伸 `salary_charts.png` | — |
 | 15 | Google 搜尋「xpath」，捲動並取得更多結果 | Selenium（模擬滑鼠滾輪） | `xpath.csv` | Google 可能擋下程式控制的瀏覽器（見說明） |
 | 16 | Agoda 搜尋台中飯店與價格（含加分項、全部結果頁） | Selenium + BeautifulSoup + pandas 前處理 | `agoda_result.csv`（沒有處理）、`agoda_result_processed.csv`（有處理） | — |
 | 17 | GitHub 自動登入，抓首頁兩個視窗 | Selenium | 兩個視窗各一份 CSV＋一張截圖 | 執行時輸入帳密 |
@@ -89,7 +89,9 @@ python run.py 5
 ### 第 2 題：臺灣銀行牌告匯率
 - **題目**：抓 <https://rate.bot.com.tw/xrt?Lang=zh-TW> 最新掛牌資料，存入 `bank.csv`。
 - **做法**：臺銀網站現在有「瀏覽器驗證」，requests 只會拿到驗證頁，所以用 Selenium 開 Chrome 載入，再用 BeautifulSoup 解析匯率表。每個儲存格都有 `data-table` 屬性（例如「本行現金買入」），依屬性取值，避免題目「參考範例」那種欄位錯位、重複的問題。
-- **輸出**：`bank.csv`（幣別、現金匯率-本行買入／賣出、即期匯率-本行買入／賣出），並印出牌價最新掛牌時間。
+  匯率表的完整內容是幣別、現金匯率、即期匯率、遠期匯率、歷史匯率。遠期、歷史匯率在表上只是「查詢」連結（另外的網頁），所以存它們的網址，再加上表格上方的掛牌時間。網頁另外藏了一組列印用的欄位，標題寫「歷史匯率」，但數字和現金、即期匯率完全一樣，不是另外的資料，所以不重複存。
+- **延伸：買賣價差**：銀行賣出價（你跟銀行買外幣）一定比買入價（你賣回給銀行）高。價差（%）＝（賣出 − 買入）÷ 賣出 × 100，代表用台幣買進外幣再立刻賣回會損失幾 %。例如美金現金約 2%、即期不到 0.5%；印尼幣、越南盾這類只有現金匯率的幣別，價差可以到 30% 左右，所以出國換這類貨幣時，在台灣換現金最不划算。
+- **輸出**：`bank.csv`（幣別、現金匯率-本行買入／賣出、即期匯率-本行買入／賣出、遠期匯率與歷史匯率的查詢網址、掛牌時間）、`bank_detail.csv`（延伸：現金與即期的價差、價差 %）
 - **執行**：`python 第02題_台銀牌價/main.py`
 
 ### 第 3 題：健保門診及住院就診人次統計－腸病毒
@@ -113,6 +115,7 @@ python run.py 5
 - **題目**：按「票房排行榜」→ 列出台北排行榜的排名、片名、票房 → 按 more → 20 筆存入 `Taipei_movies.csv`（排名、片名、本週票房、累計票房）。課堂補充：要模擬滑鼠移動及點選。
 - **做法**：Selenium `ActionChains`：滑鼠移到「電影」選單展開 → 點「票房排行榜」→ 印出台北前 5 名 → 點台北排行榜的「more」→ 讀出 20 筆（每部電影在網頁上占兩列，第二列才是票房數字）。
 - **網站干擾的處理**：點連結時偶爾會跳出 Google 全版廣告（網址出現 `#google_vignette`），程式會像真人一樣按「關閉」再繼續；票房網站偶爾連線逾時，會自動重新整理再試。
+- **穩定性**：滑鼠移到「電影」選單時，下拉選單偶爾沒展開，程式會把滑鼠移開再移回來重試；點「票房排行榜」或「more」後 20 秒沒換頁，就重新找到連結再點一次（都是最多 3 次）。
 - **輸出**：`Taipei_movies.csv`（金額單位：萬新台幣）
 - **執行**：`python 第05題_台北票房排行榜/main.py`
 
@@ -150,7 +153,8 @@ python run.py 5
 ### 第 10 題：PTT 八卦板
 - **題目**：用 Selenium 解決分級問題 → 列出網站 title → 列出文章列表（網址、標題、作者）。課堂補充：Cookie `over18` 的值為 1 即視為已成年。
 - **做法**：開啟八卦板後網站會先轉到分級確認頁，Selenium 點「我同意，我已年滿十八歲」，網站就會設定 Cookie `over18=1`（程式會印出確認）。之後印出網站 title，並依題目範例的格式（網址／標題／作者各一行）印出本頁每篇文章；已刪除的文章沒有連結，略過。
-- **輸出**：印出列表，另存 `ptt_gossiping.csv`。最新一頁的文章數會隨時間變動（含置底公告）。
+- **延伸：推文數與日期**：同一個 `div.r-ent` 裡還有日期（`.meta .date`）和推文數（`.nrec`）。PTT 的推文數是「推 − 噓」的淨值：數字＝淨推文數、「爆」＝100 以上、「X1」～「X9」＝被噓 10～90 以上、「XX」＝被噓 100 以上、空白＝0。程式換成數字（爆→100、X3→-30）另存一份，並印出本頁最熱門的 5 篇，看得出哪些話題討論度高。
+- **輸出**：印出列表，另存 `ptt_gossiping.csv`（網址、標題、作者）、`ptt_gossiping_detail.csv`（延伸：再加日期、推文數、淨推文數）。最新一頁的文章數會隨時間變動（含置底公告）。
 - **執行**：`python 第10題_PTT八卦板/main.py`
 
 ### 第 11 題：NBA 商品資料
@@ -179,7 +183,8 @@ python run.py 5
 ### 第 14 題：HoopsHype 球員薪水
 - **題目**：用 Selenium 和 BeautifulSoup，前 3 位高薪球員的名字、背號、薪資存入 `highest.csv`；本頁表格所有內容存入 `all_play.csv`。
 - **做法**：薪資表現在改成分頁（每頁 20 位、共 30 頁），Selenium 逐頁按下一頁，每頁交給 BeautifulSoup 解析，全部存成 `all_play.csv`。表格依本季薪資由高到低排列，前 3 位的背號表格上沒有，所以再打開他們的個人頁讀出姓名與背號（例如 #30）。
-- **輸出**：`all_play.csv`（排名、球員、各球季薪資；`P`／`T` 是網站標示的球員／球隊選擇權）、`highest.csv`（名字、背號、薪資）
+- **延伸：全聯盟薪資排名圖**：583 位球員全部畫成有名字的長條會擠成一團，所以畫兩張：左邊是本季薪資前 20 名長條圖；右邊把全部球員依薪資排名畫成一條曲線，每位球員都在線上，並標出中位數。薪資前面的 `TW`（雙向合約）、`T`／`P`（選擇權）在轉成數字時去掉。從圖上看得出薪水非常集中：中位數約 420 萬美元，但前 10% 的球員領走了約 43% 的總薪資。
+- **輸出**：`all_play.csv`（排名、球員、各球季薪資；`P`／`T` 是網站標示的球員／球隊選擇權，`TW` 是雙向合約）、`highest.csv`（名字、背號、薪資）、`salary_charts.png`（延伸：薪資排名圖）
 - **執行**：`python 第14題_NBA球員薪水/main.py`
 
 ### 第 15 題：Google 搜尋「xpath」
@@ -244,7 +249,7 @@ data-science-midterm/
 ├── 第01題_本週新片/
 │   ├── main.py                程式
 │   ├── new_movies.csv         輸出（重新執行會覆蓋）
-│   └── new_movies_detail.csv  延伸的輸出（第 1、6、16 題有延伸）
+│   └── new_movies_detail.csv  延伸的輸出（第 1、2、6、10、14、16 題有延伸）
 ├── 第02題_台銀牌價/
 │   ├── main.py
 │   └── bank.csv

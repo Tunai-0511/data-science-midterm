@@ -70,7 +70,9 @@ DETAIL_OUTPUT = Path(__file__).parent / "players_detail.csv"
 CHART_OUTPUT = Path(__file__).parent / "players_charts.png"
 DETAIL_FIELDS = FIELDS + ["身高", "身高（公分）", "體重（公斤）", "年齡"]
 SEASON_DATE = date(2024, 2, 1)  # 2023-24 球季的「球季年齡」以這天計算
-TEAM_COLORS = {"CLE": "#860038", "HOU": "#CE1141", "GSW": "#1D428A"}  # 各隊代表色
+# 三隊顏色要差很多才看得出來：騎士金、火箭紅、勇士藍；散布圖再用不同形狀的點區分
+TEAM_COLORS = {"CLE": "#E8A317", "HOU": "#C8102E", "GSW": "#1D428A"}
+TEAM_MARKERS = {"CLE": "o", "HOU": "s", "GSW": "^"}  # 圓形、方形、三角形
 
 
 def get_roster(team):
@@ -142,14 +144,15 @@ def draw_charts(players):
     for team in TEAMS:
         members = [p for p in players if p["球隊"] == team]
         left.scatter([p["身高（公分）"] for p in members], [p["體重（公斤）"] for p in members],
-                     label=team, color=TEAM_COLORS[team], alpha=0.75)
+                     label=team, color=TEAM_COLORS[team], marker=TEAM_MARKERS[team],
+                     edgecolors="white", s=55, alpha=0.85)
     left.set_title("身高與體重（每個點是一位球員）")
     left.set_xlabel("身高（公分）")
     left.set_ylabel("體重（公斤）")
     left.legend()
 
     ages = [[p["年齡"] for p in players if p["球隊"] == team] for team in TEAMS]
-    box = right.boxplot(ages, patch_artist=True)
+    box = right.boxplot(ages, patch_artist=True, medianprops={"color": "black"})  # 黑線＝中位數
     right.set_xticks(range(1, len(TEAMS) + 1), TEAMS)
     for patch, team in zip(box["boxes"], TEAMS):
         patch.set_facecolor(TEAM_COLORS[team])
