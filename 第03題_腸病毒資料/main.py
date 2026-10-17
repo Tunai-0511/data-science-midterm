@@ -15,6 +15,10 @@
     3. 在資料集頁面的「資料資源下載網址」找到 CSV 按鈕，讀出它的連結（資料下載網址）。
     4. 用 requests 下載這個 CSV，存成 NHI_EnteroviralInfection.csv（重新執行會直接覆蓋）。
 
+    放慢操作讓人看清楚：每一步要操作的元素（搜尋框、搜尋按鈕、資料集連結、CSV 按鈕）
+    都會先捲到畫面中間，終端機印出「步驟 n」說明，停 STEP_PAUSE 秒（預設 2 秒）再動作，
+    看得出程式在瀏覽器裡一步一步操作。想跑快一點可以把 STEP_PAUSE 改成 0。
+
     注意：資料下載網址在疾管署網站（od.cdc.gov.tw），它的 HTTPS 憑證鏈不完整，
     Python 內建的憑證清單會驗證失敗。程式用 truststore 套件改用作業系統（Windows／macOS）
     的憑證庫驗證；如果還是驗證失敗，最後才改用不驗證憑證的方式下載，並印出提示。
@@ -28,6 +32,7 @@
 
 import csv
 import io
+import time
 from pathlib import Path
 
 try:
@@ -46,6 +51,14 @@ HOME_URL = "https://data.gov.tw/"
 KEYWORD = "腸病毒"
 DATASET_NAME = "健保門診及住院就診人次統計-腸病毒"
 OUTPUT = Path(__file__).parent / "NHI_EnteroviralInfection.csv"
+STEP_PAUSE = 2  # 每一步停幾秒，讓人看清楚瀏覽器在做什麼（改成 0 就不停）
+
+
+def show_step(driver, element, message):
+    """把要操作的元素捲到畫面中間，印出步驟說明，再停 STEP_PAUSE 秒。"""
+    driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", element)
+    print(message)
+    time.sleep(STEP_PAUSE)
 
 
 def find_csv_url():
@@ -57,8 +70,13 @@ def find_csv_url():
         # 1. 首頁搜尋框輸入關鍵字，按搜尋按鈕
         driver.get(HOME_URL)
         search_box = wait.until(EC.element_to_be_clickable((By.ID, "searchbar-input")))
+        show_step(driver, search_box, f"步驟 1：開啟 {HOME_URL}，找到首頁的搜尋框")
         search_box.send_keys(KEYWORD)
-        driver.find_element(By.CSS_SELECTOR, "button.searchbar-submit-btn").click()
+        print(f"        在搜尋框輸入「{KEYWORD}」")
+        time.sleep(STEP_PAUSE)
+        search_button = driver.find_element(By.CSS_SELECTOR, "button.searchbar-submit-btn")
+        show_step(driver, search_button, "步驟 2：按下搜尋按鈕")
+        search_button.click()
 
         # 2. 等搜尋結果載入完成（轉圈圈的遮罩消失），點資料集名稱；
         #    連結會開新分頁，所以要切換到新分頁
@@ -66,16 +84,17 @@ def find_csv_url():
             EC.element_to_be_clickable((By.XPATH, f"//a[normalize-space()='{DATASET_NAME}']"))
         )
         wait.until(EC.invisibility_of_element_located((By.CSS_SELECTOR, ".el-loading-mask")))
-        driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", dataset_link)
+        show_step(driver, dataset_link, f"步驟 3：在搜尋結果中找到「{DATASET_NAME}」，點進去")
         dataset_link.click()
         wait.until(lambda d: len(d.window_handles) > 1)
         driver.switch_to.window(driver.window_handles[-1])
-        print(f"已進入資料集頁面：{driver.title}（{driver.current_url}）")
+        print(f"        已進入資料集頁面：{driver.title}（{driver.current_url}）")
 
         # 3. 「資料資源下載網址」裡的 CSV 按鈕（title="CSV下載檔案"），它的 href 就是資料下載網址
         csv_button = wait.until(
             EC.presence_of_element_located((By.CSS_SELECTOR, "a[title='CSV下載檔案']"))
         )
+        show_step(driver, csv_button, "步驟 4：在「資料資源下載網址」找到 CSV 按鈕，讀出它的下載網址")
         return csv_button.get_attribute("href")
     finally:
         driver.quit()
@@ -94,8 +113,9 @@ def download_csv(url):
 
 def main():
     csv_url = find_csv_url()
-    print(f"CSV 資料下載網址：{csv_url}")
+    print(f"        CSV 資料下載網址：{csv_url}")
 
+    print("步驟 5：用 requests 下載 CSV（約 8 MB）…")
     text = download_csv(csv_url)
 
     # 以 utf-8-sig（加 BOM）存檔，用 Excel 開啟中文不會亂碼

@@ -48,12 +48,12 @@ python run.py 5
 
 | 題 | 題目 | 使用技術 | 輸出檔 | 需要人工 |
 |:-:|---|---|---|---|
-| 1 | 開眼電影網本週新片 | requests + BeautifulSoup | `new_movies.csv` | — |
+| 1 | 開眼電影網本週新片（延伸：點進內頁多抓欄位） | requests + BeautifulSoup | `new_movies.csv`、延伸 `new_movies_detail.csv` | — |
 | 2 | 臺灣銀行牌告匯率 | Selenium 載入 + BeautifulSoup | `bank.csv` | — |
 | 3 | 政府資料開放平臺：健保門診及住院就診人次統計－腸病毒 | Selenium 模擬搜尋與點選 + requests 下載 | `NHI_EnteroviralInfection.csv` | — |
-| 4 | 博客來「演算法」搜尋結果 | Selenium 載入 + BeautifulSoup + JSON | `booklist.csv`（另存 `booklist.json`） | 偶爾需勾選真人驗證 |
+| 4 | 博客來「演算法」搜尋結果 | Selenium 載入 + BeautifulSoup | `booklist.csv` | 偶爾需勾選真人驗證 |
 | 5 | 開眼台北週末票房排行榜（20 筆） | Selenium（ActionChains 模擬滑鼠） | `Taipei_movies.csv` | — |
-| 6 | Basketball Reference：CLE、HOU、GSW 球員 | requests + BeautifulSoup | `players.csv` | — |
+| 6 | Basketball Reference：CLE、HOU、GSW 球員（延伸：身高、年齡＋圖表） | requests + BeautifulSoup + matplotlib | `players.csv`、延伸 `players_detail.csv`、`players_charts.png` | — |
 | 7 | Google Books API 搜尋 Python（兩頁） | requests（API 回傳 JSON） | `pythonbook.csv` | 執行時輸入 API 金鑰 |
 | 8 | 開眼近期上映強片 | requests + BeautifulSoup | `movies.csv` | — |
 | 9 | Google 新聞各分類標題 | Selenium | `google_news.csv`（另印出） | — |
@@ -81,7 +81,9 @@ python run.py 5
 ### 第 1 題：開眼電影網本週新片
 - **題目**：抓 <http://www.atmovies.com.tw/movie/new/> 的本週新片，包括標題、內容、片長、網址。
 - **做法**：requests 下載頁面 → BeautifulSoup 找每個 `<article class="filmList">`，取標題、簡介、片長（正規表示式取「片長：117分」）、網址。
-- **輸出**：`new_movies.csv`（標題、內容、片長、網址）
+- **延伸：點進每部電影的內頁**：題目只要求列表頁的四個欄位；我們再打開每部電影的內頁，多抓上映日期、上映廳數、評分、評分人數、導演、演員、影片年份、出品國、語言、發行商。內頁的演職員區塊 `<li>` 沒有正確關閉、層層巢狀，所以依節點出現的順序走過去：遇到 `<b>導演：</b>` 這類標籤就換欄位，後面的人名或文字都歸到這個欄位。每部片之間停 1 秒，避免連續請求造成網站負擔。
+- **延伸欄位的意義**：上映廳數代表片商排了多少廳、對票房的期待（院線規模）；評分要搭配評分人數看，人數很少時參考價值低，0 人評分時評分留白、不當成 0 分；出品國、語言看得出本週新片來自哪些國家；影片年份比上映日期早很多的是重新上映的舊片（例如《進擊的鼓手》）。
+- **輸出**：`new_movies.csv`（題目要求的標題、內容、片長、網址）、`new_movies_detail.csv`（延伸：四個欄位＋內頁 10 個欄位）
 - **執行**：`python 第01題_本週新片/main.py`
 
 ### 第 2 題：臺灣銀行牌告匯率
@@ -94,16 +96,17 @@ python run.py 5
 - **題目**：從政府資料開放平臺抓取這份資料，存成 `NHI_EnteroviralInfection.csv`。課堂補充：不能自己用滑鼠點網頁找到資料就說抓到了，要用程式模擬。
 - **做法**：照題目附圖的步驟，由 Selenium 模擬操作：開啟 data.gov.tw → 首頁搜尋框輸入「腸病毒」並按搜尋 → 在結果中點「健保門診及住院就診人次統計-腸病毒」（開在新分頁，程式會切換過去）→ 讀出資料集頁面「CSV」按鈕的下載網址 → 用 requests 下載並存檔。
   （用完整名稱搜尋時，平臺會把同系列的其他疾病排在前面，所以用「腸病毒」搜尋，目標資料集就在第一頁。）
+  為了讓人看清楚每一步，程式操作前會把要點的元素捲到畫面中間，終端機印出「步驟 n」說明，停 2 秒再動作（秒數在程式開頭的 `STEP_PAUSE` 設定，改成 0 就不停）。
   下載網址在疾管署網站，憑證鏈不完整、Python 預設會驗證失敗，所以先用 `truststore` 改用作業系統的憑證庫驗證；還是失敗時才改用不驗證憑證的方式下載，並印出提示。
 - **輸出**：`NHI_EnteroviralInfection.csv`（約 19 萬筆、8 MB）
 - **執行**：`python 第03題_腸病毒資料/main.py`
 
 ### 第 4 題：博客來「演算法」書籍
-- **題目**：`https://search.books.com.tw/search/query/key/{0}/cat/all`，`{0}` = 演算法；存入 `booklist.csv`，欄位 書名、網址、作者、書價。課堂補充：要把 URL 抓到的資料整理成 JSON 格式，再跑過裡面的內容。
+- **題目**：`https://search.books.com.tw/search/query/key/{0}/cat/all`，`{0}` = 演算法；存入 `booklist.csv`，欄位 書名、網址、作者、書價。
 - **做法**：博客來有 Cloudflare 防護，requests 會被擋（403），改用 Selenium 開 Chrome 載入題目網址，再用 BeautifulSoup 解析每本書：書名、作者、書價（優惠後售價，元）、網址（換成正式商品頁 `https://www.books.com.tw/products/商品編號`）。
-  博客來的搜尋網址回傳的是 HTML（網站沒有 JSON 介面），所以把解析結果整理成 JSON 格式（一本書一個物件）存成 `booklist.json`，再讀回 JSON、用迴圈逐筆跑過裡面的每本書，寫入 `booklist.csv`。
+  解析完逐筆印出每本書，寫入 `booklist.csv`。
 - **範圍**：題目網址就是搜尋結果第 1 頁（60 本；網站顯示共 673 筆、12 頁）。換到第 2 頁時博客來會跳出「Verify you are human」真人驗證；2026-10 實測放慢翻頁、由真人在程式開的瀏覽器裡勾選，都無法通過。程式不繞過驗證，所以只抓題目指定的網址。
-- **輸出**：`booklist.json`（JSON 格式）、`booklist.csv`
+- **輸出**：`booklist.csv`（60 本）
 - **執行**：`python 第04題_博客來書籍/main.py`
 
 ### 第 5 題：開眼台北週末票房排行榜
@@ -114,10 +117,13 @@ python run.py 5
 - **執行**：`python 第05題_台北票房排行榜/main.py`
 
 ### 第 6 題：NBA 球隊球員（Basketball Reference）
-- **題目**：`https://www.basketball-reference.com/teams/{0}/2024.html`，抓 CLE、HOU、GSW 三隊，欄位 球隊、背號、姓名、位置、體重、生日、經驗、大學，存入 `players.csv`。課堂補充：要找到指定隊伍 Roster & Stats 頁面的球員資料。
+- **題目**：`https://www.basketball-reference.com/teams/{0}/2024.html`，抓 CLE、HOU、GSW 三隊，欄位 球隊、背號、姓名、位置、體重、生日、經驗、大學，存入 `players.csv`。
 - **做法**：題目網址就是各隊的「Roster & Stats」頁。requests 下載三隊頁面 → BeautifulSoup 找 `table#roster`（Roster 名單），依每格的 `data-stat` 屬性取值。三隊之間間隔 3 秒，避免請求太快被封鎖。
 - **資料說明**：體重單位為磅；經驗 `R` 代表新秀；沒讀大學的球員「大學」為空白。
-- **輸出**：`players.csv`（三隊共 53 位；檔名依 PDF 題目，課堂筆記寫的是 player.csv）
+- **延伸：身高、年齡與圖表**：同一個 Roster 表格裡還有身高，例如 `6-9`（6 呎 9 吋），它的 `csk` 屬性是英寸數，乘 2.54 換成公分；體重的磅乘 0.4536 換成公斤。生日的 `csk` 屬性是 `YYYYMMDD`，用來算年齡，以 2024-02-01 計算（Basketball Reference 的「球季年齡」算法），每次重跑結果都一樣。程式會印出各隊平均年齡、身高、體重，並用 matplotlib 畫兩張圖：
+  - 身高與體重散布圖（依球隊上色）：長得越高通常越重，中鋒集中在右上角，最右上那位是火箭 224 公分的中鋒。
+  - 各隊年齡盒狀圖：勇士（GSW）年齡中位數和上限都最高、老將最多；火箭（HOU）中位數最低、陣容最年輕；騎士（CLE）介於中間、分布最集中。
+- **輸出**：`players.csv`（題目要求的欄位，三隊共 53 位）、`players_detail.csv`（延伸：再加身高、身高（公分）、體重（公斤）、年齡）、`players_charts.png`（延伸：圖表）
 - **執行**：`python 第06題_NBA球隊球員/main.py`
 
 ### 第 7 題：Google Books API
@@ -236,8 +242,9 @@ data-science-midterm/
 ├── requirements.txt     需要安裝的套件
 ├── run.py               用題號執行某一題（python run.py 5）
 ├── 第01題_本週新片/
-│   ├── main.py          程式
-│   └── new_movies.csv   輸出（重新執行會覆蓋）
+│   ├── main.py                程式
+│   ├── new_movies.csv         輸出（重新執行會覆蓋）
+│   └── new_movies_detail.csv  延伸的輸出（第 1、6、16 題有延伸）
 ├── 第02題_台銀牌價/
 │   ├── main.py
 │   └── bank.csv

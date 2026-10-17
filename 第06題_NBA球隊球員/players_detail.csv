@@ -1,0 +1,54 @@
+﻿球隊,背號,姓名,位置,體重,生日,經驗,大學,身高,身高（公分）,體重（公斤）,年齡
+CLE,31,Jarrett Allen,C,243,"April 21, 1998",6,Texas,6-9,206,110,25
+CLE,21,Emoni Bates,SF,202,"January 28, 2004",R,"Memphis, Eastern Michigan",6-9,206,92,20
+CLE,10,Darius Garland,PG,192,"January 26, 2000",4,Vanderbilt,6-1,185,87,24
+CLE,2,Ty Jerome,SG,195,"July 8, 1997",4,Virginia,6-5,196,88,26
+CLE,30,Damian Jones,C,245,"June 30, 1995",7,Vanderbilt,6-10,208,111,28
+CLE,3,Caris LeVert,SG,205,"August 25, 1994",7,Michigan,6-7,201,93,29
+CLE,5,Sam Merrill,SG,205,"May 15, 1996",3,Utah State University,6-4,193,93,27
+CLE,45,Donovan Mitchell,SG,215,"September 7, 1996",6,Louisville,6-2,188,98,27
+CLE,4,Evan Mobley,PF,215,"June 18, 2001",2,USC,6-11,211,98,22
+CLE,15,Isaiah Mobley,PF,238,"September 24, 1999",1,USC,6-8,203,108,24
+CLE,24,Marcus Morris,PF,218,"September 2, 1989",12,Kansas,6-8,203,99,34
+CLE,8,Pete Nance,PF,225,"February 19, 2000",R,"Northwestern, UNC",6-9,206,102,23
+CLE,20,Georges Niang,PF,230,"June 17, 1993",7,Iowa State,6-6,198,104,30
+CLE,35,Isaac Okoro,SF,225,"January 26, 2001",3,Auburn,6-4,193,102,23
+CLE,9,Craig Porter Jr.,PG,180,"February 26, 2000",R,"Vincennes University, Wichita State",6-1,185,82,23
+CLE,1,Max Strus,SF,215,"March 28, 1996",4,"Lewis (IL), DePaul",6-5,196,98,27
+CLE,"12, 13",Tristan Thompson,C,254,"March 13, 1991",12,Texas,6-9,206,115,32
+CLE,32,Dean Wade,PF,228,"November 20, 1996",4,Kansas State,6-9,206,103,27
+HOU,9,Dillon Brooks,SF,225,"January 22, 1996",6,Oregon,6-7,201,102,28
+HOU,25,Reggie Bullock,SF,205,"March 16, 1991",10,UNC,6-6,198,93,32
+HOU,17,Tari Eason,PF,215,"May 10, 2001",1,"Cincinnati, LSU",6-8,203,98,22
+HOU,4,Jalen Green,SG,186,"February 9, 2002",2,,6-4,193,84,21
+HOU,32,Jeff Green,PF,235,"August 28, 1986",15,Georgetown,6-8,203,107,37
+HOU,14,Nate Hinton,SG,210,"June 8, 1999",2,Houston,6-5,196,95,24
+HOU,0,Aaron Holiday,PG,185,"September 30, 1996",5,UCLA,6-0,183,84,27
+HOU,2,Jock Landale,C,255,"October 25, 1995",2,Saint Mary's,6-11,211,116,28
+HOU,51,Boban Marjanović,C,290,"August 15, 1988",8,,7-4,224,132,35
+HOU,00,Jermaine Samuels,SF,230,"November 13, 1998",R,Villanova,6-6,198,104,25
+HOU,28,Alperen Şengün,C,243,"July 25, 2002",2,,6-11,211,110,21
+HOU,10,Jabari Smith Jr.,PF,220,"May 13, 2003",1,Auburn,6-11,211,100,20
+HOU,8,Jae'Sean Tate,SF,230,"October 28, 1995",3,Ohio State,6-4,193,104,28
+HOU,1,Amen Thompson,SF,200,"January 30, 2003",R,,6-7,201,91,21
+HOU,5,Fred VanVleet,PG,197,"February 25, 1994",7,Wichita State,6-0,183,89,29
+HOU,7,Cam Whitmore,SF,230,"July 8, 2004",R,Villanova,6-6,198,104,19
+HOU,19,Nate Williams,SG,205,"February 12, 1999",1,Buffalo,6-5,196,93,24
+GSW,30,Stephen Curry,PG,200,"March 14, 1988",14,Davidson,6-2,188,91,35
+GSW,12,Usman Garuba,PF,229,"March 9, 2002",2,,6-8,203,104,21
+GSW,23,Draymond Green,PF,235,"March 4, 1990",11,Michigan State,6-6,198,107,33
+GSW,32,Trayce Jackson-Davis,PF,245,"February 22, 2000",R,Indiana,6-9,206,111,23
+GSW,1,Cory Joseph,PG,200,"August 20, 1991",12,Texas,6-2,188,91,32
+GSW,00,Jonathan Kuminga,PF,225,"October 6, 2002",2,,6-7,201,102,21
+GSW,5,Kevon Looney,C,222,"February 6, 1996",8,UCLA,6-9,206,101,27
+GSW,4,Moses Moody,SG,215,"May 31, 2002",2,Arkansas,6-5,196,98,21
+GSW,3,Chris Paul,PG,175,"May 6, 1985",18,Wake Forest,6-0,183,79,38
+GSW,0,Gary Payton II,SG,195,"December 1, 1992",7,Oregon State,6-2,188,88,31
+GSW,2,Brandin Podziemski,SG,205,"February 25, 2003",R,"Illinois, Santa Clara",6-4,193,93,20
+GSW,25,Lester Quiñones,SG,208,"November 16, 2000",1,Memphis,6-5,196,94,23
+GSW,18,Jerome Robinson,SG,190,"February 22, 1997",3,Boston College,6-5,196,86,26
+GSW,15,Gui Santos,PF,218,"June 22, 2002",R,,6-7,201,99,21
+GSW,20,Dario Šarić,C,225,"April 8, 1994",6,,6-10,208,102,29
+GSW,61,Pat Spencer,PG,205,"July 4, 1996",R,"Loyola (MD), Northwestern",6-2,188,93,27
+GSW,11,Klay Thompson,SF,200,"February 8, 1990",10,Washington State,6-5,196,91,33
+GSW,22,Andrew Wiggins,SF,210,"February 23, 1995",9,Kansas,6-6,198,95,28
