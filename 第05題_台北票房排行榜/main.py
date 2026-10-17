@@ -76,19 +76,46 @@ def close_vignette_ad(driver):
         time.sleep(0.5)
 
 
-def mouse_click(driver, element, url_part):
-    """模擬滑鼠：移到元素上再點下去，並確認網址換到 url_part 那一頁。"""
-    driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", element)
-    ActionChains(driver).move_to_element(element).pause(0.5).click().perform()
+def mouse_click(driver, find_element, url_part, tries=3):
+    """模擬滑鼠：移到元素上再點下去，並確認網址換到 url_part 那一頁。
+    find_element 是「找出要點的元素」的函式。點下去 20 秒還沒換頁（例如剛好沒點到、網站沒反應），
+    就重新找一次元素再點（最多 tries 次）。"""
+    for attempt in range(1, tries + 1):
+        element = find_element()
+        driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", element)
+        ActionChains(driver).move_to_element(element).pause(0.5).click().perform()
+        try:
+            # 點下去後，不是換到目標頁，就是被 Google 全版廣告擋住
+            WebDriverWait(driver, 20).until(
+                lambda d: url_part in d.current_url or "google_vignette" in d.current_url
+            )
+            break
+        except TimeoutException:
+            if attempt == tries:
+                raise SystemExit(f"點了 {tries} 次都沒有換頁（網站可能暫時連不上），請稍後再執行一次。")
+            print("（點下去沒有換頁，再點一次）")
 
-    # 點下去後，不是換到目標頁，就是被 Google 全版廣告擋住
-    WebDriverWait(driver, 30).until(
-        lambda d: url_part in d.current_url or "google_vignette" in d.current_url
-    )
     if "google_vignette" in driver.current_url:
         print("（跳出 Google 全版廣告，按「關閉」後繼續）")
         close_vignette_ad(driver)
         WebDriverWait(driver, 30).until(lambda d: url_part in d.current_url)
+
+
+def hover_movie_menu(driver, tries=3):
+    """滑鼠移到上方選單的「電影」，等下拉選單裡的「票房排行榜」出現並回傳。
+    網頁剛載入時選單偶爾沒展開，這時把滑鼠移開再移回來重試（最多 tries 次）。"""
+    for _ in range(tries):
+        movie_menu = WebDriverWait(driver, 30).until(
+            EC.visibility_of_element_located((By.CSS_SELECTOR, "#dropdownMenu .menuTitle.arrow"))
+        )
+        ActionChains(driver).move_to_element(movie_menu).perform()  # 滑鼠移入 → 展開下拉選單
+        try:
+            return WebDriverWait(driver, 5).until(
+                EC.visibility_of_element_located((By.LINK_TEXT, "票房排行榜"))
+            )
+        except TimeoutException:
+            ActionChains(driver).move_by_offset(0, 300).perform()  # 選單沒展開：滑鼠先移開
+    raise SystemExit("滑鼠移到「電影」選單後，下拉選單一直沒有展開，請再執行一次。")
 
 
 def wait_for(driver, xpath, tries=3):
@@ -146,14 +173,8 @@ def main():
     try:
         # 1. 開啟題目網址，滑鼠移到「電影」選單，再點「票房排行榜」
         driver.get(URL)
-        movie_menu = WebDriverWait(driver, 30).until(
-            EC.visibility_of_element_located((By.CSS_SELECTOR, "#dropdownMenu .menuTitle.arrow"))
-        )
-        ActionChains(driver).move_to_element(movie_menu).perform()  # 滑鼠移入 → 展開下拉選單
-        box_office = WebDriverWait(driver, 10).until(
-            EC.visibility_of_element_located((By.LINK_TEXT, "票房排行榜"))
-        )
-        mouse_click(driver, box_office, "/boxoffice/")
+        # 「票房排行榜」在下拉選單裡，每次點之前都要先把滑鼠移到「電影」讓選單展開
+        mouse_click(driver, lambda: hover_movie_menu(driver), "/boxoffice/")
 
         # 2. 列出台北排行榜的排名、片名、票房（頁面上顯示前 5 名）
         wait_for(driver, TAIPEI_TITLE)
@@ -163,8 +184,8 @@ def main():
             print(f"  第 {movie['排名']} 名：{movie['片名']}，本週票房 {movie['本週票房']}")
 
         # 3. 滑鼠點台北排行榜下方的 more，進入完整排行
-        more = driver.find_element(By.XPATH, TAIPEI_TITLE + "/following::a[contains(@class, 'viewMore')][1]")
-        mouse_click(driver, more, "/twweekend/")
+        more = TAIPEI_TITLE + "/following::a[contains(@class, 'viewMore')][1]"
+        mouse_click(driver, lambda: driver.find_element(By.XPATH, more), "/twweekend/")
         wait_for(driver, "//td[contains(@class, 'at11')]")
         movies = read_full_ranking(driver)
     finally:
