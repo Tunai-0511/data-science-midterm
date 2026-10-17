@@ -50,7 +50,7 @@ python run.py 5
 |:-:|---|---|---|---|
 | 1 | 開眼電影網本週新片（延伸：點進內頁多抓欄位） | requests + BeautifulSoup | `new_movies.csv`、延伸 `new_movies_detail.csv` | — |
 | 2 | 臺灣銀行牌告匯率（延伸：買賣價差） | Selenium 載入 + BeautifulSoup | `bank.csv`、延伸 `bank_detail.csv` | — |
-| 3 | 政府資料開放平臺：健保門診及住院就診人次統計－腸病毒 | Selenium 模擬搜尋與點選 + requests 下載 | `NHI_EnteroviralInfection.csv` | — |
+| 3 | 政府資料開放平臺：健保門診及住院就診人次統計－腸病毒（延伸：年齡別＋縣市地圖） | Selenium 模擬搜尋與點選 + requests 下載 | `NHI_EnteroviralInfection.csv`、延伸 `enterovirus_charts.png` | — |
 | 4 | 博客來「演算法」搜尋結果 | Selenium 載入 + BeautifulSoup | `booklist.csv` | 偶爾需勾選真人驗證 |
 | 5 | 開眼台北週末票房排行榜（20 筆） | Selenium（ActionChains 模擬滑鼠） | `Taipei_movies.csv` | — |
 | 6 | Basketball Reference：CLE、HOU、GSW 球員（延伸：身高、年齡＋圖表） | requests + BeautifulSoup + matplotlib | `players.csv`、延伸 `players_detail.csv`、`players_charts.png` | — |
@@ -100,7 +100,12 @@ python run.py 5
   （用完整名稱搜尋時，平臺會把同系列的其他疾病排在前面，所以用「腸病毒」搜尋，目標資料集就在第一頁。）
   為了讓人看清楚每一步，程式操作前會把要點的元素捲到畫面中間，終端機印出「步驟 n」說明，停 2 秒再動作（秒數在程式開頭的 `STEP_PAUSE` 設定，改成 0 就不停）。
   下載網址在疾管署網站，憑證鏈不完整、Python 預設會驗證失敗，所以先用 `truststore` 改用作業系統的憑證庫驗證；還是失敗時才改用不驗證憑證的方式下載，並印出提示。
-- **輸出**：`NHI_EnteroviralInfection.csv`（約 19 萬筆、8 MB）
+- **延伸：年齡別與縣市地圖**：用 pandas 把整份資料（2016 年到最新一週）加總，畫成一張圖：
+  - 左邊是各年齡層的就診人次長條圖：0～12 歲占九成以上，其中 3～6 歲（學齡前）就占 44%，看得出腸病毒主要是幼兒園、托嬰中心的防疫重點。
+  - 右邊是台灣地圖，各縣市的累計就診人次分 5 級上色（5 萬以下、5～10 萬、10～20 萬、20～40 萬、40 萬以上，由黃到深紅），旁邊列出 22 個縣市的排名與人次。人口多的新北市、台中市最多。澎湖、金門、連江三個離島放大畫在左下角標「離島」的框裡；金門的框只畫大、小金門，遠在東北方的烏坵不畫。
+  - 注意是「就診人次」不是「人數」，同一個人看兩次診會算兩次。
+  - 縣市邊界 `taiwan_counties.geojson` 來自內政部國土測繪中心「直轄市、縣市界線(TWD97經緯度)」（<https://data.gov.tw/dataset/7442>，政府資料開放授權），經 [taiwan-atlas](https://github.com/dkaoster/taiwan-atlas)（MIT 授權）簡化成 TopoJSON，我們再轉成 GeoJSON。程式用內建的 `json` 讀進來、用 matplotlib 畫多邊形，不需要另外安裝地圖套件。
+- **輸出**：`NHI_EnteroviralInfection.csv`（約 19 萬筆、8 MB）、`enterovirus_charts.png`（延伸：年齡別長條圖＋縣市地圖）
 - **執行**：`python 第03題_腸病毒資料/main.py`
 
 ### 第 4 題：博客來「演算法」書籍
@@ -249,7 +254,7 @@ data-science-midterm/
 ├── 第01題_本週新片/
 │   ├── main.py                程式
 │   ├── new_movies.csv         輸出（重新執行會覆蓋）
-│   └── new_movies_detail.csv  延伸的輸出（第 1、2、6、10、14、16 題有延伸）
+│   └── new_movies_detail.csv  延伸的輸出（第 1、2、3、6、10、14、16 題有延伸）
 ├── 第02題_台銀牌價/
 │   ├── main.py
 │   └── bank.csv
