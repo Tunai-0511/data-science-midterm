@@ -1,12 +1,32 @@
 # Python
 __pycache__/
-*.pyc
+*.py[cod]
+*$py.class
 .venv/
 venv/
+env/
+ENV/
+
+# Jupyter / IPython
+.ipynb_checkpoints/
+
+# IDE / 編輯器
+.vscode/
+.idea/
 
 # 作業系統
 .DS_Store
 Thumbs.db
+ehthumbs.db
+desktop.ini
+
+# 暫存與記錄檔
+*.log
+*.tmp
+
+# 第 17 題個人測試／舊版輸出
+第17題_GitHub登入首頁/github_dashboard.csv
+第17題_GitHub登入首頁/github_dashboard.png
 
 # 報告等成品（不進 git）
 out/

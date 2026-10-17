@@ -23,16 +23,28 @@
     - 票房網站（app2.atmovies.com.tw）偶爾連線逾時，等不到內容就重新整理再試。
 
 輸出
-    Taipei_movies.csv（金額單位：萬新台幣；與本程式同一個資料夾，重新執行會直接覆蓋）
+    Taipei_movies.csv        題目要求：排名、片名、本週與累計票房（萬元）
+    Taipei_movies_detail.csv 延伸：數值票房、占比與累積占比
+    boxoffice_charts.png     延伸：前 10 名橫條圖、累積占比圖
+
+延伸：票房集中程度
+    去除 $ 與千分位逗號，轉換為萬元；揭露無效本週票房並排除於占比。
+    依本週票房排序，以未四捨五入的數值計算占比與累積占比。
+    繪製前 10 名橫條圖與榜內累積曲線，80% 僅為參考線。
+    動態計算前約 20% 片數占比；僅描述本次榜單，不直接宣稱二八法則或推論市場成因。
 
 執行
     python 第05題_台北票房排行榜/main.py
+    python 第05題_台北票房排行榜/main.py --analyze-only  # 直接以既有 CSV 產生圖表與分析討論
 """
 
 import csv
+import sys
 import time
 from pathlib import Path
 
+import matplotlib
+import pandas as pd
 from selenium import webdriver
 from selenium.common.exceptions import TimeoutException, WebDriverException
 from selenium.webdriver.common.action_chains import ActionChains
@@ -40,8 +52,14 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
+matplotlib.use("Agg")  # 只存圖檔、不開視窗
+import matplotlib.pyplot as plt  # noqa: E402
+from matplotlib import font_manager  # noqa: E402
+
 URL = "https://www.atmovies.com.tw/movie/new/"
 OUTPUT = Path(__file__).parent / "Taipei_movies.csv"
+DETAIL_OUTPUT = Path(__file__).parent / "Taipei_movies_detail.csv"
+CHART_OUTPUT = Path(__file__).parent / "boxoffice_charts.png"
 FIELDS = ["排名", "片名", "本週票房", "累計票房"]
 
 TAIPEI_TITLE = "//h3[contains(., '台北週末票房排行榜')]"  # 台北排行榜的標題（XPath）
@@ -168,6 +186,68 @@ def save_csv(rows, path):
         writer.writerows(rows)
 
 
+def use_chinese_font():
+    """matplotlib 預設字型沒有中文，挑選系統已安裝的中文字型。"""
+    candidates = ["Microsoft JhengHei", "PingFang TC", "Heiti TC", "Noto Sans CJK TC", "Arial Unicode MS"]
+    installed = {font.name for font in font_manager.fontManager.ttflist}
+    plt.rcParams["font.sans-serif"] = [name for name in candidates if name in installed] + ["DejaVu Sans"]
+    plt.rcParams["axes.unicode_minus"] = False
+
+
+def analyze_and_draw(df=None):
+    """由未四捨五入的票房計算榜內占比，展示集中程度。"""
+    if df is None:
+        if not OUTPUT.exists():
+            print(f"找不到 {OUTPUT.name}，無法進行分析。")
+            return
+        df = pd.read_csv(OUTPUT)
+    clean = df.copy()
+    for source in ("本週票房", "累計票房"):
+        clean[source + "(萬)"] = pd.to_numeric(
+            clean[source].astype("string").str.replace(r"[$,]", "", regex=True), errors="coerce"
+        )
+    valid = clean["本週票房(萬)"].notna() & clean["本週票房(萬)"].ge(0)
+    print(f"票房有效 {valid.sum()}／{len(clean)} 筆；無效本週票房 {len(clean)-valid.sum()} 筆（不納入占比）。")
+    clean = clean.loc[valid].sort_values("本週票房(萬)", ascending=False, kind="stable").reset_index(drop=True)
+    total = clean["本週票房(萬)"].sum()
+    if clean.empty or total <= 0:
+        print("沒有可分析的正票房總額，略過繪圖。")
+        return
+    clean["本週票房佔比(%)"] = clean["本週票房(萬)"] / total * 100
+    clean["累積票房佔比(%)"] = clean["本週票房(萬)"].cumsum() / total * 100
+    clean.to_csv(DETAIL_OUTPUT, index=False, encoding="utf-8-sig")
+    print(f"\n榜內有效 {len(clean)} 部電影，本週票房合計 {total:,.2f} 萬元。")
+    for n in (3, 5, 10):
+        k = min(n, len(clean))
+        print(f"前 {k} 名占榜內 {clean['本週票房(萬)'].head(k).sum()/total*100:.1f}%。")
+    top_fifth = max(1, (len(clean) + 4) // 5)
+    share = clean["本週票房(萬)"].head(top_fifth).sum() / total * 100
+    print(f"前約 20% 片數（{top_fifth} 部）占榜內 {share:.1f}%；應依此描述集中程度，不能直接宣稱符合二八法則。")
+    print("範圍僅限本次榜單；未蒐集全市場票房、排片或行銷資料，無法推論全市場占比與成因。")
+    use_chinese_font()
+    fig, (ax_bar, ax_cum) = plt.subplots(1, 2, figsize=(16, 6), layout="constrained")
+    top = clean.head(10)
+    labels = [str(t).split()[0] for t in top["片名"]]
+    bars = ax_bar.barh(range(len(top)), top["本週票房(萬)"], color="#1D428A")
+    ax_bar.set_yticks(range(len(top)), labels=labels, fontsize=9)
+    ax_bar.invert_yaxis()
+    ax_bar.set_xlim(0, top["本週票房(萬)"].max()*1.4)
+    for bar, (_, row) in zip(bars, top.iterrows()):
+        ax_bar.text(bar.get_width()+total*.002, bar.get_y()+bar.get_height()/2,
+                    f"{row['本週票房(萬)']:g} 萬（{row['本週票房佔比(%)']:.1f}%）", va="center", fontsize=8)
+    ax_bar.set(title=f"本週票房前 {len(top)} 名（占比以本次榜單為分母）", xlabel="本週票房（萬元新台幣）")
+    ranks = list(range(1, len(clean)+1))
+    ax_cum.plot([0]+ranks, [0]+clean["累積票房佔比(%)"].tolist(), marker="o", color="#C8102E")
+    ax_cum.axhline(80, color="gray", linestyle="--", label="80% 參考線")
+    ax_cum.set(title=f"榜內 {len(clean)} 部電影本週票房累積占比", xlabel="依本週票房排序的電影數", ylabel="榜內累積占比（%）", ylim=(0, 105))
+    ax_cum.legend()
+    for ax in (ax_bar, ax_cum):
+        ax.grid(alpha=.25)
+    fig.savefig(CHART_OUTPUT, dpi=150)
+    plt.close(fig)
+    print(f"已產生 {DETAIL_OUTPUT.name}、{CHART_OUTPUT.name}")
+
+
 def main():
     driver = open_chrome()
     try:
@@ -198,6 +278,12 @@ def main():
     save_csv(movies, OUTPUT)
     print(f"\n共 {len(movies)} 筆，已存成 {OUTPUT.name}")
 
+    # 延伸：票房集中度分析與繪圖
+    analyze_and_draw(pd.DataFrame(movies))
+
 
 if __name__ == "__main__":
-    main()
+    if "--analyze-only" in sys.argv:
+        analyze_and_draw()
+    else:
+        main()
