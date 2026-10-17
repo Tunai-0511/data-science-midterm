@@ -33,22 +33,32 @@
        評價「平均很讚8.5分（滿分10分），共6,789則評論」→ 評分 8.5、評價等級「很讚」、評論數 6789。
     9. 存成 agoda_result_processed.csv，並印出每一步移除了幾筆。
 
-輸出（與本程式同一個資料夾，重新執行會直接覆蓋）
-    agoda_result.csv            沒有資料處理（網頁原始文字，比題目要求多了頁數、飯店 ID 等 10 個欄位）
-    agoda_result_processed.csv  有資料處理（移除沒有價格、移除重複、格式轉換）
+輸出
+    agoda_result.csv           題目要求與額外欄位的原始資料
+    agoda_result_processed.csv 清理後資料
+    agoda_charts.png           延伸：平台地區房價、價格評分散布圖
 
-    價格說明：Agoda 顯示的是「每晚價格（不含稅及其他費用）」，日期與房價會隨查詢當天變動。
-    執行時間：每頁約 40 秒，全部約 3～4 分鐘。中途出錯或按 Ctrl+C，已抓到的資料照樣存檔處理。
+    價格為每晚、不含稅及其他費用，會隨查詢日期變動。
+
+延伸：平台地區房價與價格評分關係
+    平台地區可能是行政區、商圈或景點，保留原分類，不稱為統一行政區。
+    地區價格統計使用全部有效正價格；相關分析使用價格及評分皆有效的樣本。
+    箱型圖合併各少於 4 筆的地區；對數價格軸顯示完整範圍，保留所有高價點。
+    動態列出樣本數、中位數、Pearson 相關、高價組平均與低於 8.5 分筆數。
+    僅描述本次查詢，不推論因果、統計顯著性或住宿品質成因。
 
 執行
     python 第16題_Agoda台中飯店/main.py
+    python 第16題_Agoda台中飯店/main.py --analyze-only  # 直接以既有清理資料產生圖表與分析討論
 """
 
 import re
+import sys
 import time
 from pathlib import Path
 from urllib.parse import parse_qs, urljoin, urlsplit
 
+import matplotlib
 import pandas as pd
 from bs4 import BeautifulSoup
 from selenium import webdriver
@@ -59,11 +69,16 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
+matplotlib.use("Agg")  # 只存圖檔、不開視窗
+import matplotlib.pyplot as plt  # noqa: E402
+from matplotlib import font_manager  # noqa: E402
+
 URL = "https://www.agoda.com/zh-tw/"
 KEYWORD = "台中"
 FOLDER = Path(__file__).parent
 RAW_OUTPUT = FOLDER / "agoda_result.csv"                 # 沒有資料處理
 PROCESSED_OUTPUT = FOLDER / "agoda_result_processed.csv"  # 有資料處理（前處理）
+CHART_OUTPUT = FOLDER / "agoda_charts.png"              # 延伸圖表
 MAX_PAGES = 20  # 安全上限，避免無限翻頁
 HOTEL_NAME = "[data-selenium='hotel-name']"
 NEXT_BUTTON = "[data-selenium='pagination-next-btn']"
@@ -267,6 +282,84 @@ def preprocess(raw):
     return clean.reset_index(drop=True)
 
 
+# ======================================================================
+# 第三部分：延伸分析 —— 各區房價箱型圖、價格與評分散布圖與討論
+# ======================================================================
+
+def use_chinese_font():
+    """matplotlib 預設字型沒有中文，挑選系統已安裝的中文字型。"""
+    candidates = ["Microsoft JhengHei", "PingFang TC", "Heiti TC", "Noto Sans CJK TC", "Arial Unicode MS"]
+    installed = {font.name for font in font_manager.fontManager.ttflist}
+    plt.rcParams["font.sans-serif"] = [name for name in candidates if name in installed] + ["DejaVu Sans"]
+    plt.rcParams["axes.unicode_minus"] = False
+
+
+def analyze_and_draw(df):
+    """平台地區房價使用所有有效價格，相關分析使用價格與評分皆有效的資料。"""
+    data = df.copy()
+    for col in ("價格(元)", "評分"):
+        data[col] = pd.to_numeric(data[col], errors="coerce")
+    data.loc[data["價格(元)"] <= 0, "價格(元)"] = float("nan")
+    data.loc[~data["評分"].between(0, 10), "評分"] = float("nan")
+    priced = data.dropna(subset=["價格(元)"]).copy()
+    priced["平台地區"] = priced["地區"].astype("string").str.strip().replace("", pd.NA).fillna("未提供地區")
+    valid = priced.dropna(subset=["評分"])
+    print(f"\n清理後 {len(data)} 筆；有效價格 {len(priced)} 筆；價格與評分皆有效 {len(valid)} 筆。")
+    if priced.empty:
+        print("沒有有效價格，略過分析繪圖。")
+        return
+    stats = priced.groupby("平台地區")["價格(元)"].agg(樣本數="count", 中位數="median", 平均價="mean", 最低價="min", 最高價="max").sort_values("中位數", ascending=False)
+    print("平台地區房價統計（平台分類含行政區、商圈與景點，並非統一行政區）：")
+    print(stats.round(2).to_string())
+    top = stats.loc[stats["樣本數"].ge(4)].head(3)
+    print("至少 4 筆的平台地區中，中位數最高者：")
+    print(top[["樣本數", "中位數"]].to_string())
+    print("小樣本地區估計較不穩定；各區價格比較保留無評分但有價格的住宿。")
+    corr = valid["價格(元)"].corr(valid["評分"]) if len(valid) >= 2 else float("nan")
+    if not valid.empty:
+        p_med = valid["價格(元)"].median()
+        s_med = valid["評分"].median()
+        threshold = valid["價格(元)"].quantile(.75)
+        high = valid[valid["價格(元)"].ge(threshold)]
+        budget = valid[valid["價格(元)"].le(p_med) & valid["評分"].ge(s_med)]
+        print(f"價格與評分 Pearson r={corr:.3f}（以 {len(valid)} 筆完整資料計算；不足變異時無法計算）。")
+        print(f"高價組定義為價格 >= 第三四分位數 {threshold:,.1f} 元，共 {len(high)} 筆（同價可能超過 25%）。")
+        print(f"高價組平均評分 {high['評分'].mean():.2f}；全體完整樣本平均 {valid['評分'].mean():.2f}。")
+        print(f"高價組評分低於 8.5 分：{high['評分'].lt(8.5).sum()} 筆。")
+        print(f"價格 <= 中位數 {p_med:,.0f} 元且評分 >= 中位數 {s_med:.1f} 分：{len(budget)} 筆。")
+    print("以上僅描述本次查詢樣本；相關不代表因果，未檢定統計顯著性，亦無法證明硬體、品牌或服務造成價格差異。")
+    print("房價為每晚未稅報價；住宿類型、房型及評論數不同，限制了直接比較的解讀。")
+    use_chinese_font()
+    fig, (ax_box, ax_scatter) = plt.subplots(1, 2, figsize=(17, 7), layout="constrained")
+    counts = priced["平台地區"].value_counts()
+    major = counts[counts.ge(4)].index
+    priced["繪圖地區"] = priced["平台地區"].where(priced["平台地區"].isin(major), "其他地區（各少於4筆）")
+    order = priced.groupby("繪圖地區")["價格(元)"].median().sort_values(ascending=False).index.tolist()
+    values = [priced.loc[priced["繪圖地區"].eq(a), "價格(元)"] for a in order]
+    ax_box.boxplot(values, patch_artist=True, showmeans=True, medianprops={"color": "#C8102E"})
+    ax_box.set_xticks(range(1,len(order)+1), labels=[f"{a}\n(n={len(v)})" for a,v in zip(order,values)], rotation=60, ha="right", fontsize=8)
+    ax_box.set_yscale("log")
+    ax_box.set(title=f"平台各地區房價（有效 {len(priced)} 筆；三角為平均數）", ylabel="每晚未稅價格（新台幣元，對數刻度）")
+    if not valid.empty:
+        ax_scatter.scatter(valid["價格(元)"], valid["評分"], color="#1D428A", alpha=.55, edgecolors="white", s=40)
+        ax_scatter.set_xscale("log")
+        ax_scatter.axvline(p_med, color="gray", linestyle="--", label=f"價格中位數 {p_med:,.0f} 元")
+        ax_scatter.axhline(s_med, color="#C8102E", linestyle="--", label=f"評分中位數 {s_med:.1f}")
+        ax_scatter.set_ylim(0, 10.3)
+        ax_scatter.legend(fontsize=8, loc="lower left")
+    else:
+        ax_scatter.text(.5, .5, "沒有同時具有效價格與評分的資料", transform=ax_scatter.transAxes, ha="center")
+    ax_scatter.set(title=f"價格與評分（完整 {len(valid)} 筆；原始價格 Pearson r={corr:.3f}）", xlabel="每晚未稅價格（新台幣元，對數刻度）", ylabel="評分（滿分10分）")
+    from matplotlib.ticker import FuncFormatter
+    for axis in (ax_box.yaxis, ax_scatter.xaxis):
+        axis.set_major_formatter(FuncFormatter(lambda x, pos: f"{x:,.0f}"))
+    for ax in (ax_box, ax_scatter):
+        ax.grid(alpha=.25)
+    fig.savefig(CHART_OUTPUT, dpi=150)
+    plt.close(fig)
+    print(f"已產生 {CHART_OUTPUT.name}（保留全部有效價格，未裁切高價點）。")
+
+
 def main():
     # 第一部分：爬蟲，存成沒有資料處理的原始資料
     rows = scrape_all_pages()
@@ -281,8 +374,17 @@ def main():
     data = preprocess(raw)
     data.to_csv(PROCESSED_OUTPUT, index=False, encoding="utf-8-sig")
     print(f"有資料處理：{len(data)} 筆，已存成 {PROCESSED_OUTPUT.name}")
-    print(data[["飯店名", "價格(元)", "評分", "評論數", "地區"]].head(5).to_string(index=False))
+    print(data[["飯店名", "價格(元)", "評分", "評論數", "地區"]].head(5).to_string(index=False), "\n")
+
+    # 第三部分：延伸分析圖表與討論
+    analyze_and_draw(data)
 
 
 if __name__ == "__main__":
-    main()
+    if "--analyze-only" in sys.argv:
+        if not PROCESSED_OUTPUT.exists():
+            raise SystemExit(f"找不到 {PROCESSED_OUTPUT.name}，請先執行爬蟲取得資料。")
+        clean_data = pd.read_csv(PROCESSED_OUTPUT)
+        analyze_and_draw(clean_data)
+    else:
+        main()

@@ -19,15 +19,30 @@
     Cloudflare 的「Verify you are human」真人驗證；2026-10 實測放慢翻頁、由真人在程式開的
     瀏覽器裡勾選，都無法通過。程式不應該繞過驗證，所以只抓題目指定的網址（第 1 頁）。
 
+輸出
+    booklist.csv          題目要求：書名、網址、作者、書價
+    booklist_detail.csv   延伸：數值化書價
+    book_price_charts.png 延伸：價格直方圖、箱型圖
+
+延伸：書價分布與離群值
+    書價去逗號轉數值；非正值或無法解析的價格保留為缺漏。
+    以有效價格計算平均數、中位數、四分位數、IQR 與上側離群界線。
+    動態顯示 300～550 元的本數與比例，檢查重複網址及網址缺漏。
+    直方圖自動分箱，箱型圖保留完整範圍；僅描述本頁優惠售價，不推論定價原因。
+
 執行
     python 第04題_博客來書籍/main.py
+    python 第04題_博客來書籍/main.py --analyze-only  # 直接以既有 CSV 產生圖表與分析討論
 """
 
 import csv
 import re
+import sys
 from pathlib import Path
 from urllib.parse import quote
 
+import matplotlib
+import pandas as pd
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.common.exceptions import TimeoutException
@@ -35,9 +50,15 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
+matplotlib.use("Agg")  # 只存圖檔、不開視窗
+import matplotlib.pyplot as plt  # noqa: E402
+from matplotlib import font_manager  # noqa: E402
+
 KEYWORD = "演算法"
 URL_TEMPLATE = "https://search.books.com.tw/search/query/key/{0}/cat/all"  # 題目給的網址
 OUTPUT = Path(__file__).parent / "booklist.csv"
+DETAIL_OUTPUT = Path(__file__).parent / "booklist_detail.csv"
+CHART_OUTPUT = Path(__file__).parent / "book_price_charts.png"
 FIELDS = ["書名", "網址", "作者", "書價"]
 BOOK_SELECTOR = "div.table-td[id^='prod-itemlist-']"  # 每一本書的區塊
 
@@ -81,14 +102,76 @@ def parse_books(html):
     return books
 
 
+def use_chinese_font():
+    """matplotlib 預設字型沒有中文，挑選系統已安裝的中文字型。"""
+    candidates = ["Microsoft JhengHei", "PingFang TC", "Heiti TC", "Noto Sans CJK TC", "Arial Unicode MS"]
+    installed = {font.name for font in font_manager.fontManager.ttflist}
+    plt.rcParams["font.sans-serif"] = [name for name in candidates if name in installed] + ["DejaVu Sans"]
+    plt.rcParams["axes.unicode_minus"] = False
+
+
 def save_csv(books):
-    """逐筆印出每本書並寫入 CSV（utf-8-sig：Excel 開啟中文不會亂碼）。"""
-    with open(OUTPUT, "w", newline="", encoding="utf-8-sig") as file:
+    """儲存題目要求的原始欄位，使用 BOM 方便 Excel 開啟。"""
+    with OUTPUT.open("w", newline="", encoding="utf-8-sig") as file:
         writer = csv.DictWriter(file, fieldnames=FIELDS)
         writer.writeheader()
         for number, book in enumerate(books, start=1):
             print(f"{number}. {book['書名']}｜{book['作者']}｜{book['書價']} 元｜{book['網址']}")
             writer.writerow(book)
+
+
+def analyze_and_draw(df=None):
+    """檢查重複、轉換書價，以有效價格計算統計量並繪圖。"""
+    if df is None:
+        if not OUTPUT.exists():
+            print(f"找不到 {OUTPUT.name}，無法進行分析。")
+            return
+        df = pd.read_csv(OUTPUT)
+    clean = df.copy()
+    clean["書價(元)"] = pd.to_numeric(
+        clean["書價"].astype("string").str.replace(",", "", regex=False), errors="coerce"
+    )
+    clean.loc[clean["書價(元)"] <= 0, "書價(元)"] = float("nan")
+    clean.to_csv(DETAIL_OUTPUT, index=False, encoding="utf-8-sig")
+    prices = clean["書價(元)"].dropna()
+    print("\n========== 延伸分析：博客來書價 ==========")
+    print(f"樣本 {len(clean)} 本；有效價格 {len(prices)} 本；缺漏或無效價格 {len(clean)-len(prices)} 本。")
+    urls = clean["網址"].dropna().astype(str).str.strip()
+    urls = urls[urls.ne("")]
+    print(f"重複網址列數（含同組全部列）：{urls.duplicated(keep=False).sum()}；未提供網址：{len(clean)-len(urls)}。")
+    if prices.empty:
+        print("沒有有效價格，略過統計與繪圖。")
+        return
+    q1, median, q3 = prices.quantile([.25, .5, .75])
+    iqr = q3 - q1
+    threshold = q3 + 1.5 * iqr
+    count = prices.between(300, 550).sum()
+    print(f"最低價 {prices.min():,.2f}；Q1 {q1:,.2f}；中位數 {median:,.2f}；Q3 {q3:,.2f}；最高價 {prices.max():,.2f} 元。")
+    print(f"平均價 {prices.mean():,.2f} 元；IQR {iqr:,.2f} 元；上側離群判定界線 {threshold:,.2f} 元。")
+    print(f"300～550 元共 {count} 本，占有效價格樣本 {count/len(prices)*100:.1f}%。")
+    outliers = clean[clean["書價(元)"] > threshold]
+    print(f"超過上側界線的書籍共 {len(outliers)} 本：")
+    for _, row in outliers.iterrows():
+        print(f"  《{row['書名']}》：{row['書價(元)']:,.0f} 元")
+    print("以上為搜尋結果本頁的優惠售價分布；未蒐集頁數、裝訂與成本，無法由價格判定高價原因。")
+    use_chinese_font()
+    fig, (ax_hist, ax_box) = plt.subplots(1, 2, figsize=(14, 5.5))
+    ax_hist.hist(prices, bins="auto", color="#1D428A", edgecolor="white", alpha=.8)
+    ax_hist.axvline(median, color="#C8102E", linestyle="--", label=f"中位數 {median:,.1f} 元")
+    ax_hist.axvline(prices.mean(), color="#E8A317", linestyle=":", label=f"平均數 {prices.mean():,.1f} 元")
+    ax_hist.set(title=f"本頁書價分布（有效 {len(prices)}／全部 {len(clean)} 本）", xlabel="優惠售價（新台幣元）", ylabel="本數")
+    ax_hist.legend()
+    ax_box.boxplot(prices, patch_artist=True, showmeans=True,
+                   boxprops={"facecolor": "#87CEEB"}, medianprops={"color": "#C8102E"})
+    ax_box.axhline(threshold, color="gray", linestyle=":", label=f"上側界線 {threshold:,.1f} 元")
+    ax_box.set(title="書價箱型圖（鬚線內最遠資料點，圈點為離群值）", ylabel="優惠售價（新台幣元）", xticks=[1], xticklabels=["本頁書籍"])
+    ax_box.legend()
+    for ax in (ax_hist, ax_box):
+        ax.grid(axis="y", linestyle="--", alpha=.3)
+    fig.tight_layout()
+    fig.savefig(CHART_OUTPUT, dpi=150)
+    plt.close(fig)
+    print(f"已產生 {DETAIL_OUTPUT.name}、{CHART_OUTPUT.name}")
 
 
 def main():
@@ -101,6 +184,12 @@ def main():
     save_csv(books)
     print(f"\n「{KEYWORD}」搜尋結果共 {len(books)} 本書，已存成 {OUTPUT.name}")
 
+    # 延伸：書價統計與圖表分析
+    analyze_and_draw(pd.DataFrame(books))
+
 
 if __name__ == "__main__":
-    main()
+    if "--analyze-only" in sys.argv:
+        analyze_and_draw()
+    else:
+        main()

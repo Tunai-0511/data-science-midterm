@@ -23,22 +23,41 @@
     （金鑰不要寫進程式或上傳到 GitHub。）
 
 輸出
-    pythonbook.csv（20 筆＝2 頁；與本程式同一個資料夾，重新執行會直接覆蓋）
+    pythonbook.csv        題目要求：兩頁搜尋結果
+    pythonbook_detail.csv 延伸：書籍 ID、出版年份、整理後出版社
+    books_api_charts.png  延伸：年代分布、出版社筆數
+
+延伸：出版年代與出版社分布
+    擷取出版年份、整理出版社、檢查可辨識書籍 ID 的重複與缺漏。
+    年份統計以有效年份為分母，出版社統計包含未知並以全部記錄為範圍。
+    以十年為單位繪製年代分布；不依年代臆測主題或搜尋命中原因。
+    重複資料保留並揭露；分析僅限本次兩頁搜尋結果。
 
 執行
     python 第07題_GoogleBooks_API/main.py
+    python 第07題_GoogleBooks_API/main.py --analyze-only  # 直接以既有 CSV 產生圖表與分析討論
 """
 
 import csv
 import os
+import re
+import sys
 from pathlib import Path
 
+import matplotlib
+import pandas as pd
 import requests
+
+matplotlib.use("Agg")  # 只存圖檔、不開視窗
+import matplotlib.pyplot as plt  # noqa: E402
+from matplotlib import font_manager  # noqa: E402
 
 url = "https://www.googleapis.com/books/v1/volumes"
 url_params = {"q": "Python", "maxResults": 10, "projection": "lite"}  # 題目指定的參數
 
 OUTPUT = Path(__file__).parent / "pythonbook.csv"
+DETAIL_OUTPUT = Path(__file__).parent / "pythonbook_detail.csv"
+CHART_OUTPUT = Path(__file__).parent / "books_api_charts.png"
 FIELDS = ["頁數", "書名", "作者", "出版社", "出版日期", "網址"]
 
 
@@ -92,6 +111,98 @@ def save_page(rows, mode):
         writer.writerows(rows)
 
 
+def use_chinese_font():
+    """matplotlib 預設字型沒有中文，挑選系統已安裝的中文字型。"""
+    candidates = ["Microsoft JhengHei", "PingFang TC", "Heiti TC", "Noto Sans CJK TC", "Arial Unicode MS"]
+    installed = {font.name for font in font_manager.fontManager.ttflist}
+    plt.rcParams["font.sans-serif"] = [name for name in candidates if name in installed] + ["DejaVu Sans"]
+    plt.rcParams["axes.unicode_minus"] = False
+
+
+def extract_book_id(url):
+    """從 Google Books 網址中擷取唯一的書籍 ID。"""
+    match = re.search(r"[?&]id=([a-zA-Z0-9_-]+)", str(url))
+    return match.group(1) if match else ""
+
+
+def extract_year(date_str):
+    """統一出版日期格式，擷取 4 位數西元年份。"""
+    if pd.isna(date_str):
+        return None
+    match = re.search(r"(\d{4})", str(date_str))
+    return int(match.group(1)) if match else None
+
+
+def clean_publisher(pub):
+    """整理出版社名稱（去引號、標準化名稱、缺失值補齊）。"""
+    if pd.isna(pub) or not str(pub).strip():
+        return "未提供/未知"
+    p = str(pub).strip().strip('"').strip("'")
+    if "o'reilly" in p.lower():
+        return "O'Reilly Media"
+    if "prentice hall" in p.lower():
+        return "Prentice Hall"
+    if "wiley" in p.lower():
+        return "John Wiley & Sons"
+    if "mcgraw" in p.lower():
+        return "McGraw Hill"
+    return p
+
+
+def analyze_and_draw(df=None):
+    """擷取年份、整理出版社；明列缺漏與各統計的分母。"""
+    if df is None:
+        if not OUTPUT.exists():
+            print(f"找不到 {OUTPUT.name}，無法進行分析。")
+            return
+        df = pd.read_csv(OUTPUT)
+    clean = df.copy()
+    clean["書籍ID"] = clean["網址"].apply(extract_book_id)
+    clean["出版年份"] = clean["出版日期"].apply(extract_year).astype("Int64")
+    clean["出版社整理"] = clean["出版社"].apply(clean_publisher)
+    clean.to_csv(DETAIL_OUTPUT, index=False, encoding="utf-8-sig")
+    ids = clean.loc[clean["書籍ID"].ne(""), "書籍ID"]
+    years = clean["出版年份"].dropna().astype(int)
+    pubs = clean["出版社整理"].value_counts()
+    print(f"\n搜尋樣本 {len(clean)} 本；有效年份 {len(years)} 本；年份缺漏 {len(clean)-len(years)} 本。")
+    print(f"可辨識書籍 ID {len(ids)} 筆；缺漏 {len(clean)-len(ids)} 筆；重複 ID 列數（含同組全部列）{ids.duplicated(keep=False).sum()}。")
+    if not years.empty:
+        print(f"出版年份範圍：{years.min()}～{years.max()}；以下年份比例以 {len(years)} 本有效年份為分母。")
+        for label, mask in [("2000 年起", years.ge(2000)), ("1900～1919 年", years.between(1900, 1919))]:
+            print(f"  {label}：{mask.sum()} 本（{mask.mean()*100:.1f}%）。")
+    print("出版社出現筆數（含未知，分母為全部搜尋樣本）：")
+    print(pubs.to_string())
+    print("搜尋結果含不同年代與主題；可能與 Python 的多重詞義有關，但現有欄位無法確認每本書的搜尋命中原因。")
+    print("僅分析本次兩頁結果，不代表整體 Python 出版市場；重複記錄保留並揭露，年份與出版社圖均以記錄筆數計算。")
+    if clean.empty:
+        print("沒有搜尋結果，略過繪圖。")
+        return
+    use_chinese_font()
+    fig, (ax_year, ax_pub) = plt.subplots(1, 2, figsize=(15, 6), layout="constrained")
+    if not years.empty:
+        decades = (years // 10 * 10).value_counts().sort_index()
+        bars = ax_year.bar([f"{y}年代" for y in decades.index], decades.values, color="#1D428A")
+        ax_year.bar_label(bars, padding=3)
+        ax_year.tick_params(axis="x", rotation=45)
+        ax_year.set_ylim(0, decades.max()+1)
+    else:
+        ax_year.text(.5, .5, "沒有有效出版年份", transform=ax_year.transAxes, ha="center")
+    ax_year.set(title=f"出版年代分布（有效 {len(years)}／全部 {len(clean)} 本）", ylabel="記錄筆數（僅顯示有資料年代）")
+    named = pubs.drop("未提供/未知", errors="ignore")
+    if "未提供/未知" in pubs.index:
+        named = pd.concat([named, pubs.loc[["未提供/未知"]]])
+    bars = ax_pub.barh(named.index, named.values, color="#1D428A")
+    ax_pub.bar_label(bars, padding=3)
+    ax_pub.invert_yaxis()
+    ax_pub.set_xlim(0, named.max()+1)
+    ax_pub.set(title=f"出版社出現筆數（全部 {len(clean)} 本）", xlabel="記錄筆數")
+    for ax in (ax_year, ax_pub):
+        ax.grid(alpha=.25)
+    fig.savefig(CHART_OUTPUT, dpi=150)
+    plt.close(fig)
+    print(f"已產生 {DETAIL_OUTPUT.name}、{CHART_OUTPUT.name}")
+
+
 def main():
     api_key = ask_api_key()
 
@@ -109,6 +220,12 @@ def main():
         print(f"[第 {row['頁數']} 頁] {row['書名']}｜{row['作者']}｜{row['出版日期']}")
     print(f"\n共兩頁 {len(first) + len(second)} 本書，已存成 {OUTPUT.name}")
 
+    # 延伸：出版年代與出版社圖表分析
+    analyze_and_draw(pd.DataFrame(first + second))
+
 
 if __name__ == "__main__":
-    main()
+    if "--analyze-only" in sys.argv:
+        analyze_and_draw()
+    else:
+        main()

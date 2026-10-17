@@ -51,19 +51,19 @@ python run.py 5
 | 1 | 開眼電影網本週新片（延伸：點進內頁多抓欄位） | requests + BeautifulSoup | `new_movies.csv`、延伸 `new_movies_detail.csv` | — |
 | 2 | 臺灣銀行牌告匯率（延伸：買賣價差） | Selenium 載入 + BeautifulSoup | `bank.csv`、延伸 `bank_detail.csv` | — |
 | 3 | 政府資料開放平臺：健保門診及住院就診人次統計－腸病毒（延伸：年齡別＋縣市地圖） | Selenium 模擬搜尋與點選 + requests 下載 | `NHI_EnteroviralInfection.csv`、延伸 `enterovirus_charts.png` | — |
-| 4 | 博客來「演算法」搜尋結果 | Selenium 載入 + BeautifulSoup | `booklist.csv` | 偶爾需勾選真人驗證 |
-| 5 | 開眼台北週末票房排行榜（20 筆） | Selenium（ActionChains 模擬滑鼠） | `Taipei_movies.csv` | — |
+| 4 | 博客來「演算法」搜尋結果（延伸：書價分布直方圖＋價格箱型圖） | Selenium 載入 + BeautifulSoup + matplotlib | `booklist.csv`、延伸 `booklist_detail.csv`、`book_price_charts.png` | 偶爾需勾選真人驗證 |
+| 5 | 開眼台北週末票房排行榜（20 筆）（延伸：前 10 名橫條圖＋累積占比圖） | Selenium（ActionChains 模擬滑鼠） + matplotlib | `Taipei_movies.csv`、延伸 `Taipei_movies_detail.csv`、`boxoffice_charts.png` | — |
 | 6 | Basketball Reference：CLE、HOU、GSW 球員（延伸：身高、年齡＋圖表） | requests + BeautifulSoup + matplotlib | `players.csv`、延伸 `players_detail.csv`、`players_charts.png` | — |
-| 7 | Google Books API 搜尋 Python（兩頁） | requests（API 回傳 JSON） | `pythonbook.csv` | 執行時輸入 API 金鑰 |
-| 8 | 開眼近期上映強片 | requests + BeautifulSoup | `movies.csv` | — |
+| 7 | Google Books API 搜尋 Python（兩頁）（延伸：年份分布圖＋出版社長條圖） | requests（API 回傳 JSON） + matplotlib | `pythonbook.csv`、延伸 `pythonbook_detail.csv`、`books_api_charts.png` | 執行時輸入 API 金鑰 |
+| 8 | 開眼近期上映強片（延伸：上映時間軸＋每週片數長條圖） | requests + BeautifulSoup + matplotlib | `movies.csv`、延伸 `movies_detail.csv`、`movies_charts.png` | — |
 | 9 | Google 新聞各分類標題 | Selenium | `google_news.csv`（另印出） | — |
 | 10 | PTT 八卦板文章列表（延伸：推文數、日期） | Selenium（點選年齡確認） | `ptt_gossiping.csv`（另印出）、延伸 `ptt_gossiping_detail.csv` | — |
-| 11 | NBA 商品資料，每頁一個 CSV | Selenium（操作分頁） | `NBA_Products1.csv`～`NBA_Products17.csv` | — |
+| 11 | NBA 商品資料，每頁一個 CSV（延伸：商品分類＋數量長條圖與價格箱型圖） | Selenium（操作分頁） + pandas + matplotlib | `NBA_Products1.csv`～`NBA_Products17.csv`、延伸 `nba_products_all.csv`、`nba_products_charts.png` | — |
 | 12 | Google 搜尋「Steam 遊戲推薦」 | Selenium | `steam_games.csv` | Google 可能擋下程式控制的瀏覽器（見說明） |
 | 13 | momo 自動搜尋 nba | Selenium | `NBA_test.html` | — |
 | 14 | HoopsHype 球員薪水（延伸：薪資排名圖） | Selenium + BeautifulSoup + matplotlib | `highest.csv`、`all_play.csv`、延伸 `salary_charts.png` | — |
 | 15 | Google 搜尋「xpath」，捲動並取得更多結果 | Selenium（模擬滑鼠滾輪） | `xpath.csv` | Google 可能擋下程式控制的瀏覽器（見說明） |
-| 16 | Agoda 搜尋台中飯店與價格（含加分項、全部結果頁） | Selenium + BeautifulSoup + pandas 前處理 | `agoda_result.csv`（沒有處理）、`agoda_result_processed.csv`（有處理） | — |
+| 16 | Agoda 搜尋台中飯店與價格（含加分項、全部結果頁）（延伸：平台地區房價箱型圖＋評分散布圖） | Selenium + BeautifulSoup + pandas 前處理 + matplotlib | `agoda_result.csv`（沒有處理）、`agoda_result_processed.csv`（有處理）、延伸 `agoda_charts.png` | — |
 | 17 | GitHub 自動登入，抓首頁兩個視窗 | Selenium | 兩個視窗各一份 CSV＋一張截圖 | 執行時輸入帳密 |
 
 ### 對應期中配分要求
@@ -77,6 +77,14 @@ python run.py 5
 ---
 
 ## 四、各題說明
+
+第 4、5、7、8、11、16 題支援 `--analyze-only`，直接讀取既有 CSV 產生延伸輸出，不重新連線爬取網站。例如：
+
+```bash
+python 第11題_NBA商品資料/main.py --analyze-only
+```
+
+下列延伸統計是目前附檔快照，更新資料後以程式重新計算結果為準。原始 CSV 與衍生 CSV 分開保存。
 
 ### 第 1 題：開眼電影網本週新片
 - **題目**：抓 <http://www.atmovies.com.tw/movie/new/> 的本週新片，包括標題、內容、片長、網址。
@@ -113,16 +121,27 @@ python run.py 5
 - **做法**：博客來有 Cloudflare 防護，requests 會被擋（403），改用 Selenium 開 Chrome 載入題目網址，再用 BeautifulSoup 解析每本書：書名、作者、書價（優惠後售價，元）、網址（換成正式商品頁 `https://www.books.com.tw/products/商品編號`）。
   解析完逐筆印出每本書，寫入 `booklist.csv`。
 - **範圍**：題目網址就是搜尋結果第 1 頁（60 本；網站顯示共 673 筆、12 頁）。換到第 2 頁時博客來會跳出「Verify you are human」真人驗證；2026-10 實測放慢翻頁、由真人在程式開的瀏覽器裡勾選，都無法通過。程式不繞過驗證，所以只抓題目指定的網址。
-- **輸出**：`booklist.csv`（60 本）
-- **執行**：`python 第04題_博客來書籍/main.py`
+- **延伸：書價分布與離群值**：
+  - 價格轉數字，檢查重複網址與缺漏；統計與圖表標題均由資料計算。
+  - 目前 60 本皆有有效價格：中位數 458 元、平均數 470.07 元；Q1 為 339.25 元、Q3 為 537.75 元，IQR 為 198.50 元。
+  - 300～550 元共 42 本，占 70.0%；上側離群判定界線為 Q3 + 1.5 × IQR = 835.50 元，《演算法導論 第四版》優惠售價 1,422 元超過此界線。
+  - 左圖自動分箱呈現價格分布；右圖為箱型圖並標示上側界線。IQR 是 Q3 − Q1 的差值，Q1～Q3 是中間 50% 的價格區間。
+  - 分析僅限搜尋第一頁的優惠售價，未蒐集裝訂、頁數或成本，不能據此解釋價格成因。
+- **輸出**：`booklist.csv`（60 本）、`booklist_detail.csv`（延伸：數值化價格）、`book_price_charts.png`（延伸：圖表）
+- **執行**：`python 第04題_博客來書籍/main.py`（加 `--analyze-only` 可直接使用既有 CSV 分析繪圖）
 
 ### 第 5 題：開眼台北週末票房排行榜
 - **題目**：按「票房排行榜」→ 列出台北排行榜的排名、片名、票房 → 按 more → 20 筆存入 `Taipei_movies.csv`（排名、片名、本週票房、累計票房）。課堂補充：要模擬滑鼠移動及點選。
 - **做法**：Selenium `ActionChains`：滑鼠移到「電影」選單展開 → 點「票房排行榜」→ 印出台北前 5 名 → 點台北排行榜的「more」→ 讀出 20 筆（每部電影在網頁上占兩列，第二列才是票房數字）。
 - **網站干擾的處理**：點連結時偶爾會跳出 Google 全版廣告（網址出現 `#google_vignette`），程式會像真人一樣按「關閉」再繼續；票房網站偶爾連線逾時，會自動重新整理再試。
 - **穩定性**：滑鼠移到「電影」選單時，下拉選單偶爾沒展開，程式會把滑鼠移開再移回來重試；點「票房排行榜」或「more」後 20 秒沒換頁，就重新找到連結再點一次（都是最多 3 次）。
-- **輸出**：`Taipei_movies.csv`（金額單位：萬新台幣）
-- **執行**：`python 第05題_台北票房排行榜/main.py`
+- **延伸：票房分布與集中程度**：
+  - 去除 `$` 與逗號，轉數值後依本週票房排序；無效本週票房揭露並排除於占比。先計算精確占比，顯示時才四捨五入。
+  - 目前榜內 20 部電影票房共 1,834 萬元；前 3 名占 44.4%、前 5 名占 61.0%、前 10 名占 84.8%。前 20% 片數（4 部）占 52.9%，所以不直接稱為「二八法則」。
+  - 左圖為前 10 名票房橫條圖，右圖為榜內累積占比曲線，80% 只是參考線。
+  - 分母僅為本次榜單總票房，不能當成全市場占比；未蒐集排片、行銷等資料，不能推論集中程度的成因。
+- **輸出**：`Taipei_movies.csv`（金額單位：萬新台幣）、`Taipei_movies_detail.csv`（延伸：數值化與佔比）、`boxoffice_charts.png`（延伸：圖表）
+- **執行**：`python 第05題_台北票房排行榜/main.py`（加 `--analyze-only` 可直接使用既有 CSV 分析繪圖）
 
 ### 第 6 題：NBA 球隊球員（Basketball Reference）
 - **題目**：`https://www.basketball-reference.com/teams/{0}/2024.html`，抓 CLE、HOU、GSW 三隊，欄位 球隊、背號、姓名、位置、體重、生日、經驗、大學，存入 `players.csv`。
@@ -140,14 +159,25 @@ python run.py 5
 - **需要 API 金鑰**：Google 目前常拒絕「不帶金鑰」的呼叫（回傳 429，配額為 0）。請到 [Google Cloud Console](https://console.cloud.google.com/apis/library/books.googleapis.com) 啟用 Books API，再到「憑證」建立 API 金鑰（建議限制只能用 Books API）。
   執行時程式會請你在終端機輸入金鑰（輸入時看得到，方便核對；不會存檔）；直接按 Enter 則照題目原本的寫法、不帶金鑰呼叫。也可以事先設定環境變數 `GOOGLE_BOOKS_API_KEY`，就不會再詢問。
   金鑰不要寫進程式或上傳到 GitHub。
-- **輸出**：`pythonbook.csv`（頁數、書名、作者、出版社、出版日期、網址；20 筆）
-- **執行**：`python 第07題_GoogleBooks_API/main.py`
+- **延伸：出版年代與出版社分布**：
+  - 擷取年份、整理出版社名稱、以書籍 ID 檢查重複與缺漏；缺少 ID 的記錄不當成同一本書。
+  - 目前共 20 本，19 本有有效年份、1 本缺漏。2000 年起 12 本，占有效年份的 63.2%；1900～1919 年 5 本，占有效年份的 26.3%。
+  - 年代圖以十年分組，只顯示有資料年代。出版社圖包含未知，範圍為全部 20 本：O'Reilly Media 4 本、Prentice Hall 2 本、出版社未知 7 本。
+  - 搜尋含不同年代與主題，可能與 Python 的多重詞義有關；未檢查內文與命中欄位，無法確認每本書出現的原因。
+  - 僅分析兩頁搜尋樣本，不能代表整個出版市場；重複記錄保留並揭露，兩圖均以記錄筆數計算。
+- **輸出**：`pythonbook.csv`（頁數、書名、作者、出版社、出版日期、網址；20 筆）、`pythonbook_detail.csv`（延伸：書籍 ID、年份、標準化出版社）、`books_api_charts.png`（延伸：圖表）
+- **執行**：`python 第07題_GoogleBooks_API/main.py`（加 `--analyze-only` 可直接使用既有 CSV 分析繪圖）
 
 ### 第 8 題：開眼近期上映強片
 - **題目**：列出「所有」近期上映強片的名稱、上映時間、連結網址，存入 `movies.csv`。課堂補充：沒有這個區塊可改找其他適合的標籤。
 - **做法**：開眼改版後，「近期上映強片」輪播（和題目附圖相同）從 `/movie/new/` 移到電影首頁 <https://www.atmovies.com.tw/movie/>，所以改抓這一頁。輪播畫面一次只顯示 4 部，但 HTML 裡有全部卡片，BeautifulSoup 全部讀出。
-- **輸出**：`movies.csv`（名稱、上映時間、連結網址）
-- **執行**：`python 第08題_近期上映強片/main.py`
+- **延伸：逐片上映日期與 ISO 週別**：
+  - 日期轉為 datetime，無法解析者留缺漏；輸出分析基準日（目前固定為 2026/10/17）、天數差及 ISO 年與週數（週一至週日）。
+  - 左圖每部電影各占一列，以日期為橫軸，同日上映也不重疊；不再限制 13 部。右圖只顯示有資料週，不把相鄰柱子的距離當成日曆間距。
+  - 目前 13 部日期皆有效；2026-W51（12/16）與 2027-W05（2/5）各有 2 部，其餘有資料週各 1 部。
+  - 這是網站選列的「近期強片」，並非所有電影，無法從此清單推論全市場的節慶排片策略或票房效果；日期以既有 CSV 快照為準。
+- **輸出**：`movies.csv`（名稱、上映時間、連結網址）、`movies_detail.csv`（延伸：數值日期、天數差、週別）、`movies_charts.png`（延伸：圖表）
+- **執行**：`python 第08題_近期上映強片/main.py`（加 `--analyze-only` 可直接使用既有 CSV 分析繪圖）
 
 ### 第 9 題：Google 新聞
 - **題目**：用 Selenium 輸出 焦點提要：[焦點新聞，地方新聞]，以及焦點新聞、地方新聞、您的主題、更多新聞的所有新聞標題。課堂補充：要用 Selenium 找到網頁標題。
@@ -165,8 +195,13 @@ python run.py 5
 ### 第 11 題：NBA 商品資料
 - **題目**：列出所有商品；每存完一個 CSV 就印出「儲存頁面: 編號」；分頁存成 `NBA_Products{1~n}.csv`；CSV 不能亂碼。課堂補充：要點到最後一頁，第 1～n 頁各存一個檔案（像 Excel 底下的頁籤）。
 - **做法**：表格由 JavaScript 產生、一次 10 筆。Selenium 先從「最後一頁 »」按鈕讀出總頁數（目前 17 頁），接著讀完一頁就存檔並印出「儲存頁面: n」，再按「下一頁 >」，直到最後一頁沒有下一頁按鈕。到最後一頁時把分頁列捲到畫面中間、瀏覽器停留一下（秒數在程式開頭的 `PAUSE_SECONDS` 設定），讓人看清楚已經到最後一頁，並核對頁數、印出「已到最後一頁」。CSV 用 `utf-8-sig`（含 BOM），Excel 開啟中文不亂碼。重新執行前會先刪除舊的 `NBA_Products*.csv`。
-- **輸出**：`NBA_Products1.csv`～`NBA_Products17.csv`（共 165 筆）
-- **執行**：`python 第11題_NBA商品資料/main.py`
+- **延伸：商品規則分類與價格分布**：
+  - 合併各頁 CSV、轉換價格；依名稱分類為「上衣、褲子、帽子、球衣、其他」。先辨識配件、褲子與連帽衣，避免將帽 T 當帽子，英文帽類採完整單字，避免把 Cape 外套誤認成 cap。
+  - 目前 17 頁共 165 筆、價格皆有效：上衣 86 筆（52.1%）、褲子 13 筆（7.9%）、帽子 4 筆（2.4%）、球衣 13 筆（7.9%）、其他 49 筆（29.7%）。
+  - 各類價格中位數依序為 780、1,090、762.5、1,190、490 元；左圖為類別數量，右圖為有效價格箱型圖並附樣本數。
+  - 關鍵字分類仍可能誤判，背心暫歸球衣，其他含配件、鞋與球等；未依名稱或流水號去重。商品記錄數不代表銷量，價格差異也不能證明製作成本與消費偏好。
+- **輸出**：`NBA_Products1.csv`～`NBA_Products17.csv`（共 165 筆）、`nba_products_all.csv`（延伸：合併資料與分類）、`nba_products_charts.png`（延伸：圖表）
+- **執行**：`python 第11題_NBA商品資料/main.py`（加 `--analyze-only` 可直接使用既有 CSV 分析繪圖）
 
 ### 第 12 題：Google 搜尋「Steam 遊戲推薦」
 - **題目**：用 Selenium 和 WebDriver，列出搜尋結果及其超連結，存入 CSV。
@@ -202,7 +237,7 @@ python run.py 5
 - **輸出**：`xpath.csv`（標題、網址）
 - **執行**：`python 第15題_Google搜尋xpath/main.py`
 
-### 第 16 題：Agoda 台中飯店（含加分項、資料前處理）
+### 第 16 題：Agoda 台中飯店（含加分項、資料前處理、延伸圖表）
 - **題目**：輸入「台中」，結果頁的飯店名及價格存入 `agoda_result.csv`；加分：用 Selenium 及 WebDriver 自動輸入「台中」。老師補充：可以做「有資料處理」和「沒有資料處理」兩種版本、抓更多欄位，並說明抓這些資料的意義。
 - **資料的意義**：在同一個入住日期、同樣 2 位大人 1 間房的條件下，把台中所有能訂的飯店價格和評價一次抓下來，就能比較台中各地區住一晚大概要多少錢、評分和價格的關係，找出評分高、價格又合理的飯店，作為旅遊訂房的參考，也能看出台中住宿的價格分布。
 - **爬蟲（沒有資料處理）**：Selenium 在首頁搜尋框自動輸入「台中」→ 點建議清單的「台中市」→ 按 Esc 關掉自動跳出的日曆（沿用網站預設日期）→ 按「搜出好價」→ 切到結果的新分頁 → 慢慢往下捲讓飯店卡片載入，用 BeautifulSoup 讀出每張卡片 → 按「下一頁」，一直抓到沒有下一頁（目前約 4 頁、300 多間）。
@@ -211,9 +246,14 @@ python run.py 5
   1. 移除沒有價格的飯店（已額滿或不開放預訂）。
   2. 移除重複的飯店（同一間出現在不同頁，用飯店 ID 判斷，只留第一次）。
   3. 格式轉換：價格「NT$ 1,474」→ 1474、評價「平均很讚8.5分（滿分10分），共6,789則評論」→ 評分 8.5、評價等級「很讚」、評論數 6789；原價、星級、位置得分、距市中心公里數也轉成數字。網站本來就沒有的欄位（例如公寓沒有星級、新飯店還沒有評分）保留空白，不刪除整筆。
-  2026-10-15 實測：原始 364 筆 → 移除沒有價格 29 筆、重複 9 筆 → 處理後 326 筆。
-- **輸出**：`agoda_result.csv`（沒有資料處理）、`agoda_result_processed.csv`（有資料處理）。價格為每晚、不含稅及其他費用，會隨查詢日期變動。每頁約 40 秒，全部約 3～4 分鐘。
-- **執行**：`python 第16題_Agoda台中飯店/main.py`
+- **延伸：平台地區房價與價格評分關係**：
+  - 保留 Agoda 的原始地區分類，統稱「平台地區」，因為資料同時含行政區、商圈與景點（例如西屯區／逢甲、和平區／谷關），不能當作一致的行政區比較。
+  - 目前清理後共 423 筆有效價格；地區價格統計使用全部 423 筆，包含 18 筆沒有評分的住宿。至少 4 筆的平台地區中，中位數最高為和平區 3,783 元（7 筆）、后里區 3,680 元（7 筆）、東勢區 3,599.5 元（6 筆）。
+  - 箱型圖按中位數排序，標示樣本數；各少於 4 筆的地區合併為其他。兩圖價格軸使用對數刻度，保留高價資料，未裁切在 12,000 元；有效價格最高為 168,952 元，須留意不同住宿類型與房型的可比性。
+  - 價格與評分皆有效共 405 筆，原始價格的 Pearson r = 0.181。高價組為價格 >= Q3（3,221 元），共 102 筆，平均評分 8.70，全體完整樣本為 8.47；其中仍有 24 筆低於 8.5 分。
+  - 完整樣本中，價格 <= 中位數 2,478 元且評分 >= 中位數 8.5 分共 91 筆。這些是描述統計，未做顯著性檢定，不能推論品牌、硬體、服務造成價格或評分差異；價格為每晚未稅報價，查詢日期、房型與評論數也影響比較。
+- **輸出**：`agoda_result.csv`（沒有資料處理）、`agoda_result_processed.csv`（有資料處理）、`agoda_charts.png`（延伸：圖表）
+- **執行**：`python 第16題_Agoda台中飯店/main.py`（加 `--analyze-only` 可直接使用既有 CSV 分析繪圖）
 
 ### 第 17 題：GitHub 自動登入
 - **題目**：用 Selenium 及 WebDriver 自動登入帳號，抓取附圖 1 號視窗與 2 號視窗的頁面資料。課堂補充：難點在登入表單裡隱藏的 key 值。
@@ -254,11 +294,13 @@ data-science-midterm/
 ├── 第01題_本週新片/
 │   ├── main.py                程式
 │   ├── new_movies.csv         輸出（重新執行會覆蓋）
-│   └── new_movies_detail.csv  延伸的輸出（第 1、2、3、6、10、14、16 題有延伸）
+│   └── new_movies_detail.csv  延伸的輸出（第 1、2、3、4、5、6、7、8、10、11、14、16 題有延伸）
 ├── 第02題_台銀牌價/
 │   ├── main.py
 │   └── bank.csv
 └── …（第 03～17 題同樣的結構）
 ```
 
-各資料夾裡附的輸出檔是 2026-10-14 實際執行的結果，網站資料會隨時間變動，重新執行即會更新。
+各資料夾附檔為實測資料快照，擷取時點可能不同；延伸圖表依對應 CSV 計算。網站資料會隨時間變動，重新執行爬蟲即會更新。
+
+離線回歸檢查：`python -m unittest discover -s tests -v`（不連線、不覆蓋附檔資料）。
