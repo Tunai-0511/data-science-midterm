@@ -187,7 +187,8 @@ def main():
         driver.quit()
 
     with open(OUTPUT, "w", newline="", encoding="utf-8-sig") as file:
-        writer = csv.DictWriter(file, fieldnames=["標題", "網址"])
+        # 每格加引號：標題開頭是 # 時，有些 CSV 檢視器會把整行當成註解
+        writer = csv.DictWriter(file, fieldnames=["標題", "網址"], quoting=csv.QUOTE_ALL)
         writer.writeheader()
         writer.writerows({"標題": title, "網址": url} for url, title in all_results.items())
     print(f"\n共 {len(all_results)} 筆搜尋結果，已存成 {OUTPUT.name}")

@@ -133,7 +133,8 @@ def main():
         print(f"   {row['網址']}")
 
     with open(OUTPUT, "w", newline="", encoding="utf-8-sig") as file:
-        writer = csv.DictWriter(file, fieldnames=["標題", "網址"])
+        # 每格加引號：標題開頭是 # 時，有些 CSV 檢視器會把整行當成註解
+        writer = csv.DictWriter(file, fieldnames=["標題", "網址"], quoting=csv.QUOTE_ALL)
         writer.writeheader()
         writer.writerows(results)
     print(f"\n共 {len(results)} 筆搜尋結果，已存成 {OUTPUT.name}")
