@@ -16,7 +16,7 @@
     3. 從 JSON 的 items[].volumeInfo 取出書名、作者、出版社、出版日期、網址。
 
     關於 API 金鑰：Google 目前常常拒絕「不帶金鑰」的呼叫（回傳 429 配額用完），
-    所以程式一開始會請你在終端機輸入自己的 Google Books API 金鑰（輸入時看得到，方便核對；不會存檔），
+    所以程式一開始會請你在終端機輸入自己的 Google Books API 金鑰（輸入時每個字顯示成「•」，不會存檔），
     再把金鑰加進參數 key；直接按 Enter 則照題目原本的寫法、不帶金鑰呼叫。
     也可以事先設定環境變數 GOOGLE_BOOKS_API_KEY，就不會再詢問。
     金鑰的申請方式：Google Cloud Console 啟用「Books API」→「憑證」→「建立憑證」→「API 金鑰」。
@@ -39,6 +39,7 @@
 """
 
 import csv
+import getpass
 import os
 import re
 import sys
@@ -67,7 +68,63 @@ def ask_api_key():
     if api_key:
         return api_key
     print("Google 目前常拒絕不帶金鑰的呼叫，請輸入你的 Google Books API 金鑰。")
-    return input("API 金鑰（直接按 Enter 則不帶金鑰）：").strip()
+    return ask_secret("API 金鑰（直接按 Enter 則不帶金鑰）：").strip()
+
+
+def ask_secret(prompt):
+    """輸入密碼或金鑰：每打一個字顯示一個「•」，不顯示實際內容（可以用退格鍵修改）。
+    如果不是在一般終端機執行（無法逐字讀鍵盤），改用 getpass，輸入時什麼都不顯示。"""
+    if not sys.stdin.isatty():
+        return getpass.getpass(prompt)
+    print(prompt, end="", flush=True)
+    dot = "•" if "•".encode(sys.stdout.encoding or "utf-8", "ignore") else "*"
+    chars = []
+
+    def show(text):
+        sys.stdout.write(text)
+        sys.stdout.flush()
+
+    def handle(ch):
+        """處理一個按鍵；回傳 True 代表輸入結束。"""
+        if ch in ("\r", "\n"):
+            return True
+        if ch == "\x03":  # Ctrl+C
+            raise KeyboardInterrupt
+        if ch in ("\x08", "\x7f"):  # 退格鍵：刪掉最後一個字和一個點
+            if chars:
+                chars.pop()
+                show("\b \b")
+        elif ch.isprintable():
+            chars.append(ch)
+            show(dot)
+        return False
+
+    try:
+        if os.name == "nt":  # Windows：用 msvcrt 一次讀一個按鍵
+            import msvcrt
+            while True:
+                ch = msvcrt.getwch()
+                if ch in ("\x00", "\xe0"):  # 方向鍵等特殊鍵會送兩個字元，略過
+                    msvcrt.getwch()
+                    continue
+                if handle(ch):
+                    break
+        else:  # macOS／Linux：暫時把終端機切成逐字模式，結束後一定要還原
+            import termios
+            import tty
+            fd = sys.stdin.fileno()
+            old_settings = termios.tcgetattr(fd)
+            try:
+                tty.setraw(fd, termios.TCSANOW)  # TCSANOW：保留已經先打進去的字
+                while not handle(sys.stdin.read(1)):
+                    pass
+            finally:
+                termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
+    except KeyboardInterrupt:
+        print()
+        raise SystemExit("已取消輸入。")
+    print()
+    return "".join(chars)
 
 
 def get_page(page, api_key):

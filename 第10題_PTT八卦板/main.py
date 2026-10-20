@@ -17,19 +17,18 @@
        點完網站會設定 Cookie over18=1，並帶回八卦板；程式也會印出這個 Cookie 確認。
     3. 印出網站 title。
     4. 每篇文章在 <div class="r-ent"> 裡：網址與標題＝.title a，作者＝.meta .author。
-       已被刪除的文章沒有連結，跳過。
+       HTML 裡寫的是 /bbs/Gossiping/….html 這種只有路徑的網址，直接點打不開，
+       所以存完整網址 https://www.ptt.cc/bbs/Gossiping/….html。已被刪除的文章沒有連結，跳過。
     5. 依題目格式印出，並另存 ptt_gossiping.csv（網址、標題、作者），重新執行會直接覆蓋。
 
-延伸：多抓推文數與日期，看出哪些文章熱門
-    同一個 <div class="r-ent"> 裡還有日期（.meta .date，例如 10/17）和推文數（.nrec）。
-    PTT 的推文數是「推 − 噓」的淨值：數字＝淨推文數；「爆」＝100 以上；
-    「X1」～「X9」＝被噓 10～90 以上、「XX」＝被噓 100 以上；空白＝0。
-    程式把它換成數字（爆→100、X3→-30、XX→-100），另存 ptt_gossiping_detail.csv，
-    並印出本頁最熱門的 5 篇。
+延伸：多抓推文數，看出哪些文章熱門
+    同一個 <div class="r-ent"> 裡，標題左邊的數字就是推文數（.nrec），照網頁上的樣子存下來。
+    PTT 的推文數是「推的人數 − 噓的人數」：「爆」＝100 以上；
+    「X1」～「X9」＝被噓 10～90 以上、「XX」＝被噓 100 以上；空白＝推噓相抵或沒人推。
 
 輸出
     ptt_gossiping.csv（題目要求的網址、標題、作者）
-    ptt_gossiping_detail.csv（延伸：再加日期、推文數、淨推文數）
+    ptt_gossiping_detail.csv（延伸：再加推文數）
 
 執行
     python 第10題_PTT八卦板/main.py
@@ -47,7 +46,7 @@ URL = "https://www.ptt.cc/bbs/Gossiping/index.html"
 OUTPUT = Path(__file__).parent / "ptt_gossiping.csv"
 FIELDS = ["網址", "標題", "作者"]
 DETAIL_OUTPUT = Path(__file__).parent / "ptt_gossiping_detail.csv"  # 延伸
-DETAIL_FIELDS = FIELDS + ["日期", "推文數", "淨推文數"]
+DETAIL_FIELDS = FIELDS + ["推文數"]
 
 
 def pass_age_check(driver):
@@ -70,26 +69,14 @@ def get_articles(driver):
         if not links:  # 被刪除的文章沒有連結
             continue
         articles.append({
-            # get_dom_attribute 取 HTML 裡原本寫的網址，也就是題目範例的 /bbs/Gossiping/....html
-            "網址": links[0].get_dom_attribute("href"),
+            # get_attribute 會把 HTML 裡的 /bbs/Gossiping/….html 補成完整網址，點下去就能打開
+            "網址": links[0].get_attribute("href"),
             "標題": links[0].text,
             "作者": entry.find_element(By.CSS_SELECTOR, ".meta .author").text,
-            # 延伸：日期與推文數
-            "日期": entry.find_element(By.CSS_SELECTOR, ".meta .date").text,
+            # 延伸：推文數（標題左邊的數字）
             "推文數": entry.find_element(By.CSS_SELECTOR, ".nrec").text,
         })
     return articles
-
-
-def push_count(text):
-    """延伸：把 PTT 的推文數標示換成數字：爆→100、X3→-30、XX→-100、空白→0。"""
-    if text == "爆":
-        return 100
-    if text == "XX":
-        return -100
-    if text.startswith("X"):
-        return -10 * int(text[1:])
-    return int(text) if text.isdigit() else 0
 
 
 def save_csv(rows, path, fields):
@@ -120,13 +107,11 @@ def main():
     save_csv(articles, OUTPUT, FIELDS)
     print(f"本頁共 {len(articles)} 篇文章，已存成 {OUTPUT.name}")
 
-    # 延伸：推文數換成數字，另存一份，並印出最熱門的 5 篇
-    for article in articles:
-        article["淨推文數"] = push_count(article["推文數"])
+    # 延伸：加上推文數另存一份
     save_csv(articles, DETAIL_OUTPUT, DETAIL_FIELDS)
-    print("\n延伸：本頁最熱門的 5 篇（依淨推文數）")
-    for article in sorted(articles, key=lambda a: a["淨推文數"], reverse=True)[:5]:
-        print(f"  {article['推文數'] or '0':>3}｜{article['日期']}｜{article['標題']}")
+    print("\n延伸：每篇的推文數（推 − 噓；爆＝100 以上，X 開頭＝被噓）")
+    for article in articles:
+        print(f"  {article['推文數'] or '－':>3}｜{article['標題']}")
     print(f"已存成 {DETAIL_OUTPUT.name}")
 
 

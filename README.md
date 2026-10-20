@@ -57,7 +57,7 @@ python run.py 5
 | 7 | Google Books API 搜尋 Python（兩頁）（延伸：年份分布圖＋出版社長條圖） | requests（API 回傳 JSON） + matplotlib | `pythonbook.csv`、延伸 `pythonbook_detail.csv`、`books_api_charts.png` | 執行時輸入 API 金鑰 |
 | 8 | 開眼近期上映強片（延伸：上映時間軸＋每週片數長條圖） | requests + BeautifulSoup + matplotlib | `movies.csv`、延伸 `movies_detail.csv`、`movies_charts.png` | — |
 | 9 | Google 新聞各分類標題 | Selenium | `google_news.csv`（另印出） | — |
-| 10 | PTT 八卦板文章列表（延伸：推文數、日期） | Selenium（點選年齡確認） | `ptt_gossiping.csv`（另印出）、延伸 `ptt_gossiping_detail.csv` | — |
+| 10 | PTT 八卦板文章列表（延伸：推文數） | Selenium（點選年齡確認） | `ptt_gossiping.csv`（另印出）、延伸 `ptt_gossiping_detail.csv` | — |
 | 11 | NBA 商品資料，每頁一個 CSV（延伸：商品分類＋數量長條圖與價格箱型圖） | Selenium（操作分頁） + pandas + matplotlib | `NBA_Products1.csv`～`NBA_Products17.csv`、延伸 `nba_products_all.csv`、`nba_products_charts.png` | — |
 | 12 | Google 搜尋「Steam 遊戲推薦」 | Selenium | `steam_games.csv` | Google 可能擋下程式控制的瀏覽器（見說明） |
 | 13 | momo 自動搜尋 nba | Selenium | `NBA_test.html` | — |
@@ -157,7 +157,7 @@ python 第11題_NBA商品資料/main.py --analyze-only
 - **題目**：用題目給的 `url_params = {'q': 'Python', 'maxResults': 10, 'projection': 'lite'}` 呼叫 API，本頁存入 `pythonbook.csv`，再進入下一頁存入同一個檔案（共兩頁）。
 - **做法**：第 1 頁以「覆蓋」模式寫入（含標題列）；下一頁＝加上 `startIndex=10`，以「附加」模式寫入同一個檔案。從 JSON 的 `items[].volumeInfo` 取書名、作者、出版社、出版日期、網址。
 - **需要 API 金鑰**：Google 目前常拒絕「不帶金鑰」的呼叫（回傳 429，配額為 0）。請到 [Google Cloud Console](https://console.cloud.google.com/apis/library/books.googleapis.com) 啟用 Books API，再到「憑證」建立 API 金鑰（建議限制只能用 Books API）。
-  執行時程式會請你在終端機輸入金鑰（輸入時看得到，方便核對；不會存檔）；直接按 Enter 則照題目原本的寫法、不帶金鑰呼叫。也可以事先設定環境變數 `GOOGLE_BOOKS_API_KEY`，就不會再詢問。
+  執行時程式會請你在終端機輸入金鑰（輸入時每個字顯示成「•」，不會存檔）；直接按 Enter 則照題目原本的寫法、不帶金鑰呼叫。也可以事先設定環境變數 `GOOGLE_BOOKS_API_KEY`，就不會再詢問。
   金鑰不要寫進程式或上傳到 GitHub。
 - **延伸：出版年代與出版社分布**：
   - 擷取年份、整理出版社名稱、以書籍 ID 檢查重複與缺漏；缺少 ID 的記錄不當成同一本書。
@@ -187,9 +187,9 @@ python 第11題_NBA商品資料/main.py --analyze-only
 
 ### 第 10 題：PTT 八卦板
 - **題目**：用 Selenium 解決分級問題 → 列出網站 title → 列出文章列表（網址、標題、作者）。課堂補充：Cookie `over18` 的值為 1 即視為已成年。
-- **做法**：開啟八卦板後網站會先轉到分級確認頁，Selenium 點「我同意，我已年滿十八歲」，網站就會設定 Cookie `over18=1`（程式會印出確認）。之後印出網站 title，並依題目範例的格式（網址／標題／作者各一行）印出本頁每篇文章；已刪除的文章沒有連結，略過。
-- **延伸：推文數與日期**：同一個 `div.r-ent` 裡還有日期（`.meta .date`）和推文數（`.nrec`）。PTT 的推文數是「推 − 噓」的淨值：數字＝淨推文數、「爆」＝100 以上、「X1」～「X9」＝被噓 10～90 以上、「XX」＝被噓 100 以上、空白＝0。程式換成數字（爆→100、X3→-30）另存一份，並印出本頁最熱門的 5 篇，看得出哪些話題討論度高。
-- **輸出**：印出列表，另存 `ptt_gossiping.csv`（網址、標題、作者）、`ptt_gossiping_detail.csv`（延伸：再加日期、推文數、淨推文數）。最新一頁的文章數會隨時間變動（含置底公告）。
+- **做法**：開啟八卦板後網站會先轉到分級確認頁，Selenium 點「我同意，我已年滿十八歲」，網站就會設定 Cookie `over18=1`（程式會印出確認）。之後印出網站 title，並依題目範例的格式（網址／標題／作者各一行）印出本頁每篇文章；已刪除的文章沒有連結，略過。HTML 裡的連結只有路徑（`/bbs/Gossiping/….html`），直接點會打不開，所以存成完整網址 `https://www.ptt.cc/bbs/Gossiping/….html`。
+- **延伸：推文數**：同一個 `div.r-ent` 裡，標題左邊的數字就是推文數（`.nrec`），照網頁上的樣子另存一份。PTT 的推文數是「推的人數 − 噓的人數」：「爆」＝100 以上、「X1」～「X9」＝被噓 10～90 以上、「XX」＝被噓 100 以上、空白＝推噓相抵或沒人推，看得出哪些話題討論度高。
+- **輸出**：印出列表，另存 `ptt_gossiping.csv`（網址、標題、作者）、`ptt_gossiping_detail.csv`（延伸：再加推文數）。最新一頁的文章數會隨時間變動（含置底公告）。
 - **執行**：`python 第10題_PTT八卦板/main.py`
 
 ### 第 11 題：NBA 商品資料
@@ -259,7 +259,7 @@ python 第11題_NBA商品資料/main.py --analyze-only
 ### 第 17 題：GitHub 自動登入
 - **題目**：用 Selenium 及 WebDriver 自動登入帳號，抓取附圖 1 號視窗與 2 號視窗的頁面資料。課堂補充：難點在登入表單裡隱藏的 key 值。
 - **做法**：
-  1. 執行時在終端機輸入 GitHub 帳號、密碼（輸入時看得到，方便核對；不會存檔）；也可事先設定環境變數 `GITHUB_USERNAME`、`GITHUB_PASSWORD`。
+  1. 執行時在終端機輸入 GitHub 帳號、密碼（帳號照常顯示，密碼每個字顯示成「•」；不會存檔）；也可事先設定環境變數 `GITHUB_USERNAME`、`GITHUB_PASSWORD`。
   2. Selenium 開啟登入頁，自動填入帳密並按 Sign in。登入表單裡有 `authenticity_token` 等隱藏欄位（就是「隱藏的 key 值」，每次開頁都不同）：用 requests 登入要自己先從網頁抓出來、跟帳密一起送出；用 Selenium 是在瀏覽器裡按登入，瀏覽器會自動送出。程式會找出這些隱藏欄位，印出欄位名稱和 `authenticity_token` 的開頭幾個字元。
   3. 送出帳密後 GitHub 可能還要再驗證一次，請在 Chrome 視窗中完成，程式最多等 5 分鐘（程式一開始會先提醒）：
      - 有開二階段驗證（2FA）：輸入驗證 App／簡訊的 6 位數驗證碼，或用通行金鑰確認；

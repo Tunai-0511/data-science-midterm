@@ -8,7 +8,7 @@
     （課堂補充：難點在於登入表單裡有隱藏的 key 值）
 
 做法（Selenium）
-    1. 執行時在終端機輸入 GitHub 帳號與密碼（輸入時看得到，方便核對；密碼不會存檔）。
+    1. 執行時在終端機輸入 GitHub 帳號與密碼（帳號照常顯示，密碼每個字顯示成「•」；密碼不會存檔）。
        也可以事先設定環境變數 GITHUB_USERNAME、GITHUB_PASSWORD，就不用每次輸入。
     2. 開啟 https://github.com/login，由 Selenium 自動把帳密填進
        #login_field、#password，再按「Sign in」。
@@ -40,7 +40,9 @@
 
 import base64
 import csv
+import getpass
 import os
+import sys
 import time
 from pathlib import Path
 
@@ -68,10 +70,66 @@ def ask_account():
     print("  - 沒開 2FA：GitHub 會把這個新開的瀏覽器當成新裝置，通常會寄 Email 驗證碼，請到信箱查看")
     print("  程式會等你最多 5 分鐘。\n")
     username = os.environ.get("GITHUB_USERNAME") or input("GitHub 帳號（或 Email）：").strip()
-    password = os.environ.get("GITHUB_PASSWORD") or input("GitHub 密碼：")
+    password = os.environ.get("GITHUB_PASSWORD") or ask_secret("GitHub 密碼：")
     if not username or not password:
         raise SystemExit("帳號和密碼都不能空白。")
     return username, password
+
+
+def ask_secret(prompt):
+    """輸入密碼或金鑰：每打一個字顯示一個「•」，不顯示實際內容（可以用退格鍵修改）。
+    如果不是在一般終端機執行（無法逐字讀鍵盤），改用 getpass，輸入時什麼都不顯示。"""
+    if not sys.stdin.isatty():
+        return getpass.getpass(prompt)
+    print(prompt, end="", flush=True)
+    dot = "•" if "•".encode(sys.stdout.encoding or "utf-8", "ignore") else "*"
+    chars = []
+
+    def show(text):
+        sys.stdout.write(text)
+        sys.stdout.flush()
+
+    def handle(ch):
+        """處理一個按鍵；回傳 True 代表輸入結束。"""
+        if ch in ("\r", "\n"):
+            return True
+        if ch == "\x03":  # Ctrl+C
+            raise KeyboardInterrupt
+        if ch in ("\x08", "\x7f"):  # 退格鍵：刪掉最後一個字和一個點
+            if chars:
+                chars.pop()
+                show("\b \b")
+        elif ch.isprintable():
+            chars.append(ch)
+            show(dot)
+        return False
+
+    try:
+        if os.name == "nt":  # Windows：用 msvcrt 一次讀一個按鍵
+            import msvcrt
+            while True:
+                ch = msvcrt.getwch()
+                if ch in ("\x00", "\xe0"):  # 方向鍵等特殊鍵會送兩個字元，略過
+                    msvcrt.getwch()
+                    continue
+                if handle(ch):
+                    break
+        else:  # macOS／Linux：暫時把終端機切成逐字模式，結束後一定要還原
+            import termios
+            import tty
+            fd = sys.stdin.fileno()
+            old_settings = termios.tcgetattr(fd)
+            try:
+                tty.setraw(fd, termios.TCSANOW)  # TCSANOW：保留已經先打進去的字
+                while not handle(sys.stdin.read(1)):
+                    pass
+            finally:
+                termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
+    except KeyboardInterrupt:
+        print()
+        raise SystemExit("已取消輸入。")
+    print()
+    return "".join(chars)
 
 
 def login(driver, username, password):
