@@ -1,23 +1,23 @@
-﻿內容
-"Good afternoon, Tunai-0511!"
-Copilot
-Ask
-All repositories
-Model:
-Auto
-Optimized for: Balance
-Chat commands
-Debug
-Agent
-Create issue
-Write code
-Git
-Pull requests
-Pull requests
-View all
-pull requests
-"No pull requests found, try a different filter."
-Issues
-View all
-issues
-"No issues found, try a different filter."
+﻿內容,連結
+"Good afternoon, Tunai-0511!",
+Copilot,
+Ask,
+All repositories,
+Model:,
+Auto,
+Optimized for: Balance,
+Chat commands,
+Debug,
+Agent,
+Create issue,
+Write code,
+Git,
+Pull requests,
+Pull requests,
+View all,https://github.com/pulls
+pull requests,https://github.com/pulls
+"No pull requests found, try a different filter.",
+Issues,
+View all,https://github.com/issues
+issues,https://github.com/issues
+"No issues found, try a different filter.",
