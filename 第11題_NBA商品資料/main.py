@@ -157,7 +157,7 @@ def analyze_and_draw():
             ax_box.annotate(f"{prices.median():,.0f}", (i, prices.median()), xytext=(12, 5), textcoords="offset points", fontsize=8, color="#C8102E")
     else:
         ax_box.text(.5, .5, "沒有有效價格", transform=ax_box.transAxes, ha="center")
-    ax_box.set(title="各類有效價格箱型圖（紅線為中位數）", ylabel="價格（新台幣元）")
+    ax_box.set(title="各類有效價格箱型圖（紅線為中位數，▲為平均，○為離群值）", ylabel="價格（新台幣元）")
     for ax in (ax_bar, ax_box):
         ax.grid(axis="y", alpha=.25)
     fig.savefig(CHART_OUTPUT, dpi=150)
