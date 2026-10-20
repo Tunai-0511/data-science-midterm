@@ -27,9 +27,12 @@
        2 號視窗＝中間主欄（#dashboard 的 .news 區塊）：題目附圖當時是「Updates to your
                  homepage feed」提示卡；GitHub 改版後是首頁動態／Copilot、Pull requests 等面板。
        依「位置」抓取，不寫死文字，所以新舊版首頁都能抓到這兩個區域的全部文字。
-       首頁的區塊是陸續載入的（中間主欄一開始只有轉圈圈），所以每個區塊都等到
-       「有文字、而且連續 3 秒沒有再變」才讀取，最多等 30 秒。
+       首頁的區塊是陸續載入的（中間主欄一開始只有轉圈圈，左欄的 Top repositories 也比 Home、Feed 晚出現），
+       所以兩個視窗一起等：都有文字、區塊裡沒有轉圈圈或灰色骨架（載入中），而且連續 3 秒沒有再變，
+       才開始讀取，最多等 45 秒。
     5. 兩個視窗分開存：內容載入完成後，印出文字並存成 CSV，再截下那個區塊的畫面。
+       CSV 有兩欄：內容（一行文字一列）、連結（那行文字是連結的話，用 get_attribute("href")
+       取完整網址，例如 Top repositories 的 https://github.com/Tunai-0511/…；不是連結就空白）。
        1 號視窗（左欄）：github_window1_left.csv、github_window1_left.png
        2 號視窗（中間主欄）：github_window2_center.csv、github_window2_center.png
        （抓到的是登入帳號自己的首頁內容；重新執行會直接覆蓋。）
@@ -195,6 +198,22 @@ def read_window(driver, selectors):
         return []
 
 
+def read_links(block):
+    """找出區塊裡所有連結：連結上的每一行文字 → 完整網址。
+    同樣的文字可能出現好幾次（例如兩個「View all」），所以每個文字對應一個清單，照網頁上的順序排。"""
+    links = {}
+    try:
+        for link in block.find_elements(By.TAG_NAME, "a"):
+            # get_attribute 會把 /Tunai-0511/xxx 補成完整網址
+            href = link.get_attribute("href")
+            for text in link.text.splitlines():  # 只看得到畫面上顯示的文字，隱藏的連結會是空字串
+                if text.strip() and href:
+                    links.setdefault(text.strip(), []).append(href)
+    except StaleElementReferenceException:  # 區塊剛好重新載入，這次就不抓連結
+        pass
+    return links
+
+
 def screenshot_block(driver, block, path):
     """截下整個區塊的畫面。一般的元素截圖只截得到視窗裡看得到的部分，
     區塊比視窗高時下面會被切掉，所以改用 Chrome 的 captureBeyondViewport（超出視窗也截）。"""
@@ -211,20 +230,39 @@ def screenshot_block(driver, block, path):
     path.write_bytes(base64.b64decode(shot["data"]))  # Chrome 回傳的是 base64 編碼的 PNG
 
 
-def wait_and_read(driver, selectors, timeout=30):
-    """首頁的區塊是陸續載入的（一開始只有轉圈圈）。
-    每 0.5 秒讀一次區塊文字，等到「有文字、而且連續 3 秒都沒再變」才算載入完成；最多等 timeout 秒。"""
+# 載入中的標記：還沒載入的片段（include-fragment）、aria-busy、轉圈圈、灰色骨架
+LOADING = ("include-fragment, [aria-busy='true'], .anim-rotate, "
+           "[class*='Spinner'], [class*='spinner'], [class*='Skeleton'], [class*='skeleton']")
+
+
+def still_loading(driver, selectors):
+    """區塊裡還有看得到的「載入中」元素就回傳 True。"""
+    block = find_block(driver, selectors)
+    if block is None:
+        return False
+    try:
+        return any(el.is_displayed() for el in block.find_elements(By.CSS_SELECTOR, LOADING))
+    except StaleElementReferenceException:  # 區塊剛好在重新載入
+        return True
+
+
+def wait_until_loaded(driver, timeout=45):
+    """首頁的區塊是陸續載入的：中間主欄一開始只有轉圈圈，左欄的 Top repositories 也比 Home、Feed 晚出現。
+    每 0.5 秒把兩個視窗的文字一起讀一次，等到「都有文字、沒有載入中的元素、而且連續 3 秒都沒再變」
+    才算載入完成；最多等 timeout 秒。回傳 True 代表載入完成，False 代表等到時間到。"""
     last = None
     unchanged_since = time.time()
     deadline = time.time() + timeout
     while time.time() < deadline:
-        lines = read_window(driver, selectors)
-        if lines != last:  # 內容還在變，重新計時
-            last, unchanged_since = lines, time.time()
-        elif lines and time.time() - unchanged_since >= 3:
-            return lines
+        texts = [read_window(driver, selectors) for _, selectors, _ in WINDOWS]
+        if texts != last:  # 內容還在變，重新計時
+            last, unchanged_since = texts, time.time()
+        elif all(texts) and time.time() - unchanged_since >= 3 and not any(
+            still_loading(driver, selectors) for _, selectors, _ in WINDOWS
+        ):
+            return True
         time.sleep(0.5)
-    return last
+    return False
 
 
 def main():
@@ -235,25 +273,31 @@ def main():
         login(driver, username, password)
 
         driver.get(HOME_URL)
-        print("等首頁內容載入完成（中間主欄會先轉圈圈，最多等 30 秒）…\n")
+        print("等首頁內容載入完成（中間主欄會先轉圈圈，左欄的 repo 清單也比較晚出現，最多等 45 秒）…\n")
+        if not wait_until_loaded(driver):
+            print("等了 45 秒首頁還在載入，先讀目前看得到的內容。\n")
         for window, selectors, name in WINDOWS:
-            lines = wait_and_read(driver, selectors)
+            lines = read_window(driver, selectors)
             if lines is None:
                 lines = ["（找不到這個區塊，GitHub 首頁版面可能又改了）"]
             elif not lines:
-                lines = ["（等了 30 秒這個區塊還沒載入出文字）"]
-            print(f"【{window}】")
-            for line in lines:
-                print(f"  {line}")
+                lines = ["（等了 45 秒這個區塊還沒載入出文字）"]
+            # 每行文字如果是連結，就配上它的完整網址（同樣文字出現好幾次就照順序取）
+            block = find_block(driver, selectors)
+            links = read_links(block) if block is not None else {}
+            rows = [(line, links[line].pop(0) if links.get(line) else "") for line in lines]
 
-            # 這個視窗的文字存成自己的 CSV（一行文字一列）
+            print(f"【{window}】")
+            for line, href in rows:
+                print(f"  {line}" + (f"  → {href}" if href else ""))
+
+            # 這個視窗的文字和連結存成自己的 CSV（一行文字一列）
             with open(FOLDER / f"{name}.csv", "w", newline="", encoding="utf-8-sig") as file:
                 writer = csv.writer(file)
-                writer.writerow(["內容"])
-                writer.writerows([line] for line in lines)
+                writer.writerow(["內容", "連結"])
+                writer.writerows(rows)
 
             # 內容載入完成後，只截這個區塊的畫面（不是整個網頁）
-            block = find_block(driver, selectors)
             if block is not None:
                 screenshot_block(driver, block, FOLDER / f"{name}.png")
             print(f"  → 已存成 {name}.csv、{name}.png\n")
