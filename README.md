@@ -51,7 +51,7 @@ python run.py 5
 | 1 | 開眼電影網本週新片（延伸：點進內頁多抓欄位） | requests + BeautifulSoup | `new_movies.csv`、延伸 `new_movies_detail.csv` | — |
 | 2 | 臺灣銀行牌告匯率（延伸：買賣價差） | Selenium 載入 + BeautifulSoup | `bank.csv`、延伸 `bank_detail.csv` | — |
 | 3 | 政府資料開放平臺：健保門診及住院就診人次統計－腸病毒（延伸：年齡別＋縣市地圖） | Selenium 模擬搜尋與點選 + requests 下載 | `NHI_EnteroviralInfection.csv`、延伸 `enterovirus_charts.png` | — |
-| 4 | 博客來「演算法」搜尋結果（延伸：書價分布直方圖＋價格箱型圖） | Selenium 載入 + BeautifulSoup + matplotlib | `booklist.csv`、延伸 `booklist_detail.csv`、`book_price_charts.png` | 偶爾需勾選真人驗證 |
+| 4 | 博客來「演算法」搜尋結果（延伸：書價分布直方圖＋價格箱型圖） | Selenium 載入 + BeautifulSoup + matplotlib | `booklist.csv`、延伸 `book_price_charts.png` | 偶爾需勾選真人驗證 |
 | 5 | 開眼台北週末票房排行榜（20 筆）（延伸：前 10 名橫條圖＋累積占比圖） | Selenium（ActionChains 模擬滑鼠） + matplotlib | `Taipei_movies.csv`、延伸 `Taipei_movies_detail.csv`、`boxoffice_charts.png` | — |
 | 6 | Basketball Reference：CLE、HOU、GSW 球員（延伸：身高、年齡＋圖表） | requests + BeautifulSoup + matplotlib | `players.csv`、延伸 `players_detail.csv`、`players_charts.png` | — |
 | 7 | Google Books API 搜尋 Python（兩頁）（延伸：年份分布圖＋出版社長條圖） | requests（API 回傳 JSON） + matplotlib | `pythonbook.csv`、延伸 `pythonbook_detail.csv`、`books_api_charts.png` | 執行時輸入 API 金鑰 |
@@ -64,7 +64,7 @@ python run.py 5
 | 14 | HoopsHype 球員薪水（延伸：薪資排名圖） | Selenium + BeautifulSoup + matplotlib | `highest.csv`、`all_play.csv`、延伸 `salary_charts.png` | — |
 | 15 | Google 搜尋「xpath」，捲動並取得更多結果 | Selenium（模擬滑鼠滾輪） | `xpath.csv` | Google 可能擋下程式控制的瀏覽器（見說明） |
 | 16 | Agoda 搜尋台中飯店與價格（含加分項、全部結果頁）（延伸：平台地區房價箱型圖＋評分散布圖） | Selenium + BeautifulSoup + pandas 前處理 + matplotlib | `agoda_result.csv`（沒有處理）、`agoda_result_processed.csv`（有處理）、延伸 `agoda_charts.png` | — |
-| 17 | GitHub 自動登入，抓首頁兩個視窗 | Selenium | 兩個視窗各一份 CSV＋一張截圖 | 執行時輸入帳密 |
+| 17 | GitHub 自動登入，抓首頁兩個視窗（延伸：抓連結） | Selenium | 兩個視窗各一份 CSV（含連結）＋一張截圖 | 執行時輸入帳密 |
 
 ### 對應期中配分要求
 
@@ -127,7 +127,7 @@ python 第11題_NBA商品資料/main.py --analyze-only
   - 例：2026-10-20 執行時 60 本都有價格，中位數 458 元，300～550 元的書約占七成；《演算法導論 第四版》1,422 元超過界線。
   - 左圖自動分箱呈現價格分布；右圖為箱型圖並標示上側界線。IQR 是 Q3 − Q1 的差值，Q1～Q3 是中間 50% 的價格區間。
   - 分析僅限搜尋第一頁的優惠售價，未蒐集裝訂、頁數或成本，不能據此解釋價格成因。
-- **輸出**：`booklist.csv`（60 本）、`booklist_detail.csv`（延伸：數值化價格）、`book_price_charts.png`（延伸：圖表）
+- **輸出**：`booklist.csv`（60 本）、`book_price_charts.png`（延伸：圖表）
 - **執行**：`python 第04題_博客來書籍/main.py`（加 `--analyze-only` 可直接使用既有 CSV 分析繪圖）
 
 ### 第 5 題：開眼台北週末票房排行榜
@@ -266,6 +266,7 @@ python 第11題_NBA商品資料/main.py --analyze-only
      - 有開二階段驗證（2FA）：輸入驗證 App／簡訊的 6 位數驗證碼，或用通行金鑰確認；
      - 沒開 2FA：程式每次開的都是全新的 Chrome，GitHub 會當成新裝置，通常會寄 Email 驗證碼，到信箱查看後輸入即可。
   4. 登入後抓首頁：**1 號視窗＝左欄**（新帳號顯示「Create your first project」，已有專案的帳號顯示「Top repositories」）；**2 號視窗＝中間主欄**（附圖當時是「Updates to your homepage feed」提示卡，改版後是首頁動態面板）。依區塊位置抓取，新舊版首頁都適用。
+- **延伸：抓連結**：題目只要求抓視窗裡的文字；我們再用 `get_attribute("href")` 把每行文字的連結補成完整網址（例如 Top repositories 的 repo），存在 CSV 的「連結」欄。只存文字不知道 repo 在哪裡，有了完整網址點一下就能打開。
 - **輸出**：兩個視窗分開存，各有一份 CSV 和一張截圖。CSV 有「內容」「連結」兩欄：一行文字一列，那行文字是連結的話（例如 Top repositories 的 repo 名稱），用 `get_attribute("href")` 存完整網址 `https://github.com/Tunai-0511/…`，點了就能打開；不是連結就空白。檔名：1 號視窗（左欄）`github_window1_left.csv`、`github_window1_left.png`；2 號視窗（中間主欄）`github_window2_center.csv`、`github_window2_center.png`。截圖只截那個區塊，比視窗高也會截完整。首頁的區塊是陸續載入的（中間主欄一開始只有轉圈圈，左欄的 Top repositories 也比 Home、Feed 晚出現），程式會兩個視窗一起等：都有文字、沒有轉圈圈或灰色骨架（載入中），而且連續 3 秒沒有再變，才讀取和截圖，最多等 45 秒。附上的輸出是組員用自己帳號實際執行的結果；換別人執行會抓到他自己帳號的首頁。
 - **執行**：`python 第17題_GitHub登入首頁/main.py`
 

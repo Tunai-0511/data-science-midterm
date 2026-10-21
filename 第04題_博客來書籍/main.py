@@ -21,7 +21,6 @@
 
 輸出
     booklist.csv          題目要求：書名、網址、作者、書價
-    booklist_detail.csv   延伸：數值化書價
     book_price_charts.png 延伸：價格直方圖、箱型圖
 
 延伸：書價分布與離群值
@@ -57,7 +56,6 @@ from matplotlib import font_manager  # noqa: E402
 KEYWORD = "演算法"
 URL_TEMPLATE = "https://search.books.com.tw/search/query/key/{0}/cat/all"  # 題目給的網址
 OUTPUT = Path(__file__).parent / "booklist.csv"
-DETAIL_OUTPUT = Path(__file__).parent / "booklist_detail.csv"
 CHART_OUTPUT = Path(__file__).parent / "book_price_charts.png"
 FIELDS = ["書名", "網址", "作者", "書價"]
 BOOK_SELECTOR = "div.table-td[id^='prod-itemlist-']"  # 每一本書的區塊
@@ -128,12 +126,10 @@ def analyze_and_draw(df=None):
             return
         df = pd.read_csv(OUTPUT)
     clean = df.copy()
-    clean["書價(元)"] = pd.to_numeric(
-        clean["書價"].astype("string").str.replace(",", "", regex=False), errors="coerce"
-    )
-    clean.loc[clean["書價(元)"] <= 0, "書價(元)"] = float("nan")
-    clean.to_csv(DETAIL_OUTPUT, index=False, encoding="utf-8-sig")
-    prices = clean["書價(元)"].dropna()
+    # 爬蟲存的書價已經是數字；若是「1,500」「售完」這類文字也轉成數字，無效或非正值留空
+    clean["書價"] = pd.to_numeric(clean["書價"].astype("string").str.replace(",", "", regex=False), errors="coerce")
+    clean.loc[clean["書價"] <= 0, "書價"] = float("nan")
+    prices = clean["書價"].dropna()
     print("\n========== 延伸分析：博客來書價 ==========")
     print(f"樣本 {len(clean)} 本；有效價格 {len(prices)} 本；缺漏或無效價格 {len(clean)-len(prices)} 本。")
     urls = clean["網址"].dropna().astype(str).str.strip()
@@ -149,10 +145,10 @@ def analyze_and_draw(df=None):
     print(f"最低價 {prices.min():,.2f}；Q1 {q1:,.2f}；中位數 {median:,.2f}；Q3 {q3:,.2f}；最高價 {prices.max():,.2f} 元。")
     print(f"平均價 {prices.mean():,.2f} 元；IQR {iqr:,.2f} 元；上側離群判定界線 {threshold:,.2f} 元。")
     print(f"300～550 元共 {count} 本，占有效價格樣本 {count/len(prices)*100:.1f}%。")
-    outliers = clean[clean["書價(元)"] > threshold]
+    outliers = clean[clean["書價"] > threshold]
     print(f"超過上側界線的書籍共 {len(outliers)} 本：")
     for _, row in outliers.iterrows():
-        print(f"  《{row['書名']}》：{row['書價(元)']:,.0f} 元")
+        print(f"  《{row['書名']}》：{row['書價']:,.0f} 元")
     print("以上為搜尋結果本頁的優惠售價分布；未蒐集頁數、裝訂與成本，無法由價格判定高價原因。")
     use_chinese_font()
     fig, (ax_hist, ax_box) = plt.subplots(1, 2, figsize=(14, 5.5))
@@ -171,7 +167,7 @@ def analyze_and_draw(df=None):
     fig.tight_layout()
     fig.savefig(CHART_OUTPUT, dpi=150)
     plt.close(fig)
-    print(f"已產生 {DETAIL_OUTPUT.name}、{CHART_OUTPUT.name}")
+    print(f"已產生 {CHART_OUTPUT.name}")
 
 
 def main():

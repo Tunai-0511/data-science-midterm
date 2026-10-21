@@ -59,9 +59,10 @@ class AnalysisRegressions(unittest.TestCase):
             "網址": ["https://example.com/a", "", None],
             "書價": ["1,500", "售完", -1],
         }))
-        rows = pd.read_csv(module.DETAIL_OUTPUT)
-        self.assertEqual(rows["書價(元)"].notna().sum(), 1)
-        self.assertEqual(rows.loc[0, "書價(元)"], 1500)
+        # 「1,500」轉成 1500；「售完」和 -1 不算有效價格
+        self.assertIn("有效價格 1 本；缺漏或無效價格 2 本", self.log.getvalue())
+        self.assertIn("最低價 1,500.00", self.log.getvalue())
+        self.assertTrue(module.CHART_OUTPUT.exists())
 
     def test_boxoffice_small_unsorted_sample_and_invalid_value(self):
         module = self.module(5)
