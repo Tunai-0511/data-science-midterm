@@ -59,7 +59,7 @@ python run.py 5
 | 1 | 開眼電影網本週新片（延伸：點進內頁多抓欄位） | requests + BeautifulSoup | `new_movies.csv`、延伸 `new_movies_detail.csv` | — |
 | 2 | 臺灣銀行牌告匯率（延伸：買賣價差） | Selenium 載入 + BeautifulSoup | `bank.csv`、延伸 `bank_detail.csv` | — |
 | 3 | 政府資料開放平臺：健保門診及住院就診人次統計－腸病毒（延伸：年齡別＋縣市地圖） | Selenium 模擬搜尋與點選 + requests 下載 | `NHI_EnteroviralInfection.csv`、延伸 `enterovirus_charts.png` | — |
-| 4 | 博客來「演算法」搜尋結果（延伸：書價分布直方圖＋價格箱型圖） | Selenium 載入 + BeautifulSoup + matplotlib | `booklist.csv`、延伸 `book_price_charts.png` | 偶爾需勾選真人驗證 |
+| 4 | 博客來「演算法」搜尋結果（延伸：書價分布直方圖＋價格箱型圖） | Selenium 載入 + BeautifulSoup + matplotlib | `booklist.csv`、延伸 `book_price_charts.png` | — |
 | 5 | 開眼台北週末票房排行榜（20 筆）（延伸：前 10 名橫條圖＋累積占比圖） | Selenium（ActionChains 模擬滑鼠） + matplotlib | `Taipei_movies.csv`、延伸 `Taipei_movies_detail.csv`、`boxoffice_charts.png` | — |
 | 6 | Basketball Reference：CLE、HOU、GSW 球員（延伸：身高、年齡＋圖表） | requests + BeautifulSoup + matplotlib | `players.csv`、延伸 `players_detail.csv`、`players_charts.png` | — |
 | 7 | Google Books API 搜尋 Python（兩頁）（延伸：年份分布圖＋出版社長條圖） | requests（API 回傳 JSON） + matplotlib | `pythonbook.csv`、延伸 `pythonbook_detail.csv`、`books_api_charts.png` | 執行時輸入 API 金鑰 |
