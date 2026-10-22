@@ -96,6 +96,18 @@ class AnalysisRegressions(unittest.TestCase):
         self.assertEqual(rows["上映日期_dt"].notna().sum(), 14)
         self.assertTrue(module.CHART_OUTPUT.exists())
 
+    def test_movies_base_date_is_scrape_date_until_csv_changes(self):
+        module = self.module(8)
+        movies = pd.DataFrame({"名稱": ["A", "B"], "上映時間": ["2026/11/1", "2026/11/8"], "連結網址": ["", ""]})
+        movies.to_csv(module.OUTPUT, index=False, encoding="utf-8-sig")
+        module.analyze_and_draw(movies, base_date=pd.Timestamp("2026-10-21"))  # 抓資料那天
+        module.analyze_and_draw()  # 只跑 --analyze-only：片單沒變，沿用抓資料那天
+        self.assertEqual(pd.read_csv(module.DETAIL_OUTPUT)["分析基準日"].iloc[0], "2026-10-21")
+        pd.DataFrame({"名稱": ["C"], "上映時間": ["2026/12/1"], "連結網址": [""]}).to_csv(
+            module.OUTPUT, index=False, encoding="utf-8-sig")
+        module.analyze_and_draw()  # movies.csv 換過：不沿用舊日期
+        self.assertNotEqual(pd.read_csv(module.DETAIL_OUTPUT)["分析基準日"].iloc[0], "2026-10-21")
+
     def test_product_names_do_not_confuse_hoodies_capes_or_sleeves(self):
         module = self.module(11)
         examples = {

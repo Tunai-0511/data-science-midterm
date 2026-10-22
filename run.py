@@ -40,8 +40,14 @@ def main():
     script = questions[int(answer)] / "main.py"
     print(f"執行：{script.parent.name}/main.py\n", flush=True)
     # sys.executable：用跟 run.py 同一個 Python（同一個虛擬環境）執行
-    result = subprocess.run([sys.executable, str(script)])
-    sys.exit(result.returncode)
+    process = subprocess.Popen([sys.executable, str(script)])
+    while True:
+        try:
+            sys.exit(process.wait())
+        except KeyboardInterrupt:
+            # 按 Ctrl+C 時題目程式也會收到，讓它自己收尾（先存已抓到的資料、關掉 Chrome），這裡繼續等它結束。
+            # 不用 subprocess.run：它只給題目程式 0.25 秒就強制關掉，來不及存檔。
+            continue
 
 
 if __name__ == "__main__":

@@ -124,8 +124,15 @@ def ask_secret(prompt):
             old_settings = termios.tcgetattr(fd)
             try:
                 tty.setraw(fd, termios.TCSANOW)  # TCSANOW：保留已經先打進去的字
-                while not handle(sys.stdin.read(1)):
-                    pass
+                while True:
+                    ch = sys.stdin.read(1)
+                    if ch == "\x1b":  # 方向鍵等特殊鍵會送出「ESC [ A」這樣一串字元，整串略過，不算進密碼
+                        if sys.stdin.read(1) in ("[", "O"):
+                            while not ("@" <= sys.stdin.read(1) <= "~"):  # 讀到這串的最後一個字元為止
+                                pass
+                        continue
+                    if handle(ch):
+                        break
             finally:
                 termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
     except KeyboardInterrupt:
@@ -268,8 +275,8 @@ def wait_until_loaded(driver, timeout=45):
 def main():
     username, password = ask_account()
     driver = webdriver.Chrome()
-    driver.set_window_size(1400, 1000)  # 視窗夠寬，首頁才會顯示左欄與中間兩欄
     try:
+        driver.set_window_size(1400, 1000)  # 視窗夠寬，首頁才會顯示左欄與中間兩欄
         login(driver, username, password)
 
         driver.get(HOME_URL)

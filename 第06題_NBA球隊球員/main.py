@@ -11,7 +11,7 @@
     1. 把三個球隊代碼依序放進網址的 {0}，用 requests 下載各隊 2024（2023-24 球季）頁面。
     2. 用 BeautifulSoup 找到 id="roster" 的表格（Roster 名單）。
     3. 表格每個儲存格都有 data-stat 屬性（例如 data-stat="weight"），依屬性取值，
-       不必擔心欄位順序。網站多出來的身高、出生國旗欄位不需要，就不取。
+       不必擔心欄位順序。題目沒有要的身高、出生國旗欄位不寫進 players.csv（身高另外放在延伸檔）。
     4. 三隊合併後存成 players.csv（重新執行會直接覆蓋）。
 
     資料說明：體重單位是磅（lb）；經驗是進入該球季前的 NBA 年資，R 代表新秀；
@@ -86,22 +86,37 @@ def get_roster(team):
 
     players = []
     roster_table = soup.select_one("table#roster")  # Roster（球員名單）表格
+    if roster_table is None:
+        raise SystemExit(f"{team} 的頁面找不到 Roster 表格（網站可能改版或暫時擋下請求），請稍後再執行。")
     for tr in roster_table.select("tbody tr"):
         player = {"球隊": team}
         for field, data_stat in COLUMNS.items():
             cell = tr.select_one(f"[data-stat='{data_stat}']")
             # 把多餘的空白、換行整理成一個空白，例如 "Memphis, Eastern Michigan"
-            player[field] = " ".join(cell.get_text().split())
-
-        # 延伸：身高、身高（公分）、體重（公斤）、年齡
-        height = tr.select_one("[data-stat='height']")
-        birth = tr.select_one("[data-stat='birth_date']")
-        player["身高"] = height.get_text(strip=True)  # 例如 6-9（6 呎 9 吋）
-        player["身高（公分）"] = round(float(height["csk"]) * 2.54)  # csk＝英寸數
-        player["體重（公斤）"] = round(int(player["體重"]) * 0.4536)
-        player["年齡"] = age_on(datetime.strptime(birth["csk"], "%Y%m%d").date(), SEASON_DATE)
+            player[field] = " ".join(cell.get_text().split()) if cell else ""
+        player.update(extension_fields(tr, player))
         players.append(player)
     return players
+
+
+def extension_fields(tr, player):
+    """延伸：身高、身高（公分）、體重（公斤）、年齡。網站缺資料時那一欄留空，不影響題目要求的欄位。"""
+    height = tr.select_one("[data-stat='height']")
+    birth = tr.select_one("[data-stat='birth_date']")
+    fields = {"身高": height.get_text(strip=True) if height else "", "身高（公分）": "", "體重（公斤）": "", "年齡": ""}
+    try:
+        fields["身高（公分）"] = round(float(height["csk"]) * 2.54)  # csk＝英寸數，例如 6-9（6 呎 9 吋）＝81
+    except (TypeError, KeyError, ValueError):
+        pass
+    try:
+        fields["體重（公斤）"] = round(int(player["體重"]) * 0.4536)  # 體重單位是磅
+    except ValueError:
+        pass
+    try:
+        fields["年齡"] = age_on(datetime.strptime(birth["csk"], "%Y%m%d").date(), SEASON_DATE)
+    except (TypeError, KeyError, ValueError):
+        pass
+    return fields
 
 
 def age_on(birthday, day):
@@ -123,9 +138,13 @@ def print_team_summary(players):
     print("\n延伸：各隊平均")
     for team in TEAMS:
         members = [p for p in players if p["球隊"] == team]
-        average = lambda field: sum(p[field] for p in members) / len(members)  # noqa: E731
-        print(f"  {team}：{len(members)} 人，平均 {average('年齡'):.1f} 歲、"
-              f"{average('身高（公分）'):.1f} 公分、{average('體重（公斤）'):.1f} 公斤")
+
+        def average(field):
+            values = [p[field] for p in members if p[field] != ""]  # 缺資料的不算
+            return f"{sum(values) / len(values):.1f}" if values else "－"
+
+        print(f"  {team}：{len(members)} 人，平均 {average('年齡')} 歲、"
+              f"{average('身高（公分）')} 公分、{average('體重（公斤）')} 公斤")
 
 
 def use_chinese_font():
@@ -142,7 +161,7 @@ def draw_charts(players):
     fig, (left, right) = plt.subplots(1, 2, figsize=(12, 5))
 
     for team in TEAMS:
-        members = [p for p in players if p["球隊"] == team]
+        members = [p for p in players if p["球隊"] == team and p["身高（公分）"] != "" and p["體重（公斤）"] != ""]
         left.scatter([p["身高（公分）"] for p in members], [p["體重（公斤）"] for p in members],
                      label=team, color=TEAM_COLORS[team], marker=TEAM_MARKERS[team],
                      edgecolors="white", s=55, alpha=0.85)
@@ -151,7 +170,7 @@ def draw_charts(players):
     left.set_ylabel("體重（公斤）")
     left.legend()
 
-    ages = [[p["年齡"] for p in players if p["球隊"] == team] for team in TEAMS]
+    ages = [[p["年齡"] for p in players if p["球隊"] == team and p["年齡"] != ""] for team in TEAMS]
     box = right.boxplot(ages, patch_artist=True, medianprops={"color": "black"})  # 黑線＝中位數
     right.set_xticks(range(1, len(TEAMS) + 1), TEAMS)
     for patch, team in zip(box["boxes"], TEAMS):

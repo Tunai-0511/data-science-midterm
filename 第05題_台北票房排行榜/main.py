@@ -76,7 +76,7 @@ def open_chrome():
 
 
 def close_vignette_ad(driver):
-    """關閉 Google 全版廣告：廣告在 iframe 裡，切進去按「關閉」（#dismiss-button）。"""
+    """關閉 Google 全版廣告：廣告在 iframe 裡，切進去按「關閉」（#dismiss-button）。有按到回傳 True。"""
     for _ in range(10):  # 廣告可能還在載入，最多試 10 次
         for frame in driver.find_elements(By.CSS_SELECTOR, "iframe[id^='aswift']"):
             try:
@@ -86,12 +86,13 @@ def close_vignette_ad(driver):
                 buttons = driver.find_elements(By.ID, "dismiss-button")
                 if buttons and buttons[0].is_displayed():
                     buttons[0].click()
-                    return
+                    return True
             except WebDriverException:
                 pass  # 廣告框架剛好被換掉，換下一個再試
             finally:
                 driver.switch_to.default_content()  # 一定要切回主網頁
         time.sleep(0.5)
+    return False
 
 
 def mouse_click(driver, find_element, url_part, tries=3):
@@ -115,8 +116,13 @@ def mouse_click(driver, find_element, url_part, tries=3):
 
     if "google_vignette" in driver.current_url:
         print("（跳出 Google 全版廣告，按「關閉」後繼續）")
-        close_vignette_ad(driver)
-        WebDriverWait(driver, 30).until(lambda d: url_part in d.current_url)
+        if not close_vignette_ad(driver):  # 找不到關閉按鈕：直接打開廣告後面的目標網址
+            print("（找不到廣告的「關閉」按鈕，直接打開目標網址）")
+            driver.get(driver.current_url.split("#google_vignette")[0])
+        try:
+            WebDriverWait(driver, 30).until(lambda d: url_part in d.current_url and "google_vignette" not in d.current_url)
+        except TimeoutException:
+            raise SystemExit("關掉廣告後沒有換到目標頁（網站可能暫時連不上），請稍後再執行一次。")
 
 
 def hover_movie_menu(driver, tries=3):
@@ -194,6 +200,15 @@ def use_chinese_font():
     plt.rcParams["axes.unicode_minus"] = False
 
 
+def short_title(title, limit=20):
+    """圖表用的片名：去掉後面的英文原名（「快打旋風 Street Fighter」→「快打旋風」），太長再截短。"""
+    text = str(title).strip()
+    cjk = [i for i, ch in enumerate(text) if ord(ch) > 0x2E80]  # 最後一個中文字（含「」）的位置
+    if cjk:
+        text = text[:cjk[-1] + 1]
+    return text if len(text) <= limit else text[:limit - 1] + "…"
+
+
 def analyze_and_draw(df=None):
     """由未四捨五入的票房計算榜內占比，展示集中程度。"""
     if df is None:
@@ -227,7 +242,7 @@ def analyze_and_draw(df=None):
     use_chinese_font()
     fig, (ax_bar, ax_cum) = plt.subplots(1, 2, figsize=(16, 6), layout="constrained")
     top = clean.head(10)
-    labels = [str(t).split()[0] for t in top["片名"]]
+    labels = [short_title(t) for t in top["片名"]]
     bars = ax_bar.barh(range(len(top)), top["本週票房(萬)"], color="#1D428A")
     ax_bar.set_yticks(range(len(top)), labels=labels, fontsize=9)
     ax_bar.invert_yaxis()

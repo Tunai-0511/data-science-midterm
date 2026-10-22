@@ -9,7 +9,7 @@
     博客來搜尋頁前面有 Cloudflare 防護：用 requests 直接抓會得到 403
     「連線暫時異常」，所以改用 Selenium 開真的 Chrome 載入網頁，再交給 BeautifulSoup 解析。
 
-    1. 把「演算法」放進題目給的網址 {0}，開啟搜尋結果（題目網址就是第 1 頁，共 60 本）。
+    1. 把「演算法」放進題目給的網址 {0}，開啟搜尋結果（題目網址就是第 1 頁，一頁 60 本）。
     2. 每本書在 <div class="table-td" id="prod-itemlist-商品編號"> 裡：
        書名 = h4 連結的 title，作者 = p.author 裡的連結，書價 = ul.price 裡最後一個數字（元）。
        搜尋頁的連結是博客來的轉址網址，改寫成正式商品頁 https://www.books.com.tw/products/商品編號。
@@ -85,10 +85,14 @@ def parse_books(html):
     books = []
     for item in soup.select(BOOK_SELECTOR):
         product_id = item["id"].replace("prod-itemlist-", "")  # 例如 0011055506
-        title = item.select_one("h4 a")["title"]  # 書名連結的 title 屬性就是完整書名
+        link = item.select_one("h4 a")
+        if link is None:  # 沒有書名連結的區塊（例如廣告）跳過
+            continue
+        title = link.get("title") or link.get_text(strip=True)  # 書名連結的 title 屬性就是完整書名
         authors = [a.get_text(strip=True) for a in item.select("p.author a")]
         # 價格文字像「優惠價: 79 折, 316 元」或「優惠價: 316 元」，取最後一個數字（實際售價）
-        price_text = item.select_one("ul.price").get_text(" ", strip=True)
+        price_tag = item.select_one("ul.price")  # 絕版、預購等沒有價格區塊的書，書價留空
+        price_text = price_tag.get_text(" ", strip=True) if price_tag else ""
         numbers = re.findall(r"\d[\d,]*", price_text)
 
         books.append({

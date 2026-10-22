@@ -149,7 +149,7 @@ def download_csv(url):
     try:
         response = requests.get(url, timeout=120)
     except requests.exceptions.SSLError:
-        print("（HTTPS 憑證驗證失敗，改用不驗證憑證的方式下載）")
+        print("（注意：HTTPS 憑證驗證失敗，這次改用「不驗證憑證」下載；下載後會檢查內容是不是這份資料集）")
         response = requests.get(url, timeout=120, verify=False)
     response.raise_for_status()
     return response.content.decode("utf-8-sig")  # 官方檔案是 UTF-8
@@ -162,12 +162,16 @@ def main():
     print("步驟 5：用 requests 下載 CSV（約 8 MB）…")
     text = download_csv(csv_url)
 
+    # 先確認是正常的 CSV（有「縣市」「年齡別」等欄位）才存檔，下載到錯誤頁面時不會蓋掉原本的檔案
+    rows = list(csv.reader(io.StringIO(text)))
+    if not rows or not {"縣市", "年齡別", "腸病毒健保就診人次"} <= set(rows[0]):
+        raise SystemExit("下載到的內容不是腸病毒就診人次的 CSV（可能是錯誤頁面），沒有存檔。")
+
     # 以 utf-8-sig（加 BOM）存檔，用 Excel 開啟中文不會亂碼
     with open(OUTPUT, "w", newline="", encoding="utf-8-sig") as file:
         file.write(text)
 
-    # 讀回來確認是正常的 CSV，並顯示欄位與前 5 筆
-    rows = list(csv.reader(io.StringIO(text)))
+    # 顯示欄位與前 5 筆
     print(f"欄位：{rows[0]}")
     for row in rows[1:6]:
         print(row)

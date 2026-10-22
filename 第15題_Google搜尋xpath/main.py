@@ -24,7 +24,7 @@
     程式透過 ChromeOptions 排除自動化開關並注入 CDP 腳本隱藏 webdriver 特徵，
     搭配真人打字節奏，已大幅降低觸發 reCAPTCHA 的機率。
     遇到「我不是機器人」驗證頁時，程式會在終端機提示並等待在 Chrome 視窗中手動完成（最多 5 分鐘）後繼續；
-    若無下一頁、驗證沒通過或按 Ctrl+C 時會停止翻頁，已抓到的結果照樣安全存檔。
+    若無下一頁、驗證沒通過、翻頁失敗或按 Ctrl+C 時會停止翻頁，已抓到的結果照樣安全存檔。
 
 執行
     python 第15題_Google搜尋xpath/main.py
@@ -38,7 +38,7 @@ from urllib.parse import urlparse
 
 import requests
 from selenium import webdriver
-from selenium.common.exceptions import TimeoutException
+from selenium.common.exceptions import TimeoutException, WebDriverException
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
@@ -183,6 +183,8 @@ def main():
                     all_results.setdefault(row["網址"], row["標題"])
         except KeyboardInterrupt:  # 按 Ctrl+C：停止翻頁，已抓到的照樣存檔
             print("\n中途停止，先把已抓到的結果存檔。")
+        except WebDriverException as error:  # 含 TimeoutException：翻頁等太久或點不到，前面抓到的照樣存檔
+            print(f"\n翻頁時發生問題（{type(error).__name__}），先把已抓到的結果存檔。")
     finally:
         driver.quit()
 

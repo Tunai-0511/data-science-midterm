@@ -86,16 +86,19 @@ def get_html_with_chrome(url):
 def parse_rates(html):
     """解析牌告匯率表，回傳（掛牌時間, 每種幣別的匯率列表）。"""
     soup = BeautifulSoup(html, "html.parser")
-    listed_time = soup.select_one("span.time").get_text(strip=True)  # 牌價最新掛牌時間
+    time_tag = soup.select_one("span.time")  # 牌價最新掛牌時間
+    listed_time = time_tag.get_text(strip=True) if time_tag else ""
 
     rows = []
     for tr in soup.select("table[title='牌告匯率'] tbody tr"):
         # 幣別名稱，例如「美金 (USD)」；網頁上桌機版與手機版各寫一次，取桌機版
-        currency = tr.select_one("td.currency .hidden-phone").get_text(strip=True)
-        row = {"幣別": currency}
+        name = tr.select_one("td.currency .hidden-phone")
+        if name is None:  # 不是幣別的列（網頁改版多出來的）跳過
+            continue
+        row = {"幣別": name.get_text(strip=True)}
         for field, data_table in COLUMNS.items():
             cell = tr.select_one(f"td[data-table='{data_table}']")  # 第一個符合的格子
-            row[field] = cell.get_text(strip=True)
+            row[field] = cell.get_text(strip=True) if cell else "-"  # 找不到格子就當作沒有提供
         for field, data_table in LINK_COLUMNS.items():
             link = tr.select_one(f"td[data-table='{data_table}'] a")
             row[field] = urljoin(URL, link["href"]) if link else ""  # /xrt/forward/USD → 完整網址
@@ -105,10 +108,13 @@ def parse_rates(html):
 
 
 def spread(buy_text, sell_text):
-    """延伸：回傳（價差, 價差 %）；網頁上「-」代表沒有提供，回傳兩個空字串。"""
-    if "-" in (buy_text, sell_text):
+    """延伸：回傳（價差, 價差 %）；網頁上「-」或空白代表沒有提供，回傳兩個空字串。"""
+    try:
+        buy, sell = float(buy_text.replace(",", "")), float(sell_text.replace(",", ""))
+    except ValueError:
         return "", ""
-    buy, sell = float(buy_text), float(sell_text)
+    if sell <= 0:
+        return "", ""
     return round(sell - buy, 5), round((sell - buy) / sell * 100, 2)
 
 

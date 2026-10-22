@@ -24,7 +24,8 @@
       上映廳數＝片商排了多少廳，代表對票房的期待（院線規模）；
       評分要搭配評分人數看，人數很少時評分參考價值低；
       出品國、語言看得出本週新片來自哪些國家；
-      影片年份比上映日期早很多的，是重新上映的舊片。
+      影片年份比上映日期早很多的，是舊片重映（例如《人狼》是 1998 年的片）；
+      不過有些重映片內頁寫的是原本的上映日，這時兩者差不多，就看不出來。
 
 輸出
     new_movies.csv（題目要求的四個欄位）
@@ -69,6 +70,8 @@ def parse_movies(html):
     # 每一部電影都包在 <article class="filmList"> 裡
     for card in soup.select("article.filmList"):
         title_link = card.select_one(".filmTitle a")  # 電影名稱的超連結
+        if title_link is None:  # 沒有片名連結的區塊（例如廣告）跳過
+            continue
         intro = card.select_one("p")  # 內容簡介
         runtime = card.select_one(".runtime")  # 「片長：117分 上映日期：...」那一行
 
@@ -160,7 +163,12 @@ def main():
     for number, movie in enumerate(movies, start=1):
         if number > 1:
             time.sleep(1)  # 每部片之間停 1 秒，避免連續請求造成網站負擔
-        detail = {**movie, **parse_detail(get_html(movie["網址"]))}
+        try:
+            detail = {**movie, **parse_detail(get_html(movie["網址"]))}
+        except requests.RequestException as error:  # 某部片的內頁打不開：這部片的內頁欄位留空，繼續下一部
+            print(f"{number}. {movie['標題']}｜內頁打不開（{type(error).__name__}），內頁欄位留空")
+            details.append({**movie, **{field: "" for field in DETAIL_FIELDS if field not in movie}})
+            continue
         details.append(detail)
         score = f"{detail['評分']} 分（{detail['評分人數']} 人）" if detail["評分"] else "尚無評分"
         print(f"{number}. {movie['標題']}｜{detail['上映日期'] or '日期未定'} 上映、{detail['上映廳數']} 廳｜{score}"

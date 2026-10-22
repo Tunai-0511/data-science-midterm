@@ -116,8 +116,15 @@ def ask_secret(prompt):
             old_settings = termios.tcgetattr(fd)
             try:
                 tty.setraw(fd, termios.TCSANOW)  # TCSANOW：保留已經先打進去的字
-                while not handle(sys.stdin.read(1)):
-                    pass
+                while True:
+                    ch = sys.stdin.read(1)
+                    if ch == "\x1b":  # 方向鍵等特殊鍵會送出「ESC [ A」這樣一串字元，整串略過，不算進密碼
+                        if sys.stdin.read(1) in ("[", "O"):
+                            while not ("@" <= sys.stdin.read(1) <= "~"):  # 讀到這串的最後一個字元為止
+                                pass
+                        continue
+                    if handle(ch):
+                        break
             finally:
                 termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
     except KeyboardInterrupt:
@@ -134,12 +141,19 @@ def get_page(page, api_key):
     if api_key:
         params["key"] = api_key
 
-    r = requests.get(url, params=params, timeout=30)
+    # 連線錯誤和 raise_for_status() 的訊息會印出完整網址（含金鑰），所以自己寫錯誤訊息，不把網址印出來
+    try:
+        r = requests.get(url, params=params, timeout=30)
+    except requests.RequestException as error:
+        raise SystemExit(f"連不到 Google Books API（{type(error).__name__}），請檢查網路後再執行。")
     if r.status_code == 429:
-        raise SystemExit("Google 回傳 429（配額用完）：不帶金鑰的呼叫被拒絕了，請重新執行並輸入 API 金鑰。")
+        raise SystemExit("Google 回傳 429（配額用完）：" + ("這把金鑰的配額用完了，請晚點再試或換一把金鑰。" if api_key
+                                                         else "不帶金鑰的呼叫被拒絕了，請重新執行並輸入 API 金鑰。"))
     if r.status_code in (400, 403):
-        raise SystemExit(f"Google 回傳 {r.status_code}：API 金鑰無效，或這把金鑰的專案還沒有啟用 Books API。")
-    r.raise_for_status()
+        raise SystemExit(f"Google 回傳 {r.status_code}：" + ("API 金鑰無效，或這把金鑰的專案還沒有啟用 Books API。" if api_key
+                                                       else "Google 拒絕了不帶金鑰的呼叫，請重新執行並輸入 API 金鑰。"))
+    if not r.ok:
+        raise SystemExit(f"Google 回傳 {r.status_code}，請稍後再執行。")
     return r.json()
 
 
@@ -213,6 +227,9 @@ def analyze_and_draw(df=None):
             print(f"找不到 {OUTPUT.name}，無法進行分析。")
             return
         df = pd.read_csv(OUTPUT)
+    if df.empty or "網址" not in df.columns:
+        print("\n沒有任何書籍資料，略過延伸分析。")
+        return
     clean = df.copy()
     clean["書籍ID"] = clean["網址"].apply(extract_book_id)
     clean["出版年份"] = clean["出版日期"].apply(extract_year).astype("Int64")

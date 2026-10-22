@@ -190,7 +190,7 @@ def main():
             total += len(products)
 
             next_buttons = driver.find_elements(By.CSS_SELECTOR, "button.nextbtn")  # 「下一頁 >」
-            if not next_buttons:  # 最後一頁沒有下一頁按鈕
+            if not next_buttons or page >= last_page:  # 最後一頁沒有下一頁按鈕（也不會超過讀到的總頁數）
                 # 把分頁列捲到畫面中間並停一下，讓人在瀏覽器上看清楚已經到最後一頁
                 pager = driver.find_element(By.ID, "pagination-wrapper")
                 driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", pager)

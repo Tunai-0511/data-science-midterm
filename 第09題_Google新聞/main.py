@@ -40,10 +40,12 @@ NEWS_LINK = ".//a[contains(@href, './read/')]"  # 新聞文章的連結（相對
 
 
 def scroll_to_bottom(driver):
-    """一直捲到頁面最底；連續 3 次高度都沒變，代表新聞已全部載入。"""
+    """一直捲到頁面最底；連續 3 次高度都沒變，代表新聞已全部載入（最多捲 40 次，避免頁面一直變長時停不下來）。"""
     last_height = 0
     unchanged = 0
-    while unchanged < 3:
+    for _ in range(40):
+        if unchanged >= 3:
+            break
         driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
         time.sleep(1.5)  # 等新內容載入
         height = driver.execute_script("return document.body.scrollHeight")
@@ -54,9 +56,13 @@ def scroll_to_bottom(driver):
 def get_titles(driver, category):
     """找出某個分類（例如「焦點新聞」）裡的所有新聞標題與網址。"""
     # 分類標題可能是 h2 或 h3，例如 <h3>焦點新聞</h3>
-    heading = driver.find_element(
+    headings = driver.find_elements(
         By.XPATH, f"//*[self::h2 or self::h3][normalize-space()='{category}']"
     )
+    if not headings:  # 例如「地方新聞」要看所在地區，有時不會出現：這個分類就是 0 則，其他分類照常抓
+        print(f"（找不到「{category}」這個分類，跳過）")
+        return []
+    heading = headings[0]
     # 從標題往上找「第一個裡面有新聞連結的祖先元素」，它就是這個分類的範圍
     section = heading.find_element(By.XPATH, f"./ancestor::*[{NEWS_LINK}][1]")
 

@@ -21,11 +21,14 @@
 
 輸出
     movies.csv        題目要求：名稱、上映時間、連結網址
-    movies_detail.csv 延伸：日期、分析基準日、距基準日天數、ISO 週別
+    movies_detail.csv 延伸：日期、分析基準日（抓資料那天）、距基準日天數、ISO 週別、上映月份
     movies_charts.png 延伸：逐片上映日期圖、各有資料週上映片數
 
 延伸：上映日期與 ISO 週別
-    日期轉換失敗時保留缺漏，明列有效日期數；輸出分析基準日以便重現。
+    日期轉換失敗時保留缺漏，明列有效日期數。
+    分析基準日＝抓資料那天：距基準日天數就是「抓到資料時，距離上映還有幾天」。
+    重新抓資料時用當天日期；只跑 --analyze-only 時沿用 movies_detail.csv 記下的那次抓資料日期，
+    同一份資料不管哪天分析，結果都一樣。
     週別採 ISO 年與週數（週一至週日），正確處理跨年週。
     左圖每部電影各占一列，不限制 13 部；右圖只顯示有資料週的片數。
     僅描述網站選列的強片清單，不推論整體市場的檔期策略或票房效果。
@@ -37,6 +40,7 @@
 
 import csv
 import sys
+from datetime import datetime
 from pathlib import Path
 from urllib.parse import urljoin
 
@@ -54,7 +58,6 @@ OUTPUT = Path(__file__).parent / "movies.csv"
 DETAIL_OUTPUT = Path(__file__).parent / "movies_detail.csv"
 CHART_OUTPUT = Path(__file__).parent / "movies_charts.png"
 FIELDS = ["名稱", "上映時間", "連結網址"]
-BASE_DATE = pd.to_datetime("2026-10-17")  # 明確指定的分析基準日
 
 
 def get_html(url):
@@ -96,23 +99,41 @@ def use_chinese_font():
     plt.rcParams["axes.unicode_minus"] = False
 
 
-def analyze_and_draw(df=None):
-    """按上映日期與 ISO 週別分析，時間圖每部電影各占一列。"""
+def scrape_date(df):
+    """上次抓資料的日期。movies_detail.csv 記著抓資料那天，但只有在它的片單跟現在的 movies.csv 一樣時才沿用
+    （movies.csv 被換過就不算數）；否則用 movies.csv 存檔那天（台灣當地時間），再沒有就用今天。"""
+    if DETAIL_OUTPUT.exists():
+        recorded = pd.read_csv(DETAIL_OUTPUT)
+        same_list = recorded.get("名稱") is not None and recorded["名稱"].astype(str).tolist() == df["名稱"].astype(str).tolist()
+        if same_list and "分析基準日" in recorded and recorded["分析基準日"].notna().any():
+            return pd.to_datetime(recorded["分析基準日"].dropna().iloc[0])
+    if OUTPUT.exists():
+        return pd.Timestamp(datetime.fromtimestamp(OUTPUT.stat().st_mtime)).normalize()  # fromtimestamp＝電腦的當地時間
+    return pd.Timestamp.today().normalize()
+
+
+def analyze_and_draw(df=None, base_date=None):
+    """按上映日期與 ISO 週別分析，時間圖每部電影各占一列。base_date＝抓資料那天（沒給就用上次抓資料的日期）。"""
     if df is None:
         if not OUTPUT.exists():
             print(f"找不到 {OUTPUT.name}，無法進行分析。")
             return
         df = pd.read_csv(OUTPUT)
+    if df.empty or "上映時間" not in df.columns:
+        print("\n沒有任何電影資料，略過延伸分析。")
+        return
+    if base_date is None:
+        base_date = scrape_date(df)
     clean = df.copy()
     clean["上映日期_dt"] = pd.to_datetime(clean["上映時間"], format="%Y/%m/%d", errors="coerce")
-    clean["分析基準日"] = BASE_DATE.strftime("%Y-%m-%d")
-    clean["距基準日天數"] = (clean["上映日期_dt"] - BASE_DATE).dt.days.astype("Int64")
+    clean["分析基準日"] = base_date.strftime("%Y-%m-%d")
+    clean["距基準日天數"] = (clean["上映日期_dt"] - base_date).dt.days.astype("Int64")
     iso = clean["上映日期_dt"].dt.isocalendar()
     clean["上映週別"] = iso["year"].astype("string") + "-W" + iso["week"].astype("string").str.zfill(2)
     clean["上映月份"] = clean["上映日期_dt"].dt.strftime("%Y-%m")
     clean.to_csv(DETAIL_OUTPUT, index=False, encoding="utf-8-sig")
     valid = clean.dropna(subset=["上映日期_dt"]).sort_values("上映日期_dt", kind="stable").reset_index(drop=True)
-    print(f"\n分析基準日 {BASE_DATE:%Y/%m/%d}；有效日期 {len(valid)}／{len(clean)} 部；無效日期 {len(clean)-len(valid)} 部。")
+    print(f"\n分析基準日（抓資料那天）{base_date:%Y/%m/%d}；有效日期 {len(valid)}／{len(clean)} 部；無效日期 {len(clean)-len(valid)} 部。")
     if valid.empty:
         print("沒有有效上映日期，略過繪圖。")
         return
@@ -132,11 +153,11 @@ def analyze_and_draw(df=None):
     ax_time.invert_yaxis()
     for i, row in valid.iterrows():
         ax_time.annotate(f"{row['上映日期_dt']:%Y/%m/%d}", (row["上映日期_dt"], i), xytext=(7, 0), textcoords="offset points", va="center", fontsize=8)
-    ax_time.axvline(BASE_DATE, color="gray", linestyle="--", label=f"基準日 {BASE_DATE:%Y/%m/%d}")
+    ax_time.axvline(base_date, color="gray", linestyle="--", label=f"抓資料那天 {base_date:%Y/%m/%d}")
     ax_time.xaxis.set_major_locator(mdates.AutoDateLocator(minticks=3, maxticks=6))
     ax_time.xaxis.set_major_formatter(mdates.DateFormatter("%Y/%m"))
-    low = min(BASE_DATE, valid["上映日期_dt"].min())
-    high = max(BASE_DATE, valid["上映日期_dt"].max())
+    low = min(base_date, valid["上映日期_dt"].min())
+    high = max(base_date, valid["上映日期_dt"].max())
     pad = max(45, (high-low).days*.18)
     ax_time.set_xlim(low-pd.Timedelta(days=15), high+pd.Timedelta(days=pad))
     ax_time.set(title=f"近期強片上映日期（有效 {len(valid)} 部）", xlabel="上映日期")
@@ -165,8 +186,8 @@ def main():
         writer.writerows(movies)
     print(f"\n近期上映強片共 {len(movies)} 部，已存成 {OUTPUT.name}")
 
-    # 延伸：強片排期時間軸與檔期分析
-    analyze_and_draw(pd.DataFrame(movies))
+    # 延伸：強片排期時間軸與檔期分析（分析基準日＝今天，也就是抓資料那天）
+    analyze_and_draw(pd.DataFrame(movies), base_date=pd.Timestamp.today().normalize())
 
 
 if __name__ == "__main__":

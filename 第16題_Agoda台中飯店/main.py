@@ -232,9 +232,9 @@ def go_to_next_page(driver):
 def scrape_all_pages():
     """執行完整的爬蟲流程，回傳每一筆原始資料（list of dict）。"""
     driver = webdriver.Chrome()
-    driver.set_window_size(1366, 900)  # 視窗太小時 Agoda 會改成手機版面
     hotels = {}  # (頁數, 飯店 ID) → 原始資料
     try:
+        driver.set_window_size(1366, 900)  # 視窗太小時 Agoda 會改成手機版面
         search_taichung(driver)
         for page in range(1, MAX_PAGES + 1):
             count = collect_page(driver, hotels, page)
@@ -281,9 +281,11 @@ def preprocess(raw):
     data = raw[has_price]
     print(f"1. 移除沒有價格的：{(~has_price).sum()} 筆")
 
-    # 2. 移除重複的飯店（同一間飯店出現在不同頁），用飯店 ID 判斷，只留第一次出現的
+    # 2. 移除重複的飯店（同一間飯店出現在不同頁），用飯店 ID 判斷，只留第一次出現的；
+    #    少數卡片沒有飯店 ID 時改用飯店名判斷（跟爬蟲時一樣），不會把所有沒有 ID 的飯店當成同一間
     before = len(data)
-    data = data.drop_duplicates(subset="飯店ID", keep="first")
+    hotel_key = data["飯店ID"].fillna("").astype(str).where(lambda ids: ids.str.strip().ne(""), "名稱:" + data["飯店名"].astype(str))
+    data = data[~hotel_key.duplicated(keep="first")]
     print(f"2. 移除重複的：{before - len(data)} 筆")
 
     # 3. 格式轉換：把文字轉成可以計算的數字（原本的文字欄位換成整理後的欄位）
