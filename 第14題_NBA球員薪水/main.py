@@ -12,10 +12,10 @@
     所以用 Selenium 換頁，每一頁的網頁原始碼交給 BeautifulSoup 解析。
     1. 開啟薪資頁，用 BeautifulSoup 讀出表格標題列（排名、Player、各球季薪資）與每一列資料。
     2. 按分頁列右邊的箭頭到下一頁，直到「N of N」最後一頁，全部存成 all_play.csv。
-    3. 表格是依目前球季薪資由高到低排序，排名 1～3 的就是前 3 位高薪球員；
-       第 3 名有人同薪並列時（排名寫 T3），並列的全部列出。
+    3. 表格是依目前球季薪資由高到低排序，排名 1～3 的就是前 3 高薪的球員；
+       第 3 名有人同薪並列時（排名寫 T3），並列的全部列出，highest.csv 多一欄「排名」標出 1、2、T3。
        表格裡沒有背號，所以用 Selenium 打開這幾位球員的個人頁，
-       用 BeautifulSoup 讀出姓名與背號（例如 #30），連同薪資存成 highest.csv。
+       用 BeautifulSoup 讀出姓名與背號（例如 #30），連同排名、薪資存成 highest.csv。
     換頁中途網站卡住（等 30 秒還沒換頁）時，不會整個失敗：先把已抓到的頁數存檔，並印出只抓到第幾頁。
 
 延伸：全聯盟薪資排名圖
@@ -30,7 +30,7 @@
 輸出（與本程式同一個資料夾，重新執行會直接覆蓋）
     all_play.csv：排名、Player、各球季薪資（薪資前的 P／T 是網站標示的球員選擇權／球隊選擇權，
                   TW 是雙向合約，Q 是合格報價；排名前的 T 代表同薪並列）
-    highest.csv：名字、背號、薪資（目前球季；同薪並列的都列出）
+    highest.csv：排名、名字、背號、薪資（目前球季；同薪並列的都列出）
     salary_charts.png（延伸：薪資排名圖）
 
 執行
@@ -84,6 +84,11 @@ def rank_number(text):
     return int(digits) if digits else 10**6
 
 
+def top_three(rows, links):
+    """第 1 頁排名 1～3 的球員與個人頁網址；第 3 名同薪並列（排名寫 T3）時，並列的全部算進來。"""
+    return [(row, link) for row, link in zip(rows, links) if rank_number(row.get("排名")) <= 3]
+
+
 def page_numbers(driver):
     """讀出分頁列的「目前頁 of 總頁數」，回傳 (目前頁, 總頁數)。"""
     text = driver.find_element(By.XPATH, PAGER).text  # 例如 "1 of 30"
@@ -104,13 +109,12 @@ def collect_all_pages(driver):
     driver.get(URL)
     wait.until(EC.presence_of_element_located((By.XPATH, PAGER)))
 
-    all_rows, top_links = [], []
+    all_rows, top = [], []
     while True:
         headers, rows, links = parse_table(driver.page_source)
         all_rows.extend(rows)
-        if not top_links:
-            # 第 1 頁排名 1～3 的就是前 3 名；第 3 名同薪並列（T3）時，並列的全部算進來
-            top_links = [link for row, link in zip(rows, links) if rank_number(row.get("排名")) <= 3]
+        if not top:
+            top = top_three(rows, links)  # 第 1 頁就有最高薪的幾位
         current, total = page_numbers(driver)
         print(f"薪資表第 {current}/{total} 頁：{len(rows)} 位，累計 {len(all_rows)} 位")
         if current == total:
@@ -127,7 +131,7 @@ def collect_all_pages(driver):
         except WebDriverException as error:  # 含 TimeoutException：網站卡住，先保留已抓到的頁數
             print(f"（換到第 {current + 1} 頁失敗：{type(error).__name__}；只抓到第 {current}/{total} 頁，先把這些存檔）")
             break
-    return headers, all_rows, top_links
+    return headers, all_rows, top
 
 
 def get_player_profile(driver, url):
@@ -207,22 +211,22 @@ def main():
     options.page_load_strategy = "eager"  # 網頁廣告很多，主要內容出現就先操作
     driver = webdriver.Chrome(options=options)
     try:
-        headers, all_rows, top_links = collect_all_pages(driver)
+        headers, all_rows, top = collect_all_pages(driver)
         season = headers[2]  # 第三欄是目前球季，例如 2026-27
 
         highest = []
-        for row, url in zip(all_rows[:len(top_links)], top_links):  # 前 3 名（含同薪並列）
+        for row, url in top:
             name, number = get_player_profile(driver, url)
-            highest.append({"名字": name, "背號": number, "薪資": row[season]})
+            highest.append({"排名": row["排名"], "名字": name, "背號": number, "薪資": row[season]})
     finally:
         driver.quit()
 
     save_csv(FOLDER / "all_play.csv", headers, all_rows)
-    save_csv(FOLDER / "highest.csv", ["名字", "背號", "薪資"], highest)
+    save_csv(FOLDER / "highest.csv", ["排名", "名字", "背號", "薪資"], highest)
 
     print(f"\n{season} 球季薪資前 3 名（同薪並列的都列出，共 {len(highest)} 位）：")
     for player in highest:
-        print(f"  {player['名字']} #{player['背號']}：{player['薪資']}")
+        print(f"  {player['排名']:>3}  {player['名字']} #{player['背號']}：{player['薪資']}")
     print(f"\n薪資表共 {len(all_rows)} 位球員，已存成 all_play.csv；前 3 名已存成 highest.csv")
 
     # 延伸：全聯盟薪資排名圖

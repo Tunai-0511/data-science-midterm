@@ -108,6 +108,15 @@ class AnalysisRegressions(unittest.TestCase):
         module.analyze_and_draw()  # movies.csv 換過：不沿用舊日期
         self.assertNotEqual(pd.read_csv(module.DETAIL_OUTPUT)["分析基準日"].iloc[0], "2026-10-21")
 
+    def test_salary_top_three_keeps_every_tied_player(self):
+        module = self.module(14)
+        rows = [{"排名": r, "Player": p} for r, p in
+                [("1", "A"), ("2", "B"), ("T3", "C"), ("T3", "D"), ("T3", "E"), ("6", "F")]]
+        links = [f"https://example.com/{r['Player']}" for r in rows]
+        top = module.top_three(rows, links)
+        self.assertEqual([row["Player"] for row, _ in top], ["A", "B", "C", "D", "E"])
+        self.assertEqual(top[2][1], "https://example.com/C")
+
     def test_product_names_do_not_confuse_hoodies_capes_or_sleeves(self):
         module = self.module(11)
         examples = {
