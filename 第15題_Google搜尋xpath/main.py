@@ -14,7 +14,7 @@
        讀出本頁每筆結果（#search 裡 <a> 內的 <h3> 是標題，<a> 的 href 是網址）並印出。
        Google 現在把連結包成轉址 https://www.google.com/goto?url=…（加密過，看不出原網站），
        所以用 requests 對轉址送一次請求但「不跟著跳轉」，回應標頭 Location 就是原網站的網址。
-    4. 按「更多結果」載入更多資料，捲動後再讀一次（要按幾次由 MORE_TIMES 設定，預設 1 次）。
+    4. 按「更多結果」載入更多資料，捲動後再讀一次（要按幾次由 MORE_TIMES 設定，目前 9 次＝讀到第 10 頁）。
        Google 已經把無限捲動的「更多結果」按鈕改回分頁的「下一頁」（id="pnnext"），
        所以程式會先找「更多結果」，沒有的話就按「下一頁」，效果一樣是取得更多搜尋結果。
        「xpath」的結果有 30 頁以上，不建議一路按到底：每多一頁就是多一次自動搜尋，更容易被 Google 擋下。
@@ -46,9 +46,10 @@ from selenium.webdriver.support.ui import WebDriverWait
 
 URL = "https://www.google.com/?hl=zh-TW"
 KEYWORD = "xpath"
-# 按幾次「更多結果／下一頁」。Google 的「xpath」結果有 30 頁以上，按越多次越容易被 Google 擋下；
+# 按幾次「更多結果／下一頁」：9 次＝第 1 頁再往後翻 9 頁，讀到第 10 頁。
+# Google 的「xpath」結果有 30 頁以上，按越多次越容易被 Google 擋下；
 # 沒有下一頁、被擋下或按 Ctrl+C 時都會提早停止，已抓到的結果照樣存檔。
-MORE_TIMES = 1
+MORE_TIMES = 9
 OUTPUT = Path(__file__).parent / "xpath.csv"
 RESULT_TITLE = "#search a h3"  # 搜尋結果的標題
 
