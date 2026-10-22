@@ -59,10 +59,10 @@ python run.py 5
 | 9 | Google 新聞各分類標題 | Selenium | `google_news.csv`（另印出） | — |
 | 10 | PTT 八卦板文章列表（延伸：推文數） | Selenium（點選年齡確認） | `ptt_gossiping.csv`（另印出）、延伸 `ptt_gossiping_detail.csv` | — |
 | 11 | NBA 商品資料，每頁一個 CSV（延伸：商品分類＋數量長條圖與價格箱型圖） | Selenium（操作分頁） + pandas + matplotlib | `NBA_Products1.csv`～`NBA_Products17.csv`、延伸 `nba_products_all.csv`、`nba_products_charts.png` | — |
-| 12 | Google 搜尋「Steam 遊戲推薦」 | Selenium + requests（還原轉址連結） | `steam_games.csv` | Google 可能擋下程式控制的瀏覽器（見說明） |
+| 12 | Google 搜尋「Steam 遊戲推薦」 | Selenium + requests（還原轉址連結） | `steam_games.csv` | — |
 | 13 | momo 自動搜尋 nba | Selenium | `NBA_test.html` | — |
 | 14 | HoopsHype 球員薪水（延伸：薪資排名圖） | Selenium + BeautifulSoup + matplotlib | `highest.csv`、`all_play.csv`、延伸 `salary_charts.png` | — |
-| 15 | Google 搜尋「xpath」，捲動並取得更多結果 | Selenium（模擬滑鼠滾輪） + requests（還原轉址連結） | `xpath.csv` | Google 可能擋下程式控制的瀏覽器（見說明） |
+| 15 | Google 搜尋「xpath」，捲動並取得更多結果 | Selenium（模擬滑鼠滾輪） + requests（還原轉址連結） | `xpath.csv` | — |
 | 16 | Agoda 搜尋台中飯店與價格（含加分項、全部結果頁）（延伸：平台地區房價箱型圖＋評分散布圖） | Selenium + BeautifulSoup + pandas 前處理 + matplotlib | `agoda_result.csv`（沒有處理）、`agoda_result_processed.csv`（有處理）、延伸 `agoda_charts.png` | — |
 | 17 | GitHub 自動登入，抓首頁兩個視窗（延伸：抓連結） | Selenium | 兩個視窗各一份 CSV（含連結）＋一張截圖 | 執行時輸入帳密 |
 
@@ -233,7 +233,7 @@ python 第11題_NBA商品資料/main.py --analyze-only
 - **做法**：建立 Chrome WebDriver 並套用防偵測設定 → 以微延遲逐字輸入 xpath 關鍵字並搜尋 → 用 `ActionChains.scroll_by_amount` 模擬滑鼠滾輪一路捲到底 → 印出本頁結果 → 按「更多結果」後再捲動、讀取，合併存檔。
   Google 已取消無限捲動的「更多結果」按鈕，改回分頁「下一頁」，所以程式會先找「更多結果」，沒有就按「下一頁」，一樣是取得更多結果。
   連結和第 12 題一樣是 Google 轉址，程式會換成原網站的網址，再依網址去除重複。
-  題目的「抓取全部資料」指的是本頁捲到底的全部結果；要按幾次「更多結果」由程式開頭的 `MORE_TIMES` 設定（預設 1 次）。「xpath」的結果有 30 頁以上，不建議一路按到底，每多一頁就多一次自動搜尋、更容易被 Google 擋下；沒有下一頁、被擋下或按 Ctrl+C 時會停止，已抓到的照樣存檔。
+  題目的「抓取全部資料」指的是本頁捲到底的全部結果；要按幾次「更多結果」由程式開頭的 `MORE_TIMES` 設定（預設 1 次）。「xpath」的結果有 30 頁以上，不建議一路按到底（每多一頁就多一次自動搜尋）；沒有下一頁、翻頁失敗或按 Ctrl+C 時會停止，已抓到的照樣存檔。
 - **Google 機器人驗證**：同第 12 題，已整合 CDP 隱藏 webdriver 標籤與真人打字模擬；若遇驗證可手動完成，過不了或中途按 Ctrl+C 結束時已抓到的資料仍會正常存入 CSV。
 - **輸出**：`xpath.csv`（標題、網址）
 - **執行**：`python 第15題_Google搜尋xpath/main.py`
