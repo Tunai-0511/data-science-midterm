@@ -23,7 +23,7 @@
     - 票房網站（app2.atmovies.com.tw）偶爾連線逾時，等不到內容就重新整理再試。
 
 輸出
-    Taipei_movies.csv        題目要求：排名、片名、本週與累計票房（萬元）
+    Taipei_movies.csv        題目要求：排名、片名、本週票房（萬）、累計票房（萬）（網站的票房單位是萬元）
     Taipei_movies_detail.csv 延伸：數值票房、占比與累積占比
     boxoffice_charts.png     延伸：前 10 名橫條圖、累積占比圖
 
@@ -60,7 +60,7 @@ URL = "https://www.atmovies.com.tw/movie/new/"
 OUTPUT = Path(__file__).parent / "Taipei_movies.csv"
 DETAIL_OUTPUT = Path(__file__).parent / "Taipei_movies_detail.csv"
 CHART_OUTPUT = Path(__file__).parent / "boxoffice_charts.png"
-FIELDS = ["排名", "片名", "本週票房", "累計票房"]
+FIELDS = ["排名", "片名", "本週票房（萬）", "累計票房（萬）"]  # 網站的票房單位是萬元
 
 TAIPEI_TITLE = "//h3[contains(., '台北週末票房排行榜')]"  # 台北排行榜的標題（XPath）
 
@@ -179,8 +179,8 @@ def read_full_ranking(driver):
         movies.append({
             "排名": rank,
             "片名": title,
-            "本週票房": cells[2].text,
-            "累計票房": cells[3].text,
+            "本週票房（萬）": cells[2].text,
+            "累計票房（萬）": cells[3].text,
         })
     return movies
 
@@ -217,10 +217,12 @@ def analyze_and_draw(df=None):
             return
         df = pd.read_csv(OUTPUT)
     clean = df.copy()
-    for source in ("本週票房", "累計票房"):
-        clean[source + "(萬)"] = pd.to_numeric(
+    for name in ("本週票房", "累計票房"):
+        source = name + "（萬）" if name + "（萬）" in clean.columns else name  # 舊版 CSV 的欄名沒有「（萬）」
+        clean[name + "(萬)"] = pd.to_numeric(
             clean[source].astype("string").str.replace(r"[$,]", "", regex=True), errors="coerce"
         )
+        clean = clean.drop(columns=source)  # 延伸 CSV 只留轉好的數字，不跟原本「$220」這種文字重複
     valid = clean["本週票房(萬)"].notna() & clean["本週票房(萬)"].ge(0)
     print(f"票房有效 {valid.sum()}／{len(clean)} 筆；無效本週票房 {len(clean)-valid.sum()} 筆（不納入占比）。")
     clean = clean.loc[valid].sort_values("本週票房(萬)", ascending=False, kind="stable").reset_index(drop=True)
