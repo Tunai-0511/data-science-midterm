@@ -9,29 +9,37 @@
 
 ---
 
-## 一、安裝環境（只要做一次）
+## 一、安裝環境
 
 需要：**Python 3.10 以上**、**Google Chrome**。
 ChromeDriver 不用自己下載，Selenium 會自動下載與 Chrome 版本相符的驅動程式。
 
-```bash
-pip install -r requirements.txt
-```
+建議使用虛擬環境：套件只裝在這個專案的 `.venv` 資料夾裡，不會影響電腦上其他 Python 程式，版本也跟 `requirements.txt` 一致。
 
-如果想裝在虛擬環境裡（可選）：
+1. 在本資料夾建立虛擬環境（只要做一次）：
 
-```bash
-python -m venv .venv
-.venv\Scripts\activate          # Windows
-source .venv/bin/activate       # macOS / Linux
-pip install -r requirements.txt
-```
+   ```bash
+   python -m venv .venv
+   ```
 
-> macOS 若 `python` 指令不存在，請改用 `python3`。
+2. 啟動虛擬環境（每次開新的終端機都要先啟動，啟動後提示字元前面會出現 `(.venv)`）：
+
+   ```bash
+   source .venv/bin/activate       # macOS / Linux
+   .venv\Scripts\activate          # Windows
+   ```
+
+3. 安裝套件（只要做一次）：
+
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+> macOS 若 `python` 指令不存在，請改用 `python3`。不想用虛擬環境也可以直接執行第 3 步，套件會裝在電腦預設的 Python 裡。
 
 ## 二、執行方式
 
-在本資料夾（`requirements.txt` 所在位置）開終端機：
+在本資料夾（`requirements.txt` 所在位置）開終端機，先啟動虛擬環境（見上面第 2 步），再執行：
 
 ```bash
 python run.py 5
