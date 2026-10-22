@@ -37,6 +37,21 @@ ChromeDriver 不用自己下載，Selenium 會自動下載與 Chrome 版本相�
 
 > macOS 若 `python` 指令不存在，請改用 `python3`。不想用虛擬環境也可以直接執行第 3 步，套件會裝在電腦預設的 Python 裡。
 
+### 我們使用的版本
+
+附上的輸出是用下面的環境（macOS）執行的；`requirements.txt` 寫的是最低版本。另外也用全新安裝的 Python 3.10 環境照 `requirements.txt` 安裝後測試過。
+
+| 項目 | 我們使用的版本 | 最低版本 |
+|---|---|---|
+| Python | 3.13.14 | 3.10 |
+| requests | 2.34.2 | 2.31 |
+| beautifulsoup4 | 4.15.0 | 4.12 |
+| selenium | 4.51.0 | 4.15 |
+| truststore | 0.10.5 | 0.9 |
+| pandas | 3.0.6 | 2.0 |
+| matplotlib | 3.11.2 | 3.8 |
+| Google Chrome | 155.0.8059.85 | — |
+
 ## 二、執行方式
 
 在本資料夾（`requirements.txt` 所在位置）開終端機，先啟動虛擬環境（見上面第 2 步），再執行：
@@ -73,14 +88,6 @@ python run.py 5
 | 15 | Google 搜尋「xpath」，捲動並取得更多結果 | Selenium（模擬滑鼠滾輪） + requests（還原轉址連結） | `xpath.csv` | — |
 | 16 | Agoda 搜尋台中飯店與價格（含加分項、全部結果頁）（延伸：平台地區房價箱型圖＋評分散布圖） | Selenium + BeautifulSoup + pandas 前處理 + matplotlib | `agoda_result.csv`（沒有處理）、`agoda_result_processed.csv`（有處理）、延伸 `agoda_charts.png` | — |
 | 17 | GitHub 自動登入，抓首頁兩個視窗（延伸：抓連結） | Selenium | 兩個視窗各一份 CSV（含連結）＋一張截圖 | 執行時輸入帳密 |
-
-### 對應期中配分要求
-
-| 要求 | 本 repo 可對應的題目 |
-|---|---|
-| 要求 1：使用 requests 抓取資料 | 第 7 題（Google Books API）、第 1、6、8 題（requests 下載網頁）；第 3 題也用 requests 下載 CSV，第 12、15 題用 requests 還原 Google 轉址連結 |
-| 要求 2：使用 BeautifulSoup 抓取資料 | 第 1、6、8 題；第 2、4、13、14、16 題也用 BeautifulSoup 解析 |
-| 要求 3：使用 Selenium 抓取動態網站 | 第 3、5、9、10、11、12、13、14、15、16、17 題；第 2、4 題用 Selenium 載入網頁 |
 
 ---
 
@@ -241,7 +248,7 @@ python 第11題_NBA商品資料/main.py --analyze-only
 - **做法**：建立 Chrome WebDriver 並套用防偵測設定 → 以微延遲逐字輸入 xpath 關鍵字並搜尋 → 用 `ActionChains.scroll_by_amount` 模擬滑鼠滾輪一路捲到底 → 印出本頁結果 → 按「更多結果」後再捲動、讀取，合併存檔。
   Google 已取消無限捲動的「更多結果」按鈕，改回分頁「下一頁」，所以程式會先找「更多結果」，沒有就按「下一頁」，一樣是取得更多結果。
   連結和第 12 題一樣是 Google 轉址，程式會換成原網站的網址，再依網址去除重複。
-  題目的「抓取全部資料」指的是本頁捲到底的全部結果；要按幾次「更多結果」由程式開頭的 `MORE_TIMES` 設定（預設 1 次）。「xpath」的結果有 30 頁以上，不建議一路按到底（每多一頁就多一次自動搜尋）；沒有下一頁、翻頁失敗或按 Ctrl+C 時會停止，已抓到的照樣存檔。
+  題目的「抓取全部資料」指的是本頁捲到底的全部結果；要按幾次「更多結果」由程式開頭的 `MORE_TIMES` 設定（目前 9 次，也就是讀到第 10 頁）。「xpath」的結果有 30 頁以上，不一路按到底（每多一頁就多一次自動搜尋）；沒有下一頁、翻頁失敗或按 Ctrl+C 時會停止，已抓到的照樣存檔。
 - **Google 機器人驗證**：同第 12 題，已整合 CDP 隱藏 webdriver 標籤與真人打字模擬；若遇驗證可手動完成，過不了或中途按 Ctrl+C 結束時已抓到的資料仍會正常存入 CSV。
 - **輸出**：`xpath.csv`（標題、網址）
 - **執行**：`python 第15題_Google搜尋xpath/main.py`
